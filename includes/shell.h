@@ -1,7 +1,7 @@
 #ifndef SHELL_H
 # define SHELL_H
 
-# define HISTORY_FILE_NAME "/.21sh_history"
+# define HISTORY_FILE_NAME "/.42sh_history"
 
 # define CONTINUE 3
 # define BREAK 2

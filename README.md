@@ -1,7 +1,7 @@
 Basic shell with some of the advance features, made from scratches. School project.
 
-# 21sh
-[![Build Status](https://travis-ci.org/Arigowin/21sh.svg?branch=master)](https://travis-ci.org/Arigowin/21sh)
+# 42sh
+[![Build Status](https://travis-ci.org/Arigowin/42sh.svg?branch=master)](https://travis-ci.org/Arigowin/42sh)
 
 MEMO
 fd : 

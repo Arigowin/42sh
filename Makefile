@@ -3,7 +3,7 @@ RM =	/bin/rm
 MAKE =	/usr/bin/make
 MKDIR =	/bin/mkdir
 
-NAME = 21sh
+NAME = 42sh
 
 ROOT =		$(shell /bin/pwd)
 OPATH =		$(ROOT)/objs
