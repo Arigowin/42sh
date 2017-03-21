@@ -30,4 +30,14 @@
 
 # Debug files
 *.dSYM/
-*.su
+21sh
+
+# tricks for linter to find includes files
+srcs/shell.h
+
+# cscope
+GPATH
+GTAGS
+GRTAGS
+cscope.files
+cscope.out
