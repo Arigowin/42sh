@@ -4,17 +4,17 @@
 
 const char			*tbl_error1(int index)
 {
-	static const char	*err_tbl1[] = {"21sh: cannot access termacp database",
-	"21sh: ioctl: cannot get window size", "21sh: cannot open ",
-	"21sh: cannot open fd", "21sh: cannot performe pipe function",
-	"21sh: cannot performe fork function", "21sh: memory allocation failed",
-	"21sh: cannot duplicate fd", "21sh: bad file descriptor",
-	"21sh: unsetenv: too few arguments", "21sh: setenv: too many arguments",
-	"21sh: cd: no OLDPWD variable set", "21sh: no PATH variable set",
-	"21sh: cd: no HOME variable set", "21sh: unsetenv", "21sh: setenv",
-	"21sh: cd", "21sh", "21sh: parse error near", "21sh: exit",
-	"21sh: warning: here-document was delimited by",
-	"21sh: cannot performe stat function"};
+	static const char	*err_tbl1[] = {"42sh: cannot access termacp database",
+	"42sh: ioctl: cannot get window size", "42sh: cannot open ",
+	"42sh: cannot open fd", "42sh: cannot performe pipe function",
+	"42sh: cannot performe fork function", "42sh: memory allocation failed",
+	"42sh: cannot duplicate fd", "42sh: bad file descriptor",
+	"42sh: unsetenv: too few arguments", "42sh: setenv: too many arguments",
+	"42sh: cd: no OLDPWD variable set", "42sh: no PATH variable set",
+	"42sh: cd: no HOME variable set", "42sh: unsetenv", "42sh: setenv",
+	"42sh: cd", "42sh", "42sh: parse error near", "42sh: exit",
+	"42sh: warning: here-document was delimited by",
+	"42sh: cannot performe stat function"};
 	int					ret_index;
 
 	ret_index = index;

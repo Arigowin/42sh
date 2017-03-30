@@ -30,7 +30,7 @@
 
 # Debug files
 *.dSYM/
-21sh
+41sh
 
 # tricks for linter to find includes files
 srcs/shell.h
