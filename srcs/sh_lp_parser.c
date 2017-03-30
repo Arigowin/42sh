@@ -67,15 +67,13 @@ static int			check_logic(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 	{
 		if ((*l_expr)->type == LOGIC_OR || (*l_expr)->type == LOGIC_AND)
 		{
+			node->type = (*l_expr)->type;
 			if (fill_leaf(l_expr, &node) == ERROR)
 				return (error_clear_node(FALSE, 6, NULL, &node));
 			*tree = node;
 			if (!(move_in_list(l_expr)
 			&& (ret = check_logic(nb_hrd, l_expr, &(node->right)))))
-			{
-				del_tree(&node);
-				return (sh_error(TRUE, 26, (*l_expr)->data, NULL));
-			}
+				return (error_clear_node(TRUE, 26, (*l_expr)->data, &node));
 			return (ret);
 		}
 		return (parser_ret_fct(ret, tree, node_to_give, &node));
