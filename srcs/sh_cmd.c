@@ -13,16 +13,15 @@ static char			**tree_to_tbl(t_node *tree, int nb_elem)
 		sh_error(FALSE, 6, NULL, NULL);
 	while (tree != NULL)
 	{
-		if (tree->quote == QUOTE || tree->quote == DQUOTE)
+		if (ft_strcmp(tree->data, "$?") == 0)
+			tbl[i] = ft_itoa(savior_pid(0, FALSE));
+		else if (tree->quote == QUOTE || tree->quote == DQUOTE)
 		{
 			if ((tbl[i] = ft_strdup(tree->data)) == NULL)
 				sh_error(FALSE, 6, NULL, NULL);
 		}
-		else
-		{
-			if ((tbl[i] = ft_strdup_ignchar(tree->data, '\\')) == NULL)
-				sh_error(FALSE, 6, NULL, NULL);
-		}
+		else if ((tbl[i] = ft_strdup_ignchar(tree->data, '\\')) == NULL)
+			sh_error(FALSE, 6, NULL, NULL);
 		tree = tree->right;
 		i++;
 	}

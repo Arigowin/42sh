@@ -33,7 +33,9 @@ int					token_dollar(char **read_buff, char **data_tmp)
 	== NULL) && **read_buff != QUOTE && **read_buff != DQUOTE)
 		add_in_tbl(&env_name, (*((*read_buff)++)));
 	(*read_buff)--;
-	if ((env_val = get_env(env_name)) == NULL)
+	if (ft_strcmp(env_name, "$") == 0)
+		env_val = ft_itoa(getpid());
+	else if ((env_val = get_env(env_name)) == NULL)
 		return (dblstr_duo_ret(FALSE, &env_name, NULL, NULL));
 	ft_strdel(&env_name);
 	if (*data_tmp && (tmp = ft_strdup(*data_tmp)) == NULL)
@@ -41,10 +43,7 @@ int					token_dollar(char **read_buff, char **data_tmp)
 	ft_strdel(data_tmp);
 	if ((*data_tmp = ft_strnew(ft_strlen(tmp) + ft_strlen(env_val)
 	+ ft_strlen(*read_buff))) == NULL)
-	{
-		ft_strdel(&tmp);
-		return (error_clear_str(FALSE, 6, NULL, &env_val));
-	}
+		return (error_clear_dblstr(FALSE, 6, &tmp, &env_val));
 	concat(data_tmp, tmp, env_val);
 	return (dblstr_duo_ret(TRUE, &env_val, &tmp, NULL));
 }

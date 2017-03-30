@@ -8,7 +8,7 @@ static int			tree_trav_semi(t_node *tree, t_lst_fd **lstfd,
 		if ((tree_traversal(tree->left, lstfd, pipefd_tab)) == ERROR)
 			return (ERROR);
 	init_pipefd(pipefd_tab);
-	if (tree && tree->right)
+	if (tree && tree->right)// && (SEMI || (LAND && ret OK) || (LOR && ret pas OK)))
 		if ((tree_traversal(tree->right, lstfd, pipefd_tab)) == ERROR)
 			return (ERROR);
 	return (TRUE);
@@ -86,7 +86,7 @@ int					tree_traversal(t_node *tree, t_lst_fd **lstfd,
 		if (pipefd_tab[0][0] < 0 && pipefd_tab[1][0] < 0)
 		{
 			reset_std_fd();
-			close_lstfd(lstfd);
+//			close_lstfd(lstfd);
 			del_lstfd(lstfd);
 		}
 	}
