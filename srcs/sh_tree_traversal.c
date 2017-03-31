@@ -4,11 +4,18 @@
 static int			tree_trav_semi(t_node *tree, t_lst_fd **lstfd,
 					int pipefd_tab[2][2])
 {
+	int 				fct_ret;
+
+	fct_ret = -1;
 	if (tree && tree->left)
 		if ((tree_traversal(tree->left, lstfd, pipefd_tab)) == ERROR)
 			return (ERROR);
 	init_pipefd(pipefd_tab);
-	if (tree && tree->right)
+	fct_ret = savior_pid(0, FALSE);
+	if (tree && tree->right
+	&& (tree->type == SEMI
+	|| (tree->type == LOGIC_AND && fct_ret == 0)
+	|| (tree->type == LOGIC_OR && fct_ret != 0)))
 		if ((tree_traversal(tree->right, lstfd, pipefd_tab)) == ERROR)
 			return (ERROR);
 	return (TRUE);
@@ -70,7 +77,8 @@ int					tree_traversal(t_node *tree, t_lst_fd **lstfd,
 
 	ret = 0;
 	savior_tty(ttyname(1), TRUE);
-	if (tree && tree->type == SEMI)
+	if (tree
+	&& (tree->type == SEMI || tree->type == LOGIC_OR|| tree->type == LOGIC_AND))
 		if (tree_trav_semi(tree, lstfd, pipefd_tab) == ERROR)
 			return (ERROR);
 	if (tree && tree->type != SEMI && lstfd && *lstfd == NULL)
@@ -86,7 +94,7 @@ int					tree_traversal(t_node *tree, t_lst_fd **lstfd,
 		if (pipefd_tab[0][0] < 0 && pipefd_tab[1][0] < 0)
 		{
 			reset_std_fd();
-			close_lstfd(lstfd);
+//			close_lstfd(lstfd);
 			del_lstfd(lstfd);
 		}
 	}

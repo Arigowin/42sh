@@ -40,7 +40,8 @@ static int			join_exe(int i, char **cmd, char **path, char **tbl_env)
 	char				*tmp;
 
 	rlt = NULL;
-	if (cmd[0] && (cmd[0][0] == '/' || (cmd[0][0] == '.' && cmd[0][1] && cmd[0][1] == '/')))
+	if (cmd[0] && (cmd[0][0] == '/' || (cmd[0][0] == '.'
+	&& cmd[0][1] && cmd[0][1] == '/')))
 	{
 		if ((rlt = ft_strdup(cmd[0])) == NULL)
 			return (sh_error(FALSE, 6, NULL, NULL));

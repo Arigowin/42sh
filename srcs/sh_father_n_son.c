@@ -48,16 +48,19 @@ static int			son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 int					handle_fork(int pipefd_tab[2][2], t_node *tree,
 					t_lst_fd **lstfd, char **cmd)
 {
+	int					fct_ret;
 	pid_t				fpid;
 
 	fpid = -1;
+	fct_ret = -100;
 	reset_term();
 	if ((fpid = fork()) < 0)
 		sh_error(FALSE, 5, NULL, NULL);
 	if (fpid == 0)
 		son(cmd, pipefd_tab, tree, lstfd);
 	else
-		father(pipefd_tab);
+		fct_ret = father(pipefd_tab);
+	savior_pid(fct_ret, TRUE);
 	init_term(FALSE);
 	return (TRUE);
 }
