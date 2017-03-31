@@ -15,10 +15,13 @@
 # define IGN " \t\n"
 # define SEP "|&;>< \t\n\0"
 # define SPECIAL "|&><;"
-
 # define SPECIAL2 "|><;"
 # define LWAKA "><|&"
 # define WAKA "><"
+# define CD "LP"
+# define ENV "iu"
+# define ECHO "neE"
+
 # define BUFF_SIZE 1024
 # define MAX_PATH 1024
 
