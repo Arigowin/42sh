@@ -1,6 +1,9 @@
 #ifndef SHELL_H
 # define SHELL_H
 
+#include <stdio.h>
+#define DEBUG_COMPL 0
+
 # define HISTORY_FILE_NAME "/.42sh_history"
 
 # define CONTINUE 3
@@ -486,6 +489,12 @@ int						del_in_copy(char **s, int *p, t_line *stline, int dir);
 int						hide_highlight(char **str, int *pos, t_line *stline,
 							t_history **history);
 int						fct_highlight(char **str, int *pos, t_line *stline,
+							t_history **history);
+
+/*
+** sh_tc_completion.c
+*/
+int						fct_tab(char **str, int *pos, t_line *stline,
 							t_history **history);
 
 /*

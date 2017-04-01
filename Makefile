@@ -63,6 +63,7 @@ SRC = sh_main.c \
 	  sh_tc_move_up_down.c \
 	  sh_tc_spec_key.c \
 	  sh_tc_termcap.c \
+	  sh_tc_completion.c \
 	  \
 	  sh_cmd_line_assemble.c \
 	  sh_telist_handler.c \
