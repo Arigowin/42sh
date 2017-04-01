@@ -38,6 +38,13 @@ typedef struct			s_intlst
 	struct s_intlst		*next;
 }						t_intlst;
 
+typedef struct			s_basic_list
+{
+	char				*data;
+	int					nb;
+	struct s_basic_list	*next;
+}						t_basic_list;
+
 void					*ft_memset(void *b, int c, int len);
 void					ft_bzero(void *s, int n);
 void					*ft_memcpy(void *dst, const void *src, int n);
@@ -116,6 +123,11 @@ t_list					*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 
 t_intlst				*ft_intlst_new(int data);
 void					ft_intlst_add(t_intlst **alst, int data);
+
+t_basic_list			*ft_basiclstnew(char *data, int nb);
+void					ft_basiclstpushbck(t_basic_list **alst,
+							char *data, int nb);
+void					ft_basiclstfree(t_basic_list **lst);
 
 void					ft_putnbrendl(int n);
 int						ft_strnlen(char *str, char c);
