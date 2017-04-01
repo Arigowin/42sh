@@ -20,7 +20,7 @@
 # define WAKA "><"
 # define CD "LP"
 # define ENV "iu"
-# define ECHO "neE"
+//# define ECHO "neE"
 
 # define BUFF_SIZE 1024
 # define MAX_PATH 1024
@@ -102,6 +102,13 @@
 
 # include <sys/ioctl.h>
 # include "libft.h"
+
+
+
+//A VIRER !!!!!!!!!
+#include <stdio.h>
+
+
 
 typedef enum			e_types
 {

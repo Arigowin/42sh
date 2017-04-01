@@ -19,10 +19,10 @@ static int			bi_opt(char *arg, char *bi, int *no_more, char *handled_opt)
 			if (ft_strcmp("echo", bi) == 0
 			&& ft_strchr(handled_opt, arg[i]) == NULL)
 				return (ERROR);
-			else if (ft_strcmp("echo", bi
+			else if (ft_strcmp("echo", bi)
 		   	&& ft_strchr(handled_opt, arg[i]) == NULL)
 				return (sh_error(-2, 22, &arg[i], bi));
-			else
+//			else
 		   		// appeler un poiteur sur fct qui appelle la bonne fct pour la bonne option avec le bon bi
 			i++;
 		}

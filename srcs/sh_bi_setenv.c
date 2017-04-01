@@ -7,7 +7,7 @@ int					valid_env_name(char *str, char *bi)
 	int					i;
 
 	i = -1;
-	if (str[++i] != '_' && ft_isalpha(str[i]) == FALSE)
+	if ( str[++i] != '_' && ft_isalpha(str[i]) == FALSE)
 		return (sh_error(FALSE, 15, str, bi));
 	while (str[i])
 	{
@@ -25,7 +25,7 @@ int					bi_setenv(char **arg, t_duo **env)
 	i = 0;
 	while (arg[i])
 	{
-		if (i == 1 && valid_env_name(arg[i], "setenv") == FALSE)
+		if (i == 1 && valid_env_name(arg[i], arg[0]) == FALSE)
 			return (FALSE);
 		i++;
 	}
