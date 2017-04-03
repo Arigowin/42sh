@@ -15,6 +15,7 @@ static int			del_first(t_duo **env, char *name, int local)
 	printf("env name in del 1er ((%s))\n", (*env)->name);
 	if (name && cpy && ft_strcmp(name, cpy->name) == 0)
 	{
+	printf("env name in del 2er ((%s))\n", (*env)->name);
 		tmp = cpy->next;
 		ft_strdel(&(cpy->name));
 		ft_strdel(&(cpy->value));
@@ -42,16 +43,19 @@ int					del_env(t_duo **env, char *name, int local)
 	if (del_first(&cpy, name, local) == 1)
 		return (1);
 	tmp = NULL;
-	while (cpy && cpy->next)
+	while (cpy)
 	{
-		if (ft_strcmp(name, cpy->next->name) == 0)
+	printf("env name in del 2er ((%s)) name ((%s))\n", cpy->name, name);
+		if ((ft_strcmp(name, cpy->name)) == 0)
 		{
+	printf("env name in del 3er ((%s)) name ((%s))\n", cpy->name, name);
 		printf("toto - 2\n");
-			tmp = cpy->next->next;
-			ft_strdel(&(cpy->next->name));
-			ft_strdel(&(cpy->next->value));
-			free(cpy->next);
+			tmp = cpy->next;
+			ft_strdel(&(cpy->name));
+			ft_strdel(&(cpy->value));
 			cpy->next = tmp;
+			free(cpy);
+			cpy = NULL;
 		printf("toto - 3\n");
 			if (local == TRUE)
 				savior_local(cpy, TRUE);
@@ -60,6 +64,7 @@ int					del_env(t_duo **env, char *name, int local)
 		printf("toto - 4\n");
 			return (1);
 		}
+		printf("toto - 4 bis\n");
 		cpy = cpy->next;
 	}
 	return (-1);
@@ -77,7 +82,9 @@ int					bi_unsetenv(char **arg, t_duo **env, const char *opt)
 	{
 		if (del_env(env, arg[i], FALSE) == -1)
 			sh_error(TRUE, 14, arg[i], NULL);
+		printf("toto - 5\n");
 		i++;
 	}
+		printf("toto - 6\n");
 	return (0);
 }

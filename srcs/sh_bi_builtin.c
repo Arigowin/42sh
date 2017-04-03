@@ -7,13 +7,13 @@ int					is_builtin(char **cmd)
 		ft_putendl_fd("----------------------- IS BI --------------------", 2);
 
 	static const char	*bi[] = {"echo", "cd", "setenv", "unsetenv",
-								"env", "exit", "export"};
+								"env", "exit", "export", "unset"};
 	int					i;
 
 	i = 0;
 	if (cmd)
 	{
-		while (i < 7)
+		while (i < 8)
 		{
 			if (ft_strcmp(cmd[0], bi[i]) == 0)
 				return (i);
@@ -32,18 +32,18 @@ int					handle_builtin(char **cmd)
 	int					i;
 	int					ret;
 	t_duo				*env;
-	static const char	*options[] = {"neE", "LP", "", "", "iu", "", "p"};
+	static const char	*options[] = {"neE", "LP", "", "", "iu", "", "p", "vf"};
 	static const char	*bi[] = {"echo", "cd", "setenv", "unsetenv", "env",
-						"exit", "export"};
+						"exit", "export", "unset"};
 	static int			(*tbl_bi[])(char **cmd, t_duo **env, const char *opt) = {&bi_echo,
 						&bi_cd, &bi_setenv, &bi_unsetenv, &bi_env, &bi_exit,
-						&bi_export};
+						&bi_export, &bi_unset};
 
 	env = savior_env(NULL, FALSE);
 	i = 0;
-	while (i < 7 && ft_strcmp(cmd[0], bi[i]) != 0)
+	while (i < 8 && ft_strcmp(cmd[0], bi[i]) != 0)
 		i++;
-	if (i < 7 && ft_strcmp(cmd[0], bi[i]) == 0)
+	if (i < 8 && ft_strcmp(cmd[0], bi[i]) == 0)
 	{
 		if ((ret = tbl_bi[i](cmd, &env, options[i])) == ERROR)
 			return (ERROR);

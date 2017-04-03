@@ -31,21 +31,27 @@ int					change_env(char *name, char *value, int local)
 {
 	t_duo				*env;
 
+	printf("trylyly tululu talala -- 0\n");
 	if (local == TRUE)
 		env = savior_local(NULL, FALSE);
 	else
 		env = savior_env(NULL, FALSE);
 	while (env)
 	{
+	printf("trylyly tululu talala -- 1\n");
 		if (ft_strcmp(env->name, name) == 0)
 		{
+	printf("trylyly tululu talala -- 2\n");
 			ft_strdel(&(env->value));
 			if (value && value[0] != 26 && !(env->value = ft_strdup(value)))
 				return (sh_error(FALSE, 6, NULL, NULL));
 			return (TRUE);
 		}
+	printf("trylyly tululu talala -- 3\n");
 		env = env->next;
+	printf("trylyly tululu talala -- 4\n");
 	}
+	printf("trylyly tululu talala -- 5\n");
 	add_env(name, value, local);
 	env = NULL;
 	return (TRUE);

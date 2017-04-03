@@ -345,6 +345,11 @@ int						exit_pgm(int exit_code);
 int						bi_export(char **arg, t_duo **env, const char *opt);
 
 /*
+** sh_bi_unset
+*/
+int						bi_unset(char **arg, t_duo **env, const char *opt);
+
+/*
 ** sh_bi_setenv
 */
 int						valid_env_name(char *str, char *bi);
