@@ -77,7 +77,20 @@ SRC = sh_main.c \
 	  sh_tree_functions.c \
 	  sh_tree_traversal.c \
 	  \
-	  sh_fd_open.c
+	  sh_fd_open.c \
+	  \
+	  ft_select.c \
+	  ft_select_actions.c \
+	  ft_select_cduo_pushbk.c \
+	  ft_select_display.c \
+	  ft_select_display_select.c \
+	  ft_select_first_steps.c \
+	  ft_select_init.c \
+	  ft_select_manage_struct.c \
+	  ft_select_moves.c \
+	  ft_select_reset.c \
+	  ft_select_signal.c
+
 
 OFILES = $(patsubst %.c, $(OPATH)/%.o, $(SRC))
 

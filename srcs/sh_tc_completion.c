@@ -1,5 +1,6 @@
 #include "shell.h"
 #include "libft.h"
+#include "ft_select.h"
 #include <sys/types.h>
 #include <dirent.h>
 # define SEP2 "|&;><\"' \t\n\0"
@@ -104,24 +105,11 @@ int					compl_exe(char *word)
 		ft_putendl("---------- COMPL EXE ----------");
 
 	t_basic_list		*lst;
-	int					nb;
 
-	nb = 0;
 	lst = get_execinpath(word);
-
-	// ANTIBUG
-	printf("\nCompletion [%s]\n", word);
-	t_basic_list		*tmp = lst;
-	while (tmp)
-	{
-		printf("[%s][%d]\t", tmp->data, tmp->nb);
-		tmp = tmp->next;
-		nb++;
-	}
-	printf("\nnb=%d\n", nb);
-	// END ANTIBUG
-
-	// ft_select lst_total
+	reset_term();
+	ft_select(lst);
+	init_term(FALSE);
 	ft_basiclstfree(&lst);
 	return (TRUE);
 }
@@ -133,13 +121,11 @@ int					compl_file(char *word)
 
 	t_basic_list		*lst;
 	char				*path;
-	int					nb;
 	int					i;
 
 
 	lst = NULL;
 	path = NULL;
-	nb = 0;
 	i = 0;
 	if (ft_strchr(word, '/'))
 	{
@@ -158,20 +144,9 @@ int					compl_file(char *word)
 	}
 	else
 		get_dircontent(".", &lst, word);
-
-	// ANTIBUG
-	printf("\nCompletion [%s]\n", word);
-	t_basic_list		*tmp = lst;
-	while (tmp)
-	{
-		printf("[%s][%d]\t", tmp->data, tmp->nb);
-		tmp = tmp->next;
-		nb++;
-	}
-	printf("\nnb=%d\n", nb);
-	// END ANTIBUG
-
-	// ft_select lst_total
+	reset_term();
+	ft_select(lst);
+	init_term(FALSE);
 	ft_basiclstfree(&lst);
 	return (TRUE);
 }
