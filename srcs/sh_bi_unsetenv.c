@@ -65,11 +65,12 @@ int					del_env(t_duo **env, char *name, int local)
 	return (-1);
 }
 
-int					bi_unsetenv(char **arg, t_duo **env)
+int					bi_unsetenv(char **arg, t_duo **env, const char *opt)
 {
 	int					i;
 
 	i = 1;
+	(void)opt;
 	if (!arg[i])
 		sh_error(FALSE, 9, NULL, NULL);
 	while (arg[i])

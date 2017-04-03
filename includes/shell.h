@@ -19,11 +19,6 @@
 # define LWAKA "><|&"
 # define WAKA "><"
 
-# define BI_CD "LP"
-# define BI_ENV "iu"
-# define BI_ECHO "neE"
-# define BI_EXPORT "p"
-
 # define BUFF_SIZE 1024
 # define MAX_PATH 1024
 
@@ -314,7 +309,7 @@ int						manage_local_var(char *str);
 /*
 ** sh_bi_options
 */
-int						check_opt(char **arg, int *i);
+int						check_opt(char **arg, int *i, const char *opt);
 
 /*
 ** sh_bi_handle_env_modif
@@ -325,41 +320,41 @@ char					*get_env(char *name, int local);
 /*
 ** sh_bi_cd
 */
-int						bi_cd(char **arg, t_duo **env);
+int						bi_cd(char **arg, t_duo **env, const char *opt);
 
 /*
 ** sh_bi_echo
 */
-int						bi_echo(char **arg, t_duo **env);
+int						bi_echo(char **arg, t_duo **env, const char *opt);
 
 /*
 ** sh_bi_env
 */
-int						bi_env(char **arg, t_duo **env);
+int						bi_env(char **arg, t_duo **env, const char *opt);
 
 /*
 ** sh_bi_exit
 */
 int						del_stline(t_line **stline);
-int						bi_exit(char **arg, t_duo **env);
+int						bi_exit(char **arg, t_duo **env, const char *opt);
 int						exit_pgm(int exit_code);
 
 /*
 ** sh_bi_export
 */
-int						bi_export(char **arg, t_duo **env);
+int						bi_export(char **arg, t_duo **env, const char *opt);
 
 /*
 ** sh_bi_setenv
 */
 int						valid_env_name(char *str, char *bi);
-int						bi_setenv(char **arg, t_duo **env);
+int						bi_setenv(char **arg, t_duo **env, const char *opt);
 
 /*
 ** sh_bi_unsetenv
 */
 int						del_env(t_duo **env, char *name, int local);
-int						bi_unsetenv(char **arg, t_duo **env);
+int						bi_unsetenv(char **arg, t_duo **env, const char *opt);
 
 /*
 ** sh_t_e_list_handler

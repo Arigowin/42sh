@@ -83,14 +83,14 @@ static int			modif_env(char **arg, t_duo *env, int len, int i)
 	return (TRUE);
 }
 
-int					bi_env(char **arg, t_duo **env)
+int					bi_env(char **arg, t_duo **env, const char *opt)
 {
 	int					len;
 	int					i;
 
 	len = tbl_len(arg);
 	i = 1;
-	if (check_opt(arg, &i) == ERROR)
+	if (check_opt(arg, &i, opt) == ERROR)
 		return (FALSE);
 	if (len > 1)
 	{

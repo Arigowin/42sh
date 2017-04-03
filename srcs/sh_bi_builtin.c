@@ -32,9 +32,10 @@ int					handle_builtin(char **cmd)
 	int					i;
 	int					ret;
 	t_duo				*env;
+	static const char	*options[] = {"neE", "LP", "", "", "iu", "", "p"};
 	static const char	*bi[] = {"echo", "cd", "setenv", "unsetenv", "env",
 						"exit", "export"};
-	static int			(*tbl_bi[])(char **cmd, t_duo **env) = {&bi_echo,
+	static int			(*tbl_bi[])(char **cmd, t_duo **env, const char *opt) = {&bi_echo,
 						&bi_cd, &bi_setenv, &bi_unsetenv, &bi_env, &bi_exit,
 						&bi_export};
 
@@ -44,11 +45,10 @@ int					handle_builtin(char **cmd)
 		i++;
 	if (i < 7 && ft_strcmp(cmd[0], bi[i]) == 0)
 	{
-		if ((ret = tbl_bi[i](cmd, &env)) == ERROR)
+		if ((ret = tbl_bi[i](cmd, &env, options[i])) == ERROR)
 			return (ERROR);
 		return (ret);
 	}
-	printf("TROLOLO POUET TOTO\n");
 	if (cmd)
 		free_tab(&cmd);
 	return (FALSE);
@@ -67,7 +67,10 @@ int					manage_local_var(char *str)
 	if (get_env(local_var[0], TRUE))
 		change_env(local_var[0], local_var[1], TRUE);
 	else
+	{printf("TITI TATA TUTU\n");
 		duo_pushback(&local_env, local_var[0], local_var[1]);
+	printf("TITI TATA TUTU -- 2 ((%p))\n", local_env->next);
+	}
 	savior_local(local_env, TRUE);
 	return (TRUE);
 }

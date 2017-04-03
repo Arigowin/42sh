@@ -53,6 +53,7 @@ SRC = ft_memset.c \
 	  ft_toupper.c \
 	  str_toupper.c \
 	  ft_tolower.c \
+	  str_tolower.c \
 \
 	  ft_memalloc.c \
 	  ft_memdel.c \

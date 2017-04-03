@@ -73,6 +73,7 @@ int						ft_isvisible(int c);
 int						ft_toupper(int i);
 char					*str_toupper(char *str);
 int						ft_tolower(int i);
+char					*str_tolower(char *str);
 
 void					*ft_memalloc(int size);
 void					ft_memdel(void **ap);
