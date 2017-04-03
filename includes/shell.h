@@ -20,7 +20,7 @@
 # define WAKA "><"
 # define CD "LP"
 # define ENV "iu"
-# define ECHO "neE"
+# define ECH "neE"
 
 # define BUFF_SIZE 1024
 # define MAX_PATH 1024
