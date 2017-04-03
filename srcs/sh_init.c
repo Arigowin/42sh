@@ -7,7 +7,7 @@ static int			sh_lvl(void)
 	char				*new_lvl;
 
 	lvl = NULL;
-	if ((lvl = get_env("SHLVL")) == NULL || ft_strcmp(lvl, "-") == 0
+	if ((lvl = get_env("SHLVL", FALSE)) == NULL || ft_strcmp(lvl, "-") == 0
 	|| ft_isstrnum(lvl) == 0 || ft_strlen(lvl) > 10)
 	{
 		if ((lvl = ft_strdup("0")) == NULL)
@@ -19,7 +19,7 @@ static int			sh_lvl(void)
 		if ((new_lvl = ft_strdup("-")) == NULL)
 			return (error_clear_str(FALSE, 6, NULL, &lvl));
 	}
-	change_env("SHLVL", new_lvl);
+	change_env("SHLVL", new_lvl, FALSE);
 	ft_strdel(&lvl);
 	ft_strdel(&new_lvl);
 	return (TRUE);
@@ -50,7 +50,7 @@ int					init_env(char **env, t_duo **env_cpy)
 		*env_cpy = tbl_to_duo(env, '=');
 	if (env_cpy == NULL && *env_cpy == NULL)
 		return (sh_error(FALSE, 6, NULL, NULL));
-	del_env(env_cpy, "OLDPWD");
+	del_env(env_cpy, "OLDPWD", FALSE);
 	savior_env(*env_cpy, TRUE);
 	sh_lvl();
 	savior_env(*env_cpy, TRUE);

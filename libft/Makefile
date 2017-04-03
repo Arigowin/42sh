@@ -110,6 +110,7 @@ SRC = ft_memset.c \
 	  srch_begining.c \
 	  duo_pushbk.c \
 	  duo_del.c \
+	  free_tduo_link.c \
 	  last_duo_del.c \
 	  cpy_duo.c \
 	  free_tab.c \

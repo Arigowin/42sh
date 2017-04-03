@@ -2,11 +2,14 @@
 #include "shell.h"
 #include "libft.h"
 
-static int			add_env(char *name, char *value)
+static int			add_env(char *name, char *value, int local)
 {
 	t_duo				*env;
 
-	env = savior_env(NULL, FALSE);
+	if (local == TRUE)
+		env = savior_local(NULL, FALSE);
+	else
+		env = savior_env(NULL, FALSE);
 	if (name == NULL)
 		return (sh_error(TRUE, 26, "setenv", NULL));
 	else
@@ -15,16 +18,23 @@ static int			add_env(char *name, char *value)
 			duo_pushback(&env, name, "");
 		else
 			duo_pushback(&env, name, value);
-		savior_env(env, TRUE);
+		if (local == TRUE)
+			savior_local(env, TRUE);
+		else
+			savior_env(env, TRUE);
 	}
+	env = NULL;
 	return (TRUE);
 }
 
-int					change_env(char *name, char *value)
+int					change_env(char *name, char *value, int local)
 {
 	t_duo				*env;
 
-	env = savior_env(NULL, FALSE);
+	if (local == TRUE)
+		env = savior_local(NULL, FALSE);
+	else
+		env = savior_env(NULL, FALSE);
 	while (env)
 	{
 		if (ft_strcmp(env->name, name) == 0)
@@ -36,17 +46,21 @@ int					change_env(char *name, char *value)
 		}
 		env = env->next;
 	}
-	add_env(name, value);
+	add_env(name, value, local);
+	env = NULL;
 	return (TRUE);
 }
 
-char				*get_env(char *name)
+char				*get_env(char *name, int local)
 {
 	t_duo				*env;
 	char				*tmp;
 
 	tmp = NULL;
-	env = savior_env(NULL, FALSE);
+	if (local == TRUE)
+		env = savior_local(NULL, FALSE);
+	else
+		env = savior_env(NULL, FALSE);
 	while (env)
 	{
 		if (ft_strcmp(name, env->name) == 0)

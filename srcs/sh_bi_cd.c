@@ -24,7 +24,7 @@ static int			cd_home(void)
 	char				*path;
 	int					ret;
 
-	if ((path = get_env("HOME")) == NULL)
+	if ((path = get_env("HOME", FALSE)) == NULL)
 		return (sh_error(FALSE, 13, NULL, NULL));
 	ret = change_dir(path);
 	ft_strdel(&path);
@@ -35,7 +35,7 @@ static int			handle_cd_arg(int *i, int *ret, char **arg)
 {
 	char				*tmp;
 
-	tmp = get_env("OLDPWD");
+	tmp = get_env("OLDPWD", FALSE);
 	if (check_opt(arg, i) == ERROR)
 	{
 		ft_strdel(&tmp);
@@ -72,10 +72,10 @@ int					bi_cd(char **arg, t_duo **env)
 		return (FALSE);
 	if (ret == TRUE)
 	{
-		tmp = get_env("PWD");
-		change_env("OLDPWD", tmp);
+		tmp = get_env("PWD", FALSE);
+		change_env("OLDPWD", tmp, FALSE);
 		path = getcwd(path, MAX_PATH);
-		change_env("PWD", path);
+		change_env("PWD", path, FALSE);
 	}
 	ft_strdel(&tmp);
 	ft_strdel(&path);

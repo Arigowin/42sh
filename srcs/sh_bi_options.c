@@ -39,7 +39,7 @@ int					check_opt(char **arg, int *i)
 
 	no_more = FALSE;
 	tmp = arg;
-	opt_list = str_toupper(arg[0]);
+	opt_list = ft_strjoin("BI_", str_toupper(arg[0]));
 	while (arg[*i] && arg[*i][0] && arg[*i][0] == '-' && arg[*i][1])
 	{
 		if ((ret = bi_opt(arg[*i], arg[0], &no_more, opt_list)) != TRUE)

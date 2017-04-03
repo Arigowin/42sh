@@ -29,7 +29,7 @@ static int			format_env(char *arg, int *nb)
 	{
 		j++;
 		value = ft_strsub(arg, j, ft_strlen(arg) - j);
-		change_env(key, value);
+		change_env(key, value, FALSE);
 		ft_strdel(&value);
 		(*nb)++;
 	}
