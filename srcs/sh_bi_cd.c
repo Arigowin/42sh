@@ -98,12 +98,12 @@ static int			handle_cd_arg(int *i, int *ret, char **arg, const char *opt)
 	char				*tmp;
 
 //	print_arg(arg);
-	tmp = get_env("OLDPWD");
-	/* if (check_opt(arg, i) == ERROR) */
-	/* { */
-	/* 	ft_strdel(&tmp); */
-	/* 	return (FALSE); */
-	/* } */
+	tmp = get_env("OLDPWD", FALSE);
+	if (check_opt(arg, i, opt) == ERROR)
+	{
+		ft_strdel(&tmp);
+		return (FALSE);
+	}
 	if (!arg[*i])
 		*ret = cd_home();
 	else if (arg[*i] && arg[*i][0] == '-' && !arg[*i][*i])
@@ -117,6 +117,8 @@ static int			handle_cd_arg(int *i, int *ret, char **arg, const char *opt)
 	{
 		*ret = change_dir(arg[2], arg);
 	}
+	/* else */
+	/* 	*ret = change_dir(tmp); */
 	ft_strdel(&tmp);
 	return (TRUE);
 }
