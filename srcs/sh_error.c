@@ -63,7 +63,7 @@ int					sh_error(int ret, int index, char *err, char *bi)
 	if (bi != NULL)
 	{
 		ft_putstr_fd(": ", 2);
-		ft_putstr_fd(bi, 2);
+		ft_putstr_fd(str_tolower(bi), 2);
 	}
 	if (err != NULL)
 	{

@@ -18,9 +18,6 @@
 # define SPECIAL2 "|><;"
 # define LWAKA "><|&"
 # define WAKA "><"
-# define CD "LP"
-# define ENV "iu"
-# define ECH "neE"
 
 # define BUFF_SIZE 1024
 # define MAX_PATH 1024
@@ -102,6 +99,13 @@
 
 # include <sys/ioctl.h>
 # include "libft.h"
+
+
+
+//A VIRER !!!!!!!!!
+#include <stdio.h>
+# define DEBUG_BI 1
+
 
 typedef enum			e_types
 {
@@ -260,6 +264,7 @@ int						save_history(void);
 ** sh_savior
 */
 t_duo					*savior_env(t_duo *env, int code);
+t_duo					*savior_local(t_duo *env, int code);
 t_line					*savior_stline(t_line *stline, int code);
 char					*savior_tty(char *tty, int code);
 t_node					*savior_tree(t_node *tree, int code);
@@ -297,49 +302,64 @@ int						check_builtin(int fd, char **cmd, int pipefd_tab[2][2],
 							t_lst_fd **lstfd);
 
 /*
+** sh_bi_local_var
+*/
+int						manage_local_var(char *str);
+
+/*
 ** sh_bi_options
 */
-int						check_opt(char **arg, int *i);
+int						check_opt(char **arg, int *i, const char *opt);
 
 /*
 ** sh_bi_handle_env_modif
 */
-int						change_env(char *name, char *value);
-char					*get_env(char *name);
+int						change_env(char *name, char *value, int local);
+char					*get_env(char *name, int local);
 
 /*
 ** sh_bi_cd
 */
-int						bi_cd(char **arg, t_duo **env);
+int						bi_cd(char **arg, t_duo **env, const char *opt);
 
 /*
 ** sh_bi_echo
 */
-int						bi_echo(char **arg, t_duo **env);
+int						bi_echo(char **arg, t_duo **env, const char *opt);
 
 /*
 ** sh_bi_env
 */
-int						bi_env(char **arg, t_duo **env);
+int						bi_env(char **arg, t_duo **env, const char *opt);
 
 /*
 ** sh_bi_exit
 */
 int						del_stline(t_line **stline);
-int						bi_exit(char **arg, t_duo **env);
+int						bi_exit(char **arg, t_duo **env, const char *opt);
 int						exit_pgm(int exit_code);
+
+/*
+** sh_bi_export
+*/
+int						bi_export(char **arg, t_duo **env, const char *opt);
+
+/*
+** sh_bi_unset
+*/
+int						bi_unset(char **arg, t_duo **env, const char *opt);
 
 /*
 ** sh_bi_setenv
 */
 int						valid_env_name(char *str, char *bi);
-int						bi_setenv(char **arg, t_duo **env);
+int						bi_setenv(char **arg, t_duo **env, const char *opt);
 
 /*
 ** sh_bi_unsetenv
 */
-int						del_env(t_duo **env, char *name);
-int						bi_unsetenv(char **arg, t_duo **env);
+int						del_env(t_duo **env, char *name, int local);
+int						bi_unsetenv(char **arg, t_duo **env, const char *opt);
 
 /*
 ** sh_t_e_list_handler

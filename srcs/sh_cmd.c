@@ -1,4 +1,3 @@
-#include <unistd.h>
 #include <stdlib.h>
 #include "shell.h"
 #include "libft.h"
@@ -72,6 +71,16 @@ static int			nopipe_cmd(int pipefd_tab[2][2], t_node *tree,
 			return (ret);
 	}
 	ret = check_builtin(fd, cmd, pipefd_tab, NULL);
+	/*ANTIBUG!!!!!!!!*/
+		printf("pouet!!!!!!\n");
+	t_duo *tmp = savior_local(NULL, FALSE);
+	while (tmp)
+	{
+		printf("[[%s]=[%s]]\n", tmp->name, tmp->value);
+		tmp=tmp->next;
+	}
+	/* FIN ANTIBUG!!!!!!!!*/
+
 	if (ret != FALSE)
 		free_tab(&cmd);
 	return (ret);
