@@ -1,10 +1,12 @@
 #include <unistd.h>
 #include "shell.h"
 #include "libft.h"
+#include <stdio.h>
 
 static int			bi_opt(char *arg, char *bi, int *no_more, char *handled_opt)
 {
 	int					i;
+	printf("XXXXXXXXX bi = %s\n", bi);
 
 	i = 1;
 	if (*no_more == TRUE)
@@ -16,6 +18,7 @@ static int			bi_opt(char *arg, char *bi, int *no_more, char *handled_opt)
 	{
 		while (arg[i])
 		{
+			printf(">>> arg[%d] %s\n", i, &arg[i]);
 			if (ft_strcmp("echo", bi) == 0
 			&& ft_strchr(handled_opt, arg[i]) == NULL)
 				return (ERROR);
@@ -32,6 +35,7 @@ static int			bi_opt(char *arg, char *bi, int *no_more, char *handled_opt)
 
 int					check_opt(char **arg, int *i)
 {
+	printf("COUCOU\n");
 	int					no_more;
 	int					ret;
 	char				*opt_list;
@@ -48,7 +52,7 @@ int					check_opt(char **arg, int *i)
 	}
 	if (ft_strcmp(arg[0], "echo") == 0 && ret == ERROR)
 		arg = tmp;
-	if (ret == -2)
+	if (ret == -2) // -P je rentre dedans
 		return (ERROR);
 	return (ret);
 }

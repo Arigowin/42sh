@@ -2,11 +2,22 @@
 #include <sys/stat.h>
 #include "shell.h"
 #include "libft.h"
+#include <stdio.h>
+
+static int			cd_option(char *path, struct stat stat_buf)
+{
+	(void)path;
+	if (S_ISLNK(stat_buf.st_mode))
+		ft_putstr(">>>>> link\n");
+	return (TRUE);
+}
 
 static int			change_dir(char *path)
 {
 	struct stat			stat_buf;
 
+	if (!lstat(path, &stat_buf))
+		cd_option(path, stat_buf);
 	if (chdir(path) == -1)
 	{
 		if (stat(path, &stat_buf) == 0 && !S_ISDIR(stat_buf.st_mode))
@@ -31,16 +42,28 @@ static int			cd_home(void)
 	return (ret);
 }
 
+void				print_arg(char **arg)
+{
+	int i = 0;
+
+	while (arg[i])
+	{
+		printf(">>> arg[%d] %s\n", i, arg[i]);
+		i++;
+	}
+}
+
 static int			handle_cd_arg(int *i, int *ret, char **arg)
 {
 	char				*tmp;
 
+	print_arg(arg);
 	tmp = get_env("OLDPWD");
-	if (check_opt(arg, i) == ERROR)
-	{
-		ft_strdel(&tmp);
-		return (FALSE);
-	}
+	/* if (check_opt(arg, i) == ERROR) */
+	/* { */
+	/* 	ft_strdel(&tmp); */
+	/* 	return (FALSE); */
+	/* } */
 	if (!arg[*i])
 		*ret = cd_home();
 	else if (arg[*i] && arg[*i][0] == '-' && !arg[*i][1])
