@@ -2,8 +2,11 @@
 #include "shell.h"
 #include "libft.h"
 
-static int			del_first(t_duo **env, char *name)
+static int			del_first(t_duo **env, char *name, int local)
 {
+	if (DEBUG_BI == 1)
+		ft_putendl_fd("----------------------- DEL FIRST ------------------", 2);
+
 	t_duo				*cpy;
 	t_duo				*tmp;
 
@@ -16,7 +19,10 @@ static int			del_first(t_duo **env, char *name)
 		ft_strdel(&(cpy->value));
 		free(cpy);
 		*env = tmp;
-		savior_env(*env, TRUE);
+		if (local == TRUE)
+			savior_local(*env, TRUE);
+		else if (local == FALSE)
+			savior_env(*env, TRUE);
 		return (1);
 	}
 	return (0);
@@ -24,11 +30,13 @@ static int			del_first(t_duo **env, char *name)
 
 int					del_env(t_duo **env, char *name, int local)
 {
+	if (DEBUG_BI == 1)
+		ft_putendl_fd("----------------------- DEL ENV ------------------", 2);
+
 	t_duo				*cpy;
 	t_duo				*tmp;
 
-	(void)local;
-	if (del_first(env, name) == 1)
+	if (del_first(env, name, local) == 1)
 		return (1);
 	cpy = *env;
 	tmp = NULL;
@@ -41,7 +49,10 @@ int					del_env(t_duo **env, char *name, int local)
 			ft_strdel(&(cpy->next->value));
 			free(cpy->next);
 			cpy->next = tmp;
-			savior_env(*env, TRUE);
+			if (local == TRUE)
+				savior_local(*env, TRUE);
+			else if (local == FALSE)
+				savior_env(*env, TRUE);
 			return (1);
 		}
 		cpy = cpy->next;
@@ -120,6 +131,9 @@ int					del_env(t_duo **env, char *name, int local)
 
 int					bi_unsetenv(char **arg, t_duo **env, const char *opt)
 {
+	if (DEBUG_BI == 1)
+		ft_putendl_fd("----------------------- UNSETENV ------------------", 2);
+
 	int					i;
 
 	i = 1;

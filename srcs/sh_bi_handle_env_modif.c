@@ -2,23 +2,29 @@
 #include "shell.h"
 #include "libft.h"
 
-static int			add_env(char *name, char *value)
+static int			add_env(char *name, char *value, int local, t_duo **env)
 {
 	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- ADD ENV ------------------", 2);
 
-	t_duo				*env;
+	t_duo 				*tmp;
 
-	env = savior_env(NULL, FALSE);
+	tmp = *env;
 	if (name == NULL)
 		return (sh_error(TRUE, 26, "setenv", NULL));
+	while (tmp)
+		tmp = tmp->next;
+	if (value && value[0] == 26)
+		duo_pushback(&tmp, name, "");
 	else
-	{
-		if (value && value[0] == 26)
-			duo_pushback(&env, name, "");
-		else
-			duo_pushback(&env, name, value);
-		savior_env(env, TRUE);
+		duo_pushback(&tmp, name, value);
+	if (local == TRUE)
+	{printf("************local\n");
+		savior_local(*env, TRUE);
+	}
+	else if (local == FALSE)
+	{printf("****************env\n");
+		 savior_env(*env, TRUE);
 	}
 	return (TRUE);
 }
@@ -29,25 +35,43 @@ int					change_env(char *name, char *value, int local)
 		ft_putendl_fd("----------------------- CHANGE ENV ------------------", 2);
 
 	t_duo				*env;
+	t_duo				*head;
 
-	env = savior_env(NULL, FALSE);
-	(void)local;
+	env = NULL;
+	printf("DANS CHANGE ENV {{{{{{%d}}}}}}\n", local);
+	if (local == TRUE)
+		env = savior_local(NULL, FALSE);
+	else if (local == FALSE)
+		env = savior_env(NULL, FALSE);
+	head = env;
 	while (env)
 	{
-	printf("toto trololo -- 1 env ((%s)) name ((%s))\n", env->name, name);
+	//printf("toto trololo -- 1 env ((%s)) name ((%s))\n", env->name, name);
 		if (env && name && ft_strcmp(env->name, name) == 0)
 		{
-	printf("toto trololo -- 2\n");
+	//printf("toto trololo -- 2\n");
 			ft_strdel(&(env->value));
 			if (value && value[0] != 26 && !(env->value = ft_strdup(value)))
 				return (sh_error(FALSE, 6, NULL, NULL));
 			return (TRUE);
 		}
-	printf("toto trololo -- 3\n");
+	//printf("toto trololo -- 3\n");
 		env = env->next;
-	printf("toto trololo -- 4\n");
+	//printf("toto trololo -- 4\n");
 	}
-	add_env(name, value);
+	add_env(name, value, local, &head);
+
+
+	//t_duo *toto = head;
+	//while (toto)
+	//{
+	//printf("name ap add env [[%s]]\n", toto->name);
+	//toto = toto->next;
+	//}
+
+
+
+
 	return (TRUE);
 }
 
@@ -59,9 +83,12 @@ char				*get_env(char *name, int local)
 	t_duo				*env;
 	char				*tmp;
 
-	(void)local;
 	tmp = NULL;
-	env = savior_env(NULL, FALSE);
+	env = NULL;
+	if (local == TRUE)
+		env = savior_local(NULL, FALSE);
+	else if (local == FALSE)
+		env = savior_env(NULL, FALSE);
 	while (env)
 	{
 		if (ft_strcmp(name, env->name) == 0)

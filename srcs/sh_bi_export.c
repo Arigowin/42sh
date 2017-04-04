@@ -1,7 +1,7 @@
 #include "shell.h"
 #include "libft.h"
 
-static int			add_var_name_in_env(char *str, int loc, t_duo **tmp_local,
+static int			add_var_name_in_env(char *str, t_duo **tmp_local,
 					t_duo *local)
 {
 	if (DEBUG_BI == 1)
@@ -21,15 +21,14 @@ static int			add_var_name_in_env(char *str, int loc, t_duo **tmp_local,
 		new_arg = ft_strsplit(str, '=');
 	name = (new_arg ? new_arg[0] : str);
 	val = (new_arg ? new_arg[1] : get_env(name, TRUE));
-	change_env(name, val, loc);
+	change_env(name, val, FALSE);
 	free_tab(&new_arg);
 	while (!ft_strchr(str, '=') && *tmp_local)
 	{
-	printf("TROLOLO POUET LOLILOL -- 3 ((%p))\n", *tmp_local);
-	printf("TROLOLO POUET LOLILOL -- 4 ((%p))\n", (*tmp_local)->next);
 		if (ft_strcmp((*tmp_local)->name, str) == 0)
 		{
-			free_tduo_link(tmp_local);
+			del_env(tmp_local, name, TRUE);
+			//free_tduo_link(tmp_local);
 			savior_local(local, TRUE);
 			return (TRUE);
 		}
@@ -58,10 +57,9 @@ int					bi_export(char **arg, t_duo **env, const char *opt)
 		return (FALSE);
 	local = savior_local(NULL, FALSE);
 	tmp_local = local;
-	printf("TROLOLO POUET LALILAL -- 4 ((%p))\n", tmp_local->next);
 	while (arg[++i])
 	{
-		add_var_name_in_env(arg[i], FALSE, &tmp_local, local);
+		add_var_name_in_env(arg[i], &tmp_local, local);
 		tmp_local = local;
 	}
 	return (TRUE);
