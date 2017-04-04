@@ -1,13 +1,13 @@
 #include "shell.h"
 #include "libft.h"
 
-int					bi_echo(char **arg, t_duo **env)
+int					bi_echo(char **arg, t_duo **env, const char *opt)
 {
 	int i;
 
 	i = 1;
 	(void)env;
-	check_opt(arg, &i);
+	check_opt(arg, &i, opt);
 	if (tbl_len(arg) > 1)
 	{
 		while (arg && arg[i])

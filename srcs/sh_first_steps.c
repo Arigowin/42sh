@@ -7,8 +7,8 @@ static char			*get_path(void)
 	char				*tmp;
 	char				*home;
 
-	home = get_env("HOME");
-	if ((path = get_env("PWD")) == NULL)
+	home = get_env("HOME", FALSE);
+	if ((path = get_env("PWD", FALSE)) == NULL)
 		return (NULL);
 	tmp = ft_strsub(path, 0, ft_strlen(home));
 	if (home && ft_strcmp(home, tmp) == 0)
@@ -51,10 +51,10 @@ int					display_prompt(void)
 	char				*shlvl;
 
 	path = get_path();
-	name = get_env("LOGNAME");
+	name = get_env("LOGNAME", FALSE);
 	if (name)
 		ft_putstr_color("\033[34;1m", name);
-	if ((shlvl = get_env("SHLVL")))
+	if ((shlvl = get_env("SHLVL", FALSE)))
 	{
 		ft_putchar_color("\033[31m", '[');
 		ft_putstr_color("\033[31m", shlvl);
