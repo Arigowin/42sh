@@ -50,13 +50,13 @@ void			free_lst_param(void)
 	}
 }
 
-int				ft_select(t_basic_list *lst)
+char			*ft_select(t_basic_list *lst)
 {
 	if (DEBUG_FT_SELECT == 1)
 		ft_putendl("---------- FT SELECT ----------");
 
 	t_cduo				*lst_param;
-	char				**ret;
+	char				*ret;
 
 	lst_param = NULL;
 	ret = NULL;
@@ -71,7 +71,5 @@ int				ft_select(t_basic_list *lst)
 			break ;
 	}
 	termcap_reset();
-	if (ret != NULL)
-		print_return(&ret);
-	return (0);
+	return (ret);
 }

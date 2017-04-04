@@ -2,7 +2,7 @@
 # define SHELL_H
 
 #include <stdio.h>
-#define DEBUG_COMPL 1
+#define DEBUG_COMPL 0
 
 # define HISTORY_FILE_NAME "/.42sh_history"
 

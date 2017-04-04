@@ -18,7 +18,8 @@
 # include <termios.h>
 #include "libft.h"
 
-# define DEBUG_FT_SELECT 1
+// ANTIBUG
+# define DEBUG_FT_SELECT 0
 
 # define TRUE 1
 # define FALSE 0
@@ -58,7 +59,7 @@ typedef struct			s_glst
 
 int						cduo_pushback(t_cduo **lst_param, char *name, int no);
 void					free_lst_param();
-int						ft_select(t_basic_list *lst);
+char					*ft_select(t_basic_list *lst);
 
 /*
 ** first_steps.c
@@ -66,7 +67,7 @@ int						ft_select(t_basic_list *lst);
 int						ft_putchr(int c);
 void					clr_screen(void);
 int						fill_list(t_cduo **lst_param, t_basic_list *lst);
-char					**select_read(void);
+char					*select_read(void);
 
 /*
 ** init.c
@@ -87,7 +88,6 @@ void					termcap_reset(void);
 */
 int						get_col_size(void);
 int						manage_win_size(void);
-int						print_return(char ***ret);
 
 /*
 ** display_select.c
@@ -103,9 +103,9 @@ int						up_arrow();
 /*
 ** actions.c
 */
-char					**enter_key();
-char					**esc_key(void);
-int						suppr_key();
+char					*enter_key();
+char					*esc_key(void);
+//int						suppr_key();
 
 /*
 ** manage_struct.c

@@ -59,8 +59,9 @@ int				down_arrow(int space)
 	tmp = get_stuff()->lst_param;
 	while (tmp->cursor != TRUE)
 		tmp = tmp->next;
-	if (space == 1)
-		tmp->select = tmp->select == TRUE ? FALSE : TRUE;
+	(void)space;
+	tmp->prev->select = FALSE;
+	tmp->select = TRUE;
 	tmp->cursor = FALSE;
 	tmp->next->cursor = TRUE;
 	dw_first(tmp, pos, displayed_col);

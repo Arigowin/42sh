@@ -1,8 +1,10 @@
+#include <sys/types.h>
+#include <dirent.h>
+#include <sys/wait.h>
 #include "shell.h"
 #include "libft.h"
 #include "ft_select.h"
-#include <sys/types.h>
-#include <dirent.h>
+#include "get_next_line.h"
 # define SEP2 "|&;><\"' \t\n\0"
 #define SEP3 "|&;\0"
 #define BLANC "\"' \t\n\0"
@@ -99,16 +101,65 @@ t_basic_list		*get_execinpath(char *word)
 	return (list);
 }
 
+char				*complet(t_basic_list *lst, char **str)
+{
+	int					pfd[2];
+	pid_t				pid;
+	char				*line;
+
+	line = NULL;
+	reset_term();
+	if (pipe(pfd) == ERROR)
+	{
+		sh_error(FALSE, 4, NULL, NULL);
+		return (NULL);
+	}
+
+	if ((pid = fork()) < 0)
+		sh_error(FALSE, 5, NULL, NULL);
+	if (pid == 0)
+	{
+		//son
+		check_signal(2);
+		close(pfd[0]);
+		*str = ft_select(lst);
+		write(pfd[1], *str, ft_strlen(*str));
+		exit(EXIT_SUCCESS);
+	}
+	else
+	{
+		//father
+		check_signal(3);
+		close(pfd[1]);
+		dup2(pfd[0], STDIN_FILENO);
+		while (get_next_line(0, &line) > 0)
+		{
+			dprintf(3, "[%s]\n", line);
+			*str = ft_strdup(line);
+		}
+		wait(NULL);
+//		close(pfd[0]);
+		reset_std_fd();
+	}
+	init_term(FALSE);
+	check_signal(1);
+	printf("[%s]\n", *str);
+	return (*str);
+}
+
 int					compl_exe(char *word)
 {
 	if (DEBUG_COMPL == 1)
 		ft_putendl("---------- COMPL EXE ----------");
 
 	t_basic_list		*lst;
+	char				*str;
 
+	str = NULL;
 	lst = get_execinpath(word);
 	reset_term();
-	ft_select(lst);
+	printf("EXE : %s\n", complet(lst, &str));
+	printf("[%s]\n", str);
 	init_term(FALSE);
 	ft_basiclstfree(&lst);
 	return (TRUE);
@@ -121,9 +172,10 @@ int					compl_file(char *word)
 
 	t_basic_list		*lst;
 	char				*path;
+	char				*str;
 	int					i;
 
-
+	str = NULL;
 	lst = NULL;
 	path = NULL;
 	i = 0;
@@ -145,7 +197,8 @@ int					compl_file(char *word)
 	else
 		get_dircontent(".", &lst, word);
 	reset_term();
-	ft_select(lst);
+	printf("FILE : %s\n", complet(lst, &str));
+	printf("[%s]\n", str);
 	init_term(FALSE);
 	ft_basiclstfree(&lst);
 	return (TRUE);

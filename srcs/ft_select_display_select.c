@@ -80,8 +80,8 @@ static int		manage_display(int j, int k, t_cduo *tmp)
 	if (fct_size()->ws_col - ((k * (get_stuff()->col_size))
 				+ get_stuff()->col_size) >= 0)
 	{
-		if (tmp->select == TRUE)
-			ft_putstr_fd("\033[7m", get_stuff()->fd);
+//		if (tmp->select == TRUE)
+//			ft_putstr_fd("\033[7m", get_stuff()->fd);
 		if (tmp->cursor == TRUE)
 			ft_putstr_fd("\033[4m", get_stuff()->fd);
 		if ((get_stuff()->nb_elt <= fct_size()->ws_row

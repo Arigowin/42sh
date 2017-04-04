@@ -63,34 +63,35 @@ int				fill_list(t_cduo **lst_param, t_basic_list *lst)
 	return (max_len);
 }
 
-static char		**get_input(int buff)
+static char		*get_input(int buff)
 {
 	if (DEBUG_FT_SELECT == 1)
 		ft_putendl("---------- GET INPUT ----------");
 
-	char				**ret;
+	char				*ret;
 
 	ret = NULL;
 	if (buff == DOWN_ARROW)
 		down_arrow(0);
 	if (buff == UP_ARROW)
 		up_arrow();
-	if (buff == SPACE)
-		down_arrow(1);
 	if (buff == ESCAPE || buff == 'q')
 		ret = esc_key();
 	if (buff == RETURN)
+	{
+		down_arrow(1);
 		ret = enter_key();
+	}
 	return (ret);
 }
 
-char			**select_read(void)
+char			*select_read(void)
 {
 	if (DEBUG_FT_SELECT == 1)
 		ft_putendl("---------- SELECT READ ----------");
 
 	int					buff;
-	char				**ret;
+	char				*ret;
 
 	buff = 0;
 	ret = NULL;
