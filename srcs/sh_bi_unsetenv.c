@@ -2,20 +2,15 @@
 #include "shell.h"
 #include "libft.h"
 
-static int			del_first(t_duo **env, char *name, int local)
+static int			del_first(t_duo **env, char *name)
 {
-	if (DEBUG_BI == 1)
-		ft_putendl_fd("----------------------- DEL FIRST ------------------", 2);
-
 	t_duo				*cpy;
 	t_duo				*tmp;
 
 	cpy = *env;
 	tmp = NULL;
-	printf("env name in del 1er ((%s))\n", (*env)->name);
-	if (name && cpy && ft_strcmp(name, cpy->name) == 0)
+	if (ft_strcmp(name, cpy->name) == 0)
 	{
-	printf("env name in del 2er ((%s))\n", (*env)->name);
 		tmp = cpy->next;
 		ft_strdel(&(cpy->name));
 		ft_strdel(&(cpy->value));
@@ -24,51 +19,104 @@ static int			del_first(t_duo **env, char *name, int local)
 		savior_env(*env, TRUE);
 		return (1);
 	}
-	if (local == TRUE)
-		savior_local(cpy, TRUE);
-	else
-		savior_env(cpy, TRUE);
 	return (0);
 }
 
 int					del_env(t_duo **env, char *name, int local)
 {
-	if (DEBUG_BI == 1)
-		ft_putendl_fd("----------------------- DEL ENV --------------------", 2);
-
 	t_duo				*cpy;
 	t_duo				*tmp;
 
-	cpy = *env;
-	if (del_first(&cpy, name, local) == 1)
+	(void)local;
+	if (del_first(env, name) == 1)
 		return (1);
+	cpy = *env;
 	tmp = NULL;
-	while (cpy)
+	while (cpy && cpy->next)
 	{
-	printf("env name in del 2er ((%s)) name ((%s))\n", cpy->name, name);
-		if ((ft_strcmp(name, cpy->name)) == 0)
+		if (ft_strcmp(name, cpy->next->name) == 0)
 		{
-	printf("env name in del 3er ((%s)) name ((%s))\n", cpy->name, name);
-		printf("toto - 2\n");
-			tmp = cpy->next;
-			ft_strdel(&(cpy->name));
-			ft_strdel(&(cpy->value));
+			tmp = cpy->next->next;
+			ft_strdel(&(cpy->next->name));
+			ft_strdel(&(cpy->next->value));
+			free(cpy->next);
 			cpy->next = tmp;
-			free(cpy);
-			cpy = NULL;
-		printf("toto - 3\n");
-			if (local == TRUE)
-				savior_local(cpy, TRUE);
-			else
-				savior_env(cpy, TRUE);
-		printf("toto - 4\n");
+			savior_env(*env, TRUE);
 			return (1);
 		}
-		printf("toto - 4 bis\n");
 		cpy = cpy->next;
 	}
 	return (-1);
 }
+
+//
+//static int			del_first(t_duo **env, char *name, int local)
+//{
+//	if (DEBUG_BI == 1)
+//		ft_putendl_fd("----------------------- DEL FIRST ------------------", 2);
+//
+//	t_duo				*cpy;
+//	t_duo				*tmp;
+//
+//	cpy = *env;
+//	tmp = NULL;
+//	printf("env name in del 1er ((%s))\n", (*env)->name);
+//	if (name && cpy && ft_strcmp(name, cpy->name) == 0)
+//	{
+//	printf("env name in del 2er ((%s))\n", (*env)->name);
+//		tmp = cpy->next;
+//		ft_strdel(&(cpy->name));
+//		ft_strdel(&(cpy->value));
+//		free(cpy);
+//		*env = tmp;
+//		savior_env(*env, TRUE);
+//		return (1);
+//	}
+//	if (local == TRUE)
+//		savior_local(cpy, TRUE);
+//	else
+//		savior_env(cpy, TRUE);
+//	return (0);
+//}
+//
+//int					del_env(t_duo **env, char *name, int local)
+//{
+//	if (DEBUG_BI == 1)
+//		ft_putendl_fd("----------------------- DEL ENV --------------------", 2);
+//
+//	t_duo				*cpy;
+//	t_duo				*tmp;
+//
+//	cpy = *env;
+//	if (del_first(&cpy, name, local) == 1)
+//		return (1);
+//	tmp = NULL;
+//	while (cpy)
+//	{
+//	printf("env name in del 2er ((%s)) name ((%s))\n", cpy->name, name);
+//		if ((ft_strcmp(name, cpy->name)) == 0)
+//		{
+//	printf("env name in del 3er ((%s)) name ((%s))\n", cpy->name, name);
+//		printf("toto - 2\n");
+//			tmp = cpy->next;
+//			ft_strdel(&(cpy->name));
+//			ft_strdel(&(cpy->value));
+//			cpy->next = tmp;
+//			free(cpy);
+//			cpy = NULL;
+//		printf("toto - 3\n");
+//			if (local == TRUE)
+//				savior_local(cpy, TRUE);
+//			else
+//				savior_env(cpy, TRUE);
+//		printf("toto - 4\n");
+//			return (1);
+//		}
+//		printf("toto - 4 bis\n");
+//		cpy = cpy->next;
+//	}
+//	return (-1);
+//}
 
 int					bi_unsetenv(char **arg, t_duo **env, const char *opt)
 {
