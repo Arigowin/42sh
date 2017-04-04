@@ -45,6 +45,19 @@ int					is_file(char *str, int pos, char *word)
 	return (TRUE);
 }
 
+void				sort_pushbck(t_basic_list **lst, char *name, int type)
+{
+	//if (DEBUG_COMPL == 1)
+		ft_putendl("---------- SORT PUSHBCK ----------");
+
+	t_basic_list		*tmp;
+
+	tmp = *lst;
+	while (tmp)
+	{
+	}
+}
+
 int					get_dircontent(char *path, t_basic_list **list, char *word)
 {
 	if (DEBUG_COMPL == 1)
@@ -68,7 +81,8 @@ int					get_dircontent(char *path, t_basic_list **list, char *word)
 				// le ls qui est dans /usr/bin sera utiliser
 
 				// FAIRE UN TRIE PAR INSERTION
-				ft_basiclstpushbck(list, dp->d_name, dp->d_type);
+				sort_pushbck(list, dp->d_name, dp->d_type);
+				//ft_basiclstpushbck(list, dp->d_name, dp->d_type);
 			}
 		}
 	}
@@ -76,7 +90,27 @@ int					get_dircontent(char *path, t_basic_list **list, char *word)
 	return (TRUE);
 }
 
-t_basic_list		*get_execinpath(char *word)
+int					fill_list_compl(char *word, t_basic_list **lst)
+{
+	static char			*def[10] = {".", "cd", "echo", "env", "exit",
+		"export", "setenv", "unset", "unsetenv", NULL};
+	int					i;
+	int					type;
+
+	i = 0;
+	while (def[i])
+	{
+		if (word == NULL || ft_strncmp(word, def[i], ft_strlen(word)) == 0)
+		{
+			type = (i == 0 ? 4 : 0);
+			ft_basiclstpushbck(lst, def[i], type);
+		}
+		i++;
+	}
+	return (TRUE);
+}
+
+int					get_execinpath(char *word, t_basic_list **lst)
 {
 	if (DEBUG_COMPL == 1)
 		ft_putendl("---------- GET EXECINPATH ----------");
@@ -84,42 +118,34 @@ t_basic_list		*get_execinpath(char *word)
 	char				**path;
 	char				*tmp;
 	int					i;
-	t_basic_list		*list;
 
-	list = NULL;
+	path = NULL;
 	tmp = get_env("PATH");
-	path = ft_strsplit(tmp, ':');
+	if (tmp)
+		path = ft_strsplit(tmp, ':');
+	fill_list_compl(word, lst);
 	ft_strdel(&tmp);
 	i = 0;
-	while (path[i])
+	while (path && path[i])
 	{
 		if (access(path[i], F_OK) != -1)
-			get_dircontent(path[i], &list, word);
+			get_dircontent(path[i], lst, word);
 		i++;
 	}
 	free_tab(&path);
-	return (list);
+	return (TRUE);
 }
 
-char				*complet(t_basic_list *lst, char **str)
+static void				fork_select(int pfd[2], char **str, t_basic_list *lst)
 {
-	int					pfd[2];
 	pid_t				pid;
 	char				*line;
 
 	line = NULL;
-	reset_term();
-	if (pipe(pfd) == ERROR)
-	{
-		sh_error(FALSE, 4, NULL, NULL);
-		return (NULL);
-	}
-
 	if ((pid = fork()) < 0)
 		sh_error(FALSE, 5, NULL, NULL);
 	if (pid == 0)
 	{
-		//son
 		check_signal(2);
 		close(pfd[0]);
 		*str = ft_select(lst);
@@ -128,80 +154,84 @@ char				*complet(t_basic_list *lst, char **str)
 	}
 	else
 	{
-		//father
 		check_signal(3);
 		close(pfd[1]);
-		dup2(pfd[0], STDIN_FILENO);
-		while (get_next_line(0, &line) > 0)
-		{
-			dprintf(3, "[%s]\n", line);
+		while (get_next_line(pfd[0], &line) > 0)
 			*str = ft_strdup(line);
-		}
 		wait(NULL);
-//		close(pfd[0]);
+		close(pfd[0]);
 		reset_std_fd();
 	}
+}
+
+char				*launch_select(t_basic_list *lst, char **str)
+{
+	if (DEBUG_COMPL == 1)
+		ft_putendl("---------- LAUNCH SELECT ----------");
+
+	int					pfd[2];
+	reset_term();
+	if (pipe(pfd) == ERROR)
+	{
+		sh_error(FALSE, 4, NULL, NULL);
+		return (NULL);
+	}
+	fork_select(pfd, str, lst);
 	init_term(FALSE);
 	check_signal(1);
-	printf("[%s]\n", *str);
 	return (*str);
 }
 
-int					compl_exe(char *word)
+int					split_path(char **word, char **path)
 {
 	if (DEBUG_COMPL == 1)
-		ft_putendl("---------- COMPL EXE ----------");
+		ft_putendl("---------- SPLIT PATH ----------");
 
-	t_basic_list		*lst;
-	char				*str;
+	char				*tmp;
+	int					i;
 
-	str = NULL;
-	lst = get_execinpath(word);
-	reset_term();
-	printf("EXE : %s\n", complet(lst, &str));
-	printf("[%s]\n", str);
-	init_term(FALSE);
-	ft_basiclstfree(&lst);
+	// remplacer le tilde par HOME
+	i = ft_strlen(*word);
+	while (i > -1 && (*word)[i] != '/')
+		i--;
+	*path = ft_strsub(*word, 0, i + 1);
+	tmp = ft_strsub(*word, i + 1, ft_strlen(*word) - i);
+	ft_strdel(word);
+	*word = ft_strdup(tmp);
+	ft_strdel(&tmp);
+
+	//printf("\npath[%s]word[%s]\n", *path, *word);
 	return (TRUE);
 }
 
-int					compl_file(char *word)
+char				*compl_word(int f, char *word)
 {
 	if (DEBUG_COMPL == 1)
-		ft_putendl("---------- COMPL FILE ----------");
+		ft_putendl("---------- COMPL WORD ----------");
 
 	t_basic_list		*lst;
 	char				*path;
-	char				*str;
-	int					i;
+	char				*ret;
 
-	str = NULL;
+	ret = NULL;
 	lst = NULL;
 	path = NULL;
-	i = 0;
 	if (ft_strchr(word, '/'))
 	{
-		// remplacer le tilde par HOME
-
-		i = ft_strlen(word);
-		while (i > -1 && word[i] != '/')
-			i--;
-		path = ft_strsub(word, 0, i + 1);
-		word = ft_strsub(word, i + 1, ft_strlen(word) - i);
-
-		printf("\npath[%s]word[%s]\n", path, word);
-
+		split_path(&word, &path);
 		get_dircontent(path, &lst, word);
 		ft_strdel(&path);
 	}
+	else if (f == FALSE)
+		get_execinpath(word, &lst);
 	else
 		get_dircontent(".", &lst, word);
 	reset_term();
-	printf("FILE : %s\n", complet(lst, &str));
-	printf("[%s]\n", str);
+	if (lst)
+		launch_select(lst, &ret);
 	init_term(FALSE);
 	ft_basiclstfree(&lst);
-	return (TRUE);
+	return (ret);
 }
 
 int					fct_tab(char **str, int *pos, t_line *stline,
@@ -211,102 +241,20 @@ int					fct_tab(char **str, int *pos, t_line *stline,
 		ft_putendl("---------- FCT TAB ----------");
 
 	char				*word;
+	char				*ret;
+	int					i;
 
-	(void)stline;
 	(void)history;
 	word = NULL;
 	word = get_line(*str, *pos);
-	if (is_file(*str, *pos, word) == TRUE)
-		compl_file(word);
-	else
-		compl_exe(word);
+	if ((ret = compl_word(is_file(*str, *pos, word), word)) == NULL)
+		return (FALSE);
+	i = ft_strlen(word);
+	while (ret[i])
+	{
+		fct_insert(str, pos, ret[i], stline);
+		i++;
+	}
 	ft_strdel(&word);
 	return (TRUE);
 }
-
-/*
- **	liste de l'auto completion par defaut de bash(builtin principalement)
- :
- [
- {
- bg
- builtin
- cd
- complete
- coproc
- disown
- echo
- enable
- exec
- false
- fi
- getopts
- history
- jobs
- local
- popd
- pwd
- readonly
- set
- source
- then
- trap
- typeset
- unalias
- wait
- !
- [[
- }
- bind
- caller
- command
- compopt
- declare
- do
- elif
- esac
- exit
- fc
- for
- hash
- if
- kill
- logout
- printf
- read
- return
- shift
- suspend
- time
- true
- ulimit
- unset
- while
- .
- ]]
- alias
- break
- case
- compgen
- continue
- dirs
- done
- else
- eval
- export
- fg
-function
-help
-in
-let
-mapfile
-pushd
-readarray
-select
-shopt
-test
-times
-type
-umask
-until
-*/

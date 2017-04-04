@@ -49,7 +49,10 @@ int				fill_list(t_cduo **lst_param, t_basic_list *lst)
 	max_len = 0;
 	while (lst)
 	{
-		cduo_pushback(lst_param, lst->data, i);
+		if (lst->nb == 4)
+			cduo_pushback(lst_param, ft_strjoin(lst->data, "/"), i);
+		else
+			cduo_pushback(lst_param, lst->data, i);
 		len = ft_strlen(lst->data);
 		if (len > 40)
 			max_len = 40;
