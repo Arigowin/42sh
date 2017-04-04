@@ -104,7 +104,7 @@
 
 //A VIRER !!!!!!!!!
 #include <stdio.h>
-# define DEBUG_BI 1
+# define DEBUG_BI 0
 
 
 typedef enum			e_types

@@ -19,11 +19,13 @@ static int			add_env(char *name, char *value, int local, t_duo **env)
 	else
 		duo_pushback(&tmp, name, value);
 	if (local == TRUE)
-	{printf("************local\n");
+	{
+//		printf("************local\n");
 		savior_local(*env, TRUE);
 	}
 	else if (local == FALSE)
-	{printf("****************env\n");
+	{
+//		printf("****************env\n");
 		 savior_env(*env, TRUE);
 	}
 	return (TRUE);
@@ -38,7 +40,7 @@ int					change_env(char *name, char *value, int local)
 	t_duo				*head;
 
 	env = NULL;
-	printf("DANS CHANGE ENV {{{{{{%d}}}}}}\n", local);
+	//printf("DANS CHANGE ENV {{{{{{%d}}}}}}\n", local);
 	if (local == TRUE)
 		env = savior_local(NULL, FALSE);
 	else if (local == FALSE)

@@ -72,7 +72,7 @@ static int			nopipe_cmd(int pipefd_tab[2][2], t_node *tree,
 	}
 	ret = check_builtin(fd, cmd, pipefd_tab, NULL);
 	/*ANTIBUG!!!!!!!!*/
-		printf("pouet!!!!!!\n");
+//		printf("pouet!!!!!!\n");
 	t_duo *tmp = savior_local(NULL, FALSE);
 	while (tmp)
 	{

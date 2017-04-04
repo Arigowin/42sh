@@ -27,6 +27,7 @@ int					check_cd_arg(char **arg)
 	return (TRUE);
 }
 
+/*
 static int			cd_option(char *path, char **arg, struct stat stat_buf)
 {
 	printf(">>>>>>>>>>>>>>>> CD_OPTION\n");
@@ -35,9 +36,9 @@ static int			cd_option(char *path, char **arg, struct stat stat_buf)
 	int i;
 
 	i = 0;
-	if (arg[1] && ft_strcmp(arg[1], "-L"))
+	if (arg[1] && arg[1][0] == '-' && (check_last_option(arg[1]) == "L") || ft_strcmp(arg[1], "-LP")))
 	{
-		printf("prout\n");
+		printf("option = -L\n");
 		printf("last option : %c\n", check_last_option(arg[1]));
 		if (S_ISLNK(stat_buf.st_mode))
 		{
@@ -45,12 +46,12 @@ static int			cd_option(char *path, char **arg, struct stat stat_buf)
 		}
 		else
 		{
-			;
+			ft_putstr(">>>>> non_link\n");
 		}
 	}
-	else if (ft_strcmp(arg[1], "-P") || ft_strcmp(arg[1], "-LP"))
+	else if (arg[1] && (ft_strcmp(arg[1], "-P") || ft_strcmp(arg[1], "-LP")))
 	{
-		;
+		printf("option = -P\n");
 	}
 	else
 	{
@@ -58,15 +59,16 @@ static int			cd_option(char *path, char **arg, struct stat stat_buf)
 	}
 	return (TRUE);
 }
+*/
 
 static int			change_dir(char *path, char **arg)
 {
-	printf(">>>>>>>>>>>>>>>> CHANGE_DIR\n");
+//	printf(">>>>>>>>>>>>>>>> CHANGE_DIR\n");
 	struct stat			stat_buf;
 
 	(void)arg;
-	if (!lstat(path, &stat_buf))
-		cd_option(path, arg, stat_buf);
+	/* if (!lstat(path, &stat_buf)) */
+	/* 	cd_option(path, arg, stat_buf); */
 	if (chdir(path) == -1)
 	{
 		printf("XXXX OUPS\n");
@@ -94,7 +96,7 @@ static int			cd_home(void)
 
 static int			handle_cd_arg(int *i, int *ret, char **arg, const char *opt)
 {
-	printf(">>>>>>>>>>>>>>>> HANDLE_CD_ARG\n");
+//	printf(">>>>>>>>>>>>>>>> HANDLE_CD_ARG\n");
 	char				*tmp;
 
 //	print_arg(arg);
