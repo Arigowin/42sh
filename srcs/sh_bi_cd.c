@@ -14,59 +14,69 @@ char				check_last_option(char *str)
 
 int					check_cd_arg(char **arg)
 {
+	printf(">>>>>>>>>>>>>>>> CHECK_CD_ARG\n");
 	int i;
 
 	i = 1;
-	while (arg[i])
+	if (arg && arg[i])
 	{
-		if (arg[i] && arg[i][0] == '-' && arg[i][1])
+		printf("YES\n");
+		while (arg[i])
 		{
-			printf("last_option : %d\n", check_last_option(arg[1]));
+			printf("MOUETTE\n");
+//			printf("arg[%d] = %s\n", i, arg[i]);
+			if (arg[i] && arg[i][0] == '-' && arg[i][1])
+			{
+//				printf("last_option : %c\n", check_last_option(arg[i]));
+			}
+			i++;
 		}
 	}
+	else
+		printf("NO\n");
 	return (TRUE);
 }
 
 /*
-static int			cd_option(char *path, char **arg, struct stat stat_buf)
-{
-	printf(">>>>>>>>>>>>>>>> CD_OPTION\n");
-	(void)path;
-	(void)arg;
-	int i;
+  static int			cd_option(char *path, char **arg, struct stat stat_buf)
+  {
+  printf(">>>>>>>>>>>>>>>> CD_OPTION\n");
+  (void)path;
+  (void)arg;
+  int i;
 
-	i = 0;
-	if (arg[1] && arg[1][0] == '-' && (check_last_option(arg[1]) == "L") || ft_strcmp(arg[1], "-LP")))
-	{
-		printf("option = -L\n");
-		printf("last option : %c\n", check_last_option(arg[1]));
-		if (S_ISLNK(stat_buf.st_mode))
-		{
-			ft_putstr(">>>>> link\n");
-		}
-		else
-		{
-			ft_putstr(">>>>> non_link\n");
-		}
-	}
-	else if (arg[1] && (ft_strcmp(arg[1], "-P") || ft_strcmp(arg[1], "-LP")))
-	{
-		printf("option = -P\n");
-	}
-	else
-	{
-		//error
-	}
-	return (TRUE);
-}
+  i = 0;
+  if (arg[1] && arg[1][0] == '-' && (check_last_option(arg[1]) == "L") || ft_strcmp(arg[1], "-LP")))
+  {
+  printf("option = -L\n");
+  printf("last option : %c\n", check_last_option(arg[1]));
+  if (S_ISLNK(stat_buf.st_mode))
+  {
+  ft_putstr(">>>>> link\n");
+  }
+  else
+  {
+  ft_putstr(">>>>> non_link\n");
+  }
+  }
+  else if (arg[1] && (ft_strcmp(arg[1], "-P") || ft_strcmp(arg[1], "-LP")))
+  {
+  printf("option = -P\n");
+  }
+  else
+  {
+  //error
+  }
+  return (TRUE);
+  }
 */
 
 static int			change_dir(char *path, char **arg)
 {
-//	printf(">>>>>>>>>>>>>>>> CHANGE_DIR\n");
+	printf(">>>>>>>>>>>>>>>> CHANGE_DIR\n");
 	struct stat			stat_buf;
 
-	(void)arg;
+	check_cd_arg(arg);
 	/* if (!lstat(path, &stat_buf)) */
 	/* 	cd_option(path, arg, stat_buf); */
 	if (chdir(path) == -1)
