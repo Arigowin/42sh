@@ -3,6 +3,17 @@
 #include "libft.h"
 #include <stdio.h>
 
+void				print_arg(char **arg)
+{
+	int i = 0;
+
+	while (arg[i])
+	{
+		printf(">>> arg[%d] %s\n", i, arg[i]);
+		i++;
+	}
+}
+
 static int			bi_opt(char *arg, char *bi, int *no_more, char *handled_opt)
 {
 	int					i;
@@ -33,9 +44,11 @@ static int			bi_opt(char *arg, char *bi, int *no_more, char *handled_opt)
 	return (TRUE);
 }
 
+/*
+** *i++ parce que faut tester les options si ils sont separe par des espaces
+*/
 int					check_opt(char **arg, int *i)
 {
-	printf("COUCOU\n");
 	int					no_more;
 	int					ret;
 	char				*opt_list;
@@ -44,6 +57,8 @@ int					check_opt(char **arg, int *i)
 	no_more = FALSE;
 	tmp = arg;
 	opt_list = str_toupper(arg[0]);
+	if (arg[1])
+		opt_list = arg[1];
 	while (arg[*i] && arg[*i][0] && arg[*i][0] == '-' && arg[*i][1])
 	{
 		if ((ret = bi_opt(arg[*i], arg[0], &no_more, opt_list)) != TRUE)
