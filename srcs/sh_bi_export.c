@@ -4,7 +4,7 @@
 static int			add_var_name_in_env(char *str, t_duo **tmp_local)
 {
 	if (DEBUG_BI == 1)
-		ft_putendl_fd("----------------------- TOTO --------------------", 2);
+		ft_putendl_fd("----------------------- ADD VAR NAME +++ --------------------", 2);
 
 	char				**new_arg;
 	char				*name;
@@ -23,6 +23,32 @@ static int			add_var_name_in_env(char *str, t_duo **tmp_local)
 	return (TRUE);
 }
 
+int					export_p(char **arg, char curr_opt, char *bi)
+{
+	if (DEBUG_BI == 1)
+		ft_putendl_fd("----------------------- EXPORT P --------------------", 2);
+
+	int					i;
+	t_duo				*env;
+
+	(void)curr_opt;
+	(void)bi;
+	i = 1;
+	if (arg && arg[i] && arg[i + 1])
+		return (FALSE);
+	env = savior_env(NULL, FALSE);
+	while (env)
+	{
+		ft_putstr("export ");
+		ft_putstr(env->name);
+		ft_putstr("=\"");
+		ft_putstr(env->value);
+		ft_putendl("\"");
+		env = env->next;
+	}
+	return (TRUE);
+}
+
 
 int					bi_export(char **arg, t_duo **env, const char *opt)
 {
@@ -33,7 +59,7 @@ int					bi_export(char **arg, t_duo **env, const char *opt)
 	t_duo				*local;
 	t_duo				*tmp_local;
 
-	i = 0;
+	i = 1;
 	(void)env;
 	if (!(arg && *arg && ft_strcmp(arg[0], "export") == 0))
 		return (FALSE);
@@ -41,10 +67,11 @@ int					bi_export(char **arg, t_duo **env, const char *opt)
 		return (FALSE);
 	local = savior_local(NULL, FALSE);
 	tmp_local = local;
-	while (arg[++i])
+	while (arg[i])
 	{
 		add_var_name_in_env(arg[i], &tmp_local);
 		tmp_local = local;
+		i++;
 	}
 	return (TRUE);
 }
