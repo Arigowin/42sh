@@ -64,13 +64,12 @@ int					manage_local_var(char *str)
 
 	local_var = ft_strsplit(str, '=');
 	local_env = savior_local(NULL, FALSE);
-	if (get_env(local_var[0], TRUE))
+	if (local_var && get_env(local_var[0], TRUE))
 		change_env(local_var[0], local_var[1], TRUE);
+	else if (local_var && get_env(local_var[0], FALSE))
+		change_env(local_var[0], local_var[1], FALSE);
 	else
-	{printf("TITI TATA TUTU\n");
 		duo_pushback(&local_env, local_var[0], local_var[1]);
-	printf("TITI TATA TUTU -- 2 ((%p))\n", local_env->next);
-	}
 	savior_local(local_env, TRUE);
 	return (TRUE);
 }

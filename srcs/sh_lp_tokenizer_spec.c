@@ -54,9 +54,16 @@ int					token_tilde(char **read_buff, char **data_tmp, int *bln)
 	char				*tmp;
 
 	tmp = NULL;
+	/*
 	if ((!(val = get_env("HOME", FALSE)) && !(val = get_env("HOME", FALSE))) || !ft_strchr(SEP, *(*read_buff - 1))
 			|| (*(*read_buff + 1) && !ft_strchr(SEP, *(*read_buff + 1))
 				&& *(*read_buff + 1) != '/'))
+	*/
+	// 1er get_env doit etre a false au lieu de true
+	if ((!(val = get_env("HOME", FALSE)) && !(val = get_env("HOME", FALSE)))
+	|| !ft_strchr(SEP, *(*read_buff - 1))
+	|| (*(*read_buff + 1) && !ft_strchr(SEP, *(*read_buff + 1))
+	&& *(*read_buff + 1) != '/'))
 		return (dblstr_duo_ret(FALSE, &val, NULL, NULL));
 	if (*data_tmp && (tmp = ft_strdup(*data_tmp)) == NULL)
 		return (error_clear_str(FALSE, 6, NULL, &val));

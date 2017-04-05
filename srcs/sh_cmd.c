@@ -72,12 +72,14 @@ static int			nopipe_cmd(int pipefd_tab[2][2], t_node *tree,
 	}
 	ret = check_builtin(fd, cmd, pipefd_tab, NULL);
 	/*ANTIBUG!!!!!!!!*/
-//		printf("pouet!!!!!!\n");
-	t_duo *tmp = savior_local(NULL, FALSE);
-	while (tmp)
+	if (ANTIBUG_LOCAL == 1)
 	{
-		printf("[[%s]=[%s]]\n", tmp->name, tmp->value);
-		tmp=tmp->next;
+		t_duo *tmp = savior_local(NULL, FALSE);
+		while (tmp)
+		{
+			printf("local [[%s]=[%s]]\n", tmp->name, tmp->value);
+			tmp=tmp->next;
+		}
 	}
 	/* FIN ANTIBUG!!!!!!!!*/
 

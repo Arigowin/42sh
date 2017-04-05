@@ -104,6 +104,10 @@
 
 //A VIRER !!!!!!!!!
 #include <stdio.h>
+<<<<<<< HEAD
+=======
+# define ANTIBUG_LOCAL 0
+>>>>>>> master
 # define DEBUG_BI 0
 
 
@@ -310,6 +314,13 @@ int						manage_local_var(char *str);
 ** sh_bi_options
 */
 int						check_opt(char **arg, int *i, const char *opt);
+int						cd_L(char **arg, char curr_opt, char *bi);
+int						cd_P(char **arg, char curr_opt, char *bi);
+int						echo_n(char **arg, char curr_opt, char *bi);
+int						env_i(char **arg, char curr_opt, char *bi);
+int						export_p(char **arg, char curr_opt, char *bi);
+int						unset_f(char **arg, char curr_opt, char *bi);
+int						unset_v(char **arg, char curr_opt, char *bi);
 
 /*
 ** sh_bi_handle_env_modif

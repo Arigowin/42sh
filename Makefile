@@ -30,6 +30,7 @@ SRC = sh_main.c \
 	  \
 	  sh_bi_builtin.c \
 	  sh_bi_options.c \
+	  sh_bi_bioptions.c \
 	  sh_bi_handle_env_modif.c \
 	  sh_bi_cd.c \
 	  sh_bi_env.c \
