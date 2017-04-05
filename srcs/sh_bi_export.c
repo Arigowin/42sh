@@ -17,25 +17,26 @@ static int			add_var_name_in_env(char *str, t_duo **tmp_local,
 	new_arg = NULL;
 	tmp2 = *tmp_local;
 	(void)tmp2;
+	(void)local;
 	if ((ret = ft_strchr(str, '=')) != NULL)
 		new_arg = ft_strsplit(str, '=');
 	name = (new_arg ? new_arg[0] : str);
 	val = (new_arg ? new_arg[1] : get_env(name, TRUE));
 	change_env(name, val, FALSE);
 	free_tab(&new_arg);
-	while (!ft_strchr(str, '=') && *tmp_local)
-	{
-		if (ft_strcmp((*tmp_local)->name, str) == 0)
-		{
-			del_env(tmp_local, name, TRUE);
-			//free_tduo_link(tmp_local);
-			savior_local(local, TRUE);
-			return (TRUE);
-		}
-		*tmp_local = (*tmp_local)->next;
-	}
-	if (tmp2)
-		*tmp_local = tmp2;
+	del_env(tmp_local, name, TRUE);
+//	while (!ft_strchr(str, '=') && *tmp_local)
+//	{
+//		if (ft_strcmp((*tmp_local)->name, str) == 0)
+//		{
+//			//free_tduo_link(tmp_local);
+//			savior_local(local, TRUE);
+//			return (TRUE);
+//		}
+//		*tmp_local = (*tmp_local)->next;
+//	}
+//	if (tmp2)
+//		*tmp_local = tmp2;
 	return (TRUE);
 }
 

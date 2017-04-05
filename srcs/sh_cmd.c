@@ -81,8 +81,11 @@ static int			nopipe_cmd(int pipefd_tab[2][2], t_node *tree,
 	}
 	/* FIN ANTIBUG!!!!!!!!*/
 
+		printf("pouet!!!!!! -- 2\n");
+		printf("pouet!!!!!! -- 2 ((%d))\n", ret);
 	if (ret != FALSE)
 		free_tab(&cmd);
+		printf("pouet!!!!!! -- 3\n");
 	return (ret);
 }
 

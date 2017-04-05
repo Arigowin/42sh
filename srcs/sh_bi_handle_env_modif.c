@@ -10,13 +10,9 @@ static int			add_env(char *name, char *value, int local, t_duo **env)
 	t_duo 				*tmp;
 
 	if (local == TRUE)
-	{printf("************local\n");
 		*env = savior_local(NULL, FALSE);
-	}
 	else if (local == FALSE)
-	{printf("****************env\n");
 		*env = savior_env(NULL, FALSE);
-	}
 	tmp = *env;
 	if (name == NULL)
 		return (sh_error(TRUE, 26, "setenv", NULL));
@@ -25,13 +21,9 @@ static int			add_env(char *name, char *value, int local, t_duo **env)
 	else
 		duo_pushback(&tmp, name, value);
 	if (local == TRUE)
-	{printf("************local\n");
 		savior_local(*env, TRUE);
-	}
 	else if (local == FALSE)
-	{printf("****************env\n");
 		 savior_env(*env, TRUE);
-	}
 	return (TRUE);
 }
 
@@ -44,44 +36,24 @@ int					change_env(char *name, char *value, int local)
 	t_duo				*env;
 
 	tmp = NULL;
-	printf("DANS CHANGE tmp {{{{{{%d}}}}}} ((%s)(%s))\n", local, name, value);
 	if (local == TRUE)
-	{printf("************local\n");
 		tmp = savior_local(NULL, FALSE);
-	}
 	else if (local == FALSE)
-	{printf("****************tmp\n");
 		tmp = savior_env(NULL, FALSE);
-	}
 	env = tmp;
 	while (tmp)
 	{
 	//printf("toto trololo -- 1 tmp ((%s)) name ((%s))\n", tmp->name, name);
 		if (tmp && name && ft_strcmp(tmp->name, name) == 0)
 		{
-	printf("toto trololo -- 2\n");
 			ft_strdel(&(tmp->value));
 			if (value && value[0] != 26 && !(tmp->value = ft_strdup(value)))
 				return (sh_error(FALSE, 6, NULL, NULL));
 			return (TRUE);
 		}
-	//printf("toto trololo -- 3\n");
 		tmp = tmp->next;
-	//printf("toto trololo -- 4\n");
 	}
 	add_env(name, value, local, &env);
-
-
-	//t_duo *toto = env;
-	//while (toto)
-	//{
-	//printf("name ap add tmp [[%s]]\n", toto->name);
-	//toto = toto->next;
-	//}
-
-
-
-
 	return (TRUE);
 }
 
@@ -109,5 +81,6 @@ char				*get_env(char *name, int local)
 		}
 		env = env->next;
 	}
+		printf("TROLOLO ---- 2\n");
 	return (NULL);
 }
