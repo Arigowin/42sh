@@ -6,6 +6,30 @@
 #define echo "neE"
 #define export "p"
 
+static int			bi_usage(char *bi, char curr_opt, const char *handled_opt)
+{
+	ft_putstr("42sh: ");
+	ft_putstr(bi);
+	ft_putstr(": '");
+	ft_putchar(curr_opt);
+	ft_putendl("': invalid option");
+	ft_putstr(bi);
+	ft_putstr(": usage: ");
+	ft_putstr(bi);
+	ft_putstr(" [-");
+	ft_putstr(handled_opt);
+	ft_putstr("] [");
+	if (ft_strcmp(bi, "cd") == 0)
+		ft_putstr("dir");
+	if (ft_strcmp(bi, "env") == 0)
+		ft_putstr("exec");
+	if (ft_strcmp(bi, "export") == 0)
+		ft_putstr("name[=value]");
+	if (ft_strcmp(bi, "unset") == 0)
+		ft_putstr("name");
+	ft_putendl("]");
+	return(ERROR);
+}
 int					manage_opt(char **arg,char curr_opt, const char *options)
 {
 	if (DEBUG_BI == 1)
@@ -45,6 +69,7 @@ static int			bi_opt(char **arg, int *i, int *no_more, const char *handled_opt)
 	char				bi_opt[2];
 
 	j = 1;
+	(void)bi_opt;
 	if (*no_more == TRUE)
 		return (FALSE);
 	if (ft_strcmp("echo", arg[*i]) && arg[*i] && arg[*i][0] && arg[*i][0] == '-' && arg[*i][1] && arg[*i][1] == '-')
@@ -61,7 +86,8 @@ static int			bi_opt(char **arg, int *i, int *no_more, const char *handled_opt)
 			{
 				bi_opt[0] = arg[*i][j];
 				bi_opt[1] = '\0';
-				return (sh_error(-2, 22, bi_opt, str_tolower(arg[0])));
+				return (bi_usage(arg[0], arg[*i][j], handled_opt));
+				//return (sh_error(-2, 22, bi_opt, str_tolower(arg[0])));
 			}
 			else if (ft_strchr(handled_opt, arg[*i][j]))
 				manage_opt(arg, arg[*i][j], handled_opt);
