@@ -10,6 +10,7 @@ static int			add_env(char *name, char *value, int local, t_duo **env)
 	t_duo 				*tmp;
 
 	tmp = *env;
+	printf("name = %s\n", name);
 	if (name == NULL)
 		return (sh_error(TRUE, 26, "setenv", NULL));
 	while (tmp)

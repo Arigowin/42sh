@@ -4,6 +4,18 @@
 #include "libft.h"
 #include <stdio.h>
 
+void				print_args(char **arg)
+{
+	int i;
+
+	i = 0;
+	while (arg[i])
+	{
+		printf(">>> %s\n", arg[i]);
+		i++;
+	}
+}
+
 char				check_last_option(char *str)
 {
 	char car;
@@ -14,26 +26,23 @@ char				check_last_option(char *str)
 
 int					check_cd_arg(char **arg)
 {
-	printf(">>>>>>>>>>>>>>>> CHECK_CD_ARG\n");
 	int i;
 
 	i = 1;
 	if (arg && arg[i])
 	{
-		printf("YES\n");
+		printf("ARG EXIST = YES\n");
 		while (arg[i])
 		{
-			printf("MOUETTE\n");
-//			printf("arg[%d] = %s\n", i, arg[i]);
 			if (arg[i] && arg[i][0] == '-' && arg[i][1])
 			{
-//				printf("last_option : %c\n", check_last_option(arg[i]));
+				printf("last_option : %c\n", check_last_option(arg[i]));
 			}
 			i++;
 		}
 	}
 	else
-		printf("NO\n");
+		printf("ARG EXIST = NO\n");
 	return (TRUE);
 }
 
@@ -73,15 +82,17 @@ int					check_cd_arg(char **arg)
 
 static int			change_dir(char *path, char **arg)
 {
-	printf(">>>>>>>>>>>>>>>> CHANGE_DIR\n");
+//	printf(">>>>>>>>>>>>>>>> CHANGE_DIR\n");
 	struct stat			stat_buf;
-
-	check_cd_arg(arg);
-	/* if (!lstat(path, &stat_buf)) */
-	/* 	cd_option(path, arg, stat_buf); */
+	printf(">> print_args dans change_dir\n");
+	print_args(arg);
+//	check_cd_arg(arg);
+	printf("Dans change_dir path = %s\n", path);
+	/* if (!stat(path, &stat_buf)) */
+	/* 	printf("lstat(path, &stat_buf) SUCCEED"); */
+		//	 	cd_option(path, arg, stat_buf); */
 	if (chdir(path) == -1)
 	{
-		printf("XXXX OUPS\n");
 		if (stat(path, &stat_buf) == 0 && !S_ISDIR(stat_buf.st_mode))
 			return (sh_error(FALSE, 16, path, NULL));
 		else if ((access(path, F_OK)) == ERROR)
@@ -89,6 +100,8 @@ static int			change_dir(char *path, char **arg)
 		else
 			return (sh_error(FALSE, 18, path, NULL));
 	}
+	else
+		printf("chdir(path) SUCCEED\n");
 	return (TRUE);
 }
 
@@ -109,28 +122,38 @@ static int			handle_cd_arg(int *i, int *ret, char **arg, const char *opt)
 //	printf(">>>>>>>>>>>>>>>> HANDLE_CD_ARG\n");
 	char				*tmp;
 
-//	print_arg(arg);
+	printf(">> print_args dans handle_cd_arg\n");
+	print_args(arg);
 	tmp = get_env("OLDPWD", FALSE);
 	if (check_opt(arg, i, opt) == ERROR)
 	{
+		printf(">>>>>>>>>> PROUT\n");
 		ft_strdel(&tmp);
 		return (FALSE);
 	}
 	if (!arg[*i])
 		*ret = cd_home();
-	else if (arg[*i] && arg[*i][0] == '-' && !arg[*i][*i])
+	else if (arg[*i] && arg[*i][0] == '-' && !arg[*i][1])
 	{
+		printf("tiret seul\n");
 		if (tmp)
+		{
 			*ret = change_dir(tmp, arg);
+			printf("*ret = %d\n", *ret);
+		}
 		else
 			return (sh_error(TRUE, 11, NULL, NULL));
 	}
-	else if (arg[*i] && arg[*i][0] && check_last_option(arg[*i]) && arg[2])
+	/* else if (arg[*i] && arg[*i][0] && check_last_option(arg[*i]) && arg[2]) */
+	/* { */
+	/* 	*ret = change_dir(arg[2], arg); */
+	/* } */
+	else
 	{
-		*ret = change_dir(arg[2], arg);
+		printf("DERNIER ELSE HANDLE_CD_ARG\n");
+		*ret = change_dir(arg[*i], arg);
+		printf("*ret = %d\n", *ret);
 	}
-	/* else */
-	/* 	*ret = change_dir(tmp); */
 	ft_strdel(&tmp);
 	return (TRUE);
 }
@@ -148,9 +171,13 @@ int					bi_cd(char **arg, t_duo **env, const char *opt)
 	tmp = NULL;
 	path = NULL;
 	if (handle_cd_arg(&i, &ret, arg, opt) == FALSE)
+	{
+		printf("handle_cd_arg = FALSE\n");
 		return (FALSE);
+	}
 	if (ret == TRUE)
 	{
+		printf("OK\n");
 		tmp = get_env("PWD", FALSE);
 		change_env("OLDPWD", tmp, FALSE);
 		path = getcwd(path, MAX_PATH);
