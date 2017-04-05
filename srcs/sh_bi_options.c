@@ -24,7 +24,6 @@ static int			bi_opt(char *arg, char *bi, int *no_more, const char *handled_opt)
 	char				bi_opt[2];
 
 	i = 1;
-//				printf("TROLOLO!!!!! ((%s))\n", handled_opt);
 	if (*no_more == TRUE)
 		return (FALSE);
 	if (ft_strcmp("echo", bi) && arg
@@ -64,7 +63,6 @@ int					check_opt(char **arg, int *i, const char *opt)
 
 	no_more = FALSE;
 	tmp = arg;
-				printf("TROLOLO!!!!! ((%s))\n", opt);
 	while (arg[*i] && arg[*i][0] && arg[*i][0] == '-' && arg[*i][1])
 	{
 		if ((ret = bi_opt(arg[*i], arg[0], &no_more, opt)) != TRUE)

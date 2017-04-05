@@ -1,13 +1,11 @@
 #include "shell.h"
 #include "libft.h"
 
-static int			add_var_name_in_env(char *str, t_duo **tmp_local,
-					t_duo *local)
+static int			add_var_name_in_env(char *str, t_duo **tmp_local)
 {
 	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- TOTO --------------------", 2);
 
-	t_duo				*tmp2;
 	char				**new_arg;
 	char				*name;
 	char				*val;
@@ -15,9 +13,6 @@ static int			add_var_name_in_env(char *str, t_duo **tmp_local,
 
 	ret = 0;
 	new_arg = NULL;
-	tmp2 = *tmp_local;
-	(void)tmp2;
-	(void)local;
 	if ((ret = ft_strchr(str, '=')) != NULL)
 		new_arg = ft_strsplit(str, '=');
 	name = (new_arg ? new_arg[0] : str);
@@ -48,7 +43,7 @@ int					bi_export(char **arg, t_duo **env, const char *opt)
 	tmp_local = local;
 	while (arg[++i])
 	{
-		add_var_name_in_env(arg[i], &tmp_local, local);
+		add_var_name_in_env(arg[i], &tmp_local);
 		tmp_local = local;
 	}
 	return (TRUE);

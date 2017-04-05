@@ -14,13 +14,9 @@
 
 void		ft_strdel(char **as)
 {
-#include <stdio.h>
 	if (as && *as)
 	{
-		printf("-----------adresse ((%s))-------- 1\n", *as);//, *as, *as);
-		ft_bzero(*as, ft_strlen(*as));
 		free(*as);
 		*as = NULL;
-		printf("-----------adresse ((%p))-------- 1\n", *as);//, *as, *as);
 	}
 }

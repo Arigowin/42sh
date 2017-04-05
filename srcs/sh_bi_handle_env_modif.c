@@ -43,7 +43,6 @@ int					change_env(char *name, char *value, int local)
 	env = tmp;
 	while (tmp)
 	{
-	//printf("toto trololo -- 1 tmp ((%s)) name ((%s))\n", tmp->name, name);
 		if (tmp && name && ft_strcmp(tmp->name, name) == 0)
 		{
 			ft_strdel(&(tmp->value));
@@ -81,6 +80,5 @@ char				*get_env(char *name, int local)
 		}
 		env = env->next;
 	}
-		printf("TROLOLO ---- 2\n");
 	return (NULL);
 }
