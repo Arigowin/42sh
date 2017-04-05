@@ -78,6 +78,7 @@ int						ft_isascii(int i);
 int						ft_isprint(int i);
 int						ft_isvisible(int c);
 int						ft_toupper(int i);
+char					*str_toupper(char *str);
 int						ft_tolower(int i);
 
 void					*ft_memalloc(int size);

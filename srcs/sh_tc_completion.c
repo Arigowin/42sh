@@ -45,17 +45,64 @@ int					is_file(char *str, int pos, char *word)
 	return (TRUE);
 }
 
-void				sort_pushbck(t_basic_list **lst, char *name, int type)
+void				sort_push(t_basic_list **lst, char *name, int type)
 {
-	//if (DEBUG_COMPL == 1)
+	if (DEBUG_COMPL == 1)
 		ft_putendl("---------- SORT PUSHBCK ----------");
 
+	t_basic_list		*it;
 	t_basic_list		*tmp;
+	int					cmp;
 
-	tmp = *lst;
-	while (tmp)
+	it = *lst;
+	if (it)
 	{
+		cmp = ft_strcmp((*lst)->data, name);
+		if (cmp == 0)
+			return ;
+		if (cmp > 0)
+		{
+			tmp = (*lst);
+			(*lst) = ft_basiclstnew(name, type);
+			(*lst)->next = tmp;
+			return ;
+		}
+		else
+		{
+			if ((*lst)->next && ft_strcmp((*lst)->next->data, name) > 0)
+			{
+				tmp = (*lst)->next;
+				(*lst)->next = ft_basiclstnew(name, type);
+				(*lst)->next->next = tmp;
+				return ;
+			}
+		}
 	}
+	while (it && it->next)
+	{
+		cmp = ft_strcmp(it->next->data, name);
+		if (cmp == 0)
+			return ;
+		else if (cmp > 0)
+		{
+			tmp = it->next;
+			it->next = ft_basiclstnew(name, type);
+			it->next->next = tmp;
+			return ;
+		}
+		else if (cmp < 0)
+		{
+			if (it->next->next && ft_strcmp(it->next->next->data, name) > 0)
+			{
+				tmp = ft_basiclstnew(name, type);
+				tmp->next = it->next->next;
+				it->next->next = tmp;
+				return ;
+			}
+		}
+		it = it->next;
+	}
+	ft_basiclstpushbck(lst, name, type);
 }
 
 int					get_dircontent(char *path, t_basic_list **list, char *word)
@@ -73,17 +120,7 @@ int					get_dircontent(char *path, t_basic_list **list, char *word)
 		{
 			// type 4 == DIR
 			if (word == NULL || ft_strncmp(word, dp->d_name, ft_strlen(word)) == 0)
-			{
-				// NE PAS SAUVEGARDER LES DOUBLON !!!
-				// par exemple
-				// si il ya 2 ls un dans /bin et l'autre dans /usr/bin
-				// et le PATH=/usr/bin:/bin
-				// le ls qui est dans /usr/bin sera utiliser
-
-				// FAIRE UN TRIE PAR INSERTION
-				sort_pushbck(list, dp->d_name, dp->d_type);
-				//ft_basiclstpushbck(list, dp->d_name, dp->d_type);
-			}
+				sort_push(list, dp->d_name, dp->d_type);
 		}
 	}
 	closedir(dir);
@@ -103,7 +140,7 @@ int					fill_list_compl(char *word, t_basic_list **lst)
 		if (word == NULL || ft_strncmp(word, def[i], ft_strlen(word)) == 0)
 		{
 			type = (i == 0 ? 4 : 0);
-			ft_basiclstpushbck(lst, def[i], type);
+			sort_push(lst, def[i], type);
 		}
 		i++;
 	}
