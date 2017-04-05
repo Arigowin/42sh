@@ -2,7 +2,16 @@
 #include "libft.h"
 #include "shell.h"
 
-static int			print_env(t_duo *env)
+
+int					env_i(char **arg, char curr_opt, char *bi)
+{
+	(void)arg;
+	(void)curr_opt;
+	(void)bi;
+	return (TRUE);
+}
+
+int					print_env(t_duo *env)
 {
 	while (env)
 	{
@@ -15,7 +24,7 @@ static int			print_env(t_duo *env)
 	return (TRUE);
 }
 
-static int			format_env(char *arg, int *nb)
+int					format_env(char *arg, int *nb)
 {
 	int					j;
 	char				*key;
@@ -37,7 +46,7 @@ static int			format_env(char *arg, int *nb)
 	return (TRUE);
 }
 
-static int			exec_cmd_env(int i, int len, char **arg)
+int					exec_cmd_env(int i, int len, char **arg)
 {
 	char				**cmd;
 	int					pipefd_tab[2][2];
@@ -61,44 +70,27 @@ static int			exec_cmd_env(int i, int len, char **arg)
 	return (TRUE);
 }
 
-static int			modif_env(char **arg, t_duo *env, int len, int i)
-{
-	int					nb;
-
-	nb = 0;
-	savior_env(env, TRUE);
-	while (arg[i])
-	{
-		if (ft_strchr(arg[i], '=') != NULL)
-			format_env(arg[i], &nb);
-		else
-			break ;
-		i++;
-	}
-	if (i < len)
-		exec_cmd_env(i, len, arg);
-	else
-		print_env(env);
-	duo_del(&env);
-	return (TRUE);
-}
-
 int					bi_env(char **arg, t_duo **env, const char *opt)
 {
+	t_duo				*env_tmp;
 	int					len;
+	int					ret;
 	int					i;
 
 	len = tbl_len(arg);
 	i = 1;
-	if (check_opt(arg, &i, opt) == ERROR)
+	env_tmp = *env;
+	if ((ret = check_opt(arg, &i, opt)) == ERROR)
 		return (FALSE);
+	else if (ret == TRUE)
+		env_tmp = NULL;
 	if (len > 1)
 	{
-		if (modif_env(arg, cpy_duo(*env), len, i) == ERROR)
+		if (modif_env(arg, env_tmp, len, i) == ERROR)
 			return (ERROR);
 	}
-	else
-		print_env(*env);
+	else if (i == 1)
+		print_env(env_tmp);
 	savior_env(*env, TRUE);
 	return (TRUE);
 }

@@ -29,16 +29,21 @@ int					export_p(char **arg, char curr_opt, char *bi)
 		ft_putendl_fd("----------------------- EXPORT P --------------------", 2);
 
 	int					i;
+	int					ret;
 	t_duo				*env;
 
 	(void)curr_opt;
 	(void)bi;
 	i = 1;
-	if (arg && arg[i] && arg[i + 1])
+	ret = TRUE;
+	while (arg && arg[i] && arg[i][0] && arg[i][0] == '-')
+		i++;
+	if (arg[i] && arg[i][0] && arg[i][0] != '-')
 		return (FALSE);
 	env = savior_env(NULL, FALSE);
 	while (env)
 	{
+		ret = 2;
 		ft_putstr("export ");
 		ft_putstr(env->name);
 		ft_putstr("=\"");
@@ -46,7 +51,7 @@ int					export_p(char **arg, char curr_opt, char *bi)
 		ft_putendl("\"");
 		env = env->next;
 	}
-	return (TRUE);
+	return (ret);
 }
 
 
@@ -69,7 +74,8 @@ int					bi_export(char **arg, t_duo **env, const char *opt)
 	tmp_local = local;
 	while (arg[i])
 	{
-		add_var_name_in_env(arg[i], &tmp_local);
+		if (arg[i][0] != '-')
+			add_var_name_in_env(arg[i], &tmp_local);
 		tmp_local = local;
 		i++;
 	}

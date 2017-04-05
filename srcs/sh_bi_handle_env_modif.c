@@ -82,3 +82,25 @@ char				*get_env(char *name, int local)
 	}
 	return (NULL);
 }
+
+int					modif_env(char **arg, t_duo *env, int len, int i)
+{
+	int					nb;
+
+	nb = 0;
+	savior_env(env, TRUE);
+	while (arg[i])
+	{
+		if (ft_strchr(arg[i], '=') != NULL)
+			format_env(arg[i], &nb);
+		else
+			break ;
+		i++;
+	}
+	if (i < len)
+		exec_cmd_env(i, len, arg);
+	else
+		print_env(env);
+	duo_del(&env);
+	return (TRUE);
+}

@@ -324,6 +324,7 @@ int						unset_v(char **arg, char curr_opt, char *bi);
 */
 int						change_env(char *name, char *value, int local);
 char					*get_env(char *name, int local);
+int						modif_env(char **arg, t_duo *env, int len, int i);
 
 /*
 ** sh_bi_cd
@@ -339,6 +340,10 @@ int						bi_echo(char **arg, t_duo **env, const char *opt);
 ** sh_bi_env
 */
 int						bi_env(char **arg, t_duo **env, const char *opt);
+int						exec_cmd_env(int i, int len, char **arg);
+int						format_env(char *arg, int *nb);
+int						print_env(t_duo *env);
+int						env_i(char **arg, char curr_opt, char *bi);
 
 /*
 ** sh_bi_exit
