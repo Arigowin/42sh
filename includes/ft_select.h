@@ -30,6 +30,7 @@
 # define BACKSPACE 127
 # define RETURN 10
 # define ESCAPE 27
+# define TAB 9
 
 typedef struct termios	t_termios;
 typedef struct winsize	t_winsize;

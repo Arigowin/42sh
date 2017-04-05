@@ -80,7 +80,7 @@ static char		*get_input(int buff)
 		up_arrow();
 	if (buff == ESCAPE || buff == 'q')
 		ret = esc_key();
-	if (buff == RETURN)
+	if (buff == RETURN || buff == TAB)
 	{
 		down_arrow(1);
 		ret = enter_key();

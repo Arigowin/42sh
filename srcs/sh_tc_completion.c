@@ -45,62 +45,132 @@ int					is_file(char *str, int pos, char *word)
 	return (TRUE);
 }
 
+int					my_cmp(char *s1, char *s2)
+{
+	const unsigned char		*tmp_s1;
+	const unsigned char		*tmp_s2;
+
+	tmp_s1 = (const unsigned char*)s1;
+	tmp_s2 = (const unsigned char*)s2;
+	while (*tmp_s1 == *tmp_s2 && *tmp_s1 != '\0')
+	{
+		tmp_s1++;
+		tmp_s2++;
+	}
+	if (*tmp_s1 && *tmp_s1 != *tmp_s2 && ft_isalnum(*tmp_s1) == 0 && ft_isalnum(*tmp_s2) == 1)
+		return (-1);
+	else if (*tmp_s1 && *tmp_s1 != *tmp_s2 && ft_isalnum(*tmp_s1) != 0 && ft_isalnum(*tmp_s2) == 0)
+		return (1);
+	return (*tmp_s1 - *tmp_s2);
+}
+
+int					cmp_dupli(char *s1, char *s2)
+{
+	int					cmp;
+	char				*tmp1;
+	char				*tmp2;
+	int					dot1;
+	int					dot2;
+
+	dot1 = FALSE;
+	dot2 = FALSE;
+	if (s1[0] == '.')
+		dot1 = TRUE;
+	if (s2[0] == '.')
+		dot2 = TRUE;
+
+	tmp1 = (dot1 ? ft_strdup(++s1) : ft_strdup(s1));
+	tmp2 = (dot2 ? ft_strdup(++s2) : ft_strdup(s2));
+
+	cmp = my_cmp(str_toupper(tmp1), str_toupper(tmp2));
+	ft_strdel(&tmp1);
+	ft_strdel(&tmp2);
+	if (cmp == 0)
+	{
+		if (dot1 != TRUE && dot2 != TRUE)
+			cmp = my_cmp(s1, s2);
+		else if (dot2)
+			cmp = -1;
+		else if (dot1)
+			cmp = 1;
+	}
+	return (cmp);
+}
+
+int					sort_first(t_basic_list **lst, char *name, int type)
+{
+	t_basic_list		*tmp;
+	int					cmp;
+
+	cmp = cmp_dupli((*lst)->data, name);
+	if (cmp == 0)
+		return (0);
+	if (cmp > 0)
+	{
+		tmp = (*lst);
+		(*lst) = ft_basiclstnew(name, type);
+		(*lst)->next = tmp;
+		return (0);
+	}
+	else
+	{
+		if ((*lst)->next && cmp_dupli((*lst)->next->data, name) > 0)
+		{
+			tmp = (*lst)->next;
+			(*lst)->next = ft_basiclstnew(name, type);
+			(*lst)->next->next = tmp;
+			return (0);
+		}
+	}
+	return (1);
+}
+
+int					sort_the_rest(t_basic_list **ite, char *name, int type)
+{
+	t_basic_list		*tmp;
+	int					cmp;
+
+	cmp = cmp_dupli((*ite)->next->data, name);
+	if (cmp == 0)
+		return (0);
+	else if (cmp > 0)
+	{
+		tmp = (*ite)->next;
+		(*ite)->next = ft_basiclstnew(name, type);
+		(*ite)->next->next = tmp;
+		return (0);
+	}
+	else if (cmp < 0)
+	{
+		if ((*ite)->next->next && cmp_dupli((*ite)->next->next->data, name) > 0)
+		{
+			tmp = ft_basiclstnew(name, type);
+			tmp->next = (*ite)->next->next;
+			(*ite)->next->next = tmp;
+			return (0);
+		}
+	}
+	return (1);
+}
+
 void				sort_push(t_basic_list **lst, char *name, int type)
 {
 	if (DEBUG_COMPL == 1)
 		ft_putendl("---------- SORT PUSHBCK ----------");
 
-	t_basic_list		*it;
-	t_basic_list		*tmp;
-	int					cmp;
+	t_basic_list		*ite;
 
-	it = *lst;
-	if (it)
+	ite = *lst;
+	if (ite)
 	{
-		cmp = ft_strcmp((*lst)->data, name);
-		if (cmp == 0)
+		if (sort_first(lst, name, type) == 0)
 			return ;
-		if (cmp > 0)
-		{
-			tmp = (*lst);
-			(*lst) = ft_basiclstnew(name, type);
-			(*lst)->next = tmp;
-			return ;
-		}
-		else
-		{
-			if ((*lst)->next && ft_strcmp((*lst)->next->data, name) > 0)
-			{
-				tmp = (*lst)->next;
-				(*lst)->next = ft_basiclstnew(name, type);
-				(*lst)->next->next = tmp;
-				return ;
-			}
-		}
 	}
-	while (it && it->next)
+	while (ite && ite->next)
 	{
-		cmp = ft_strcmp(it->next->data, name);
-		if (cmp == 0)
+		if (sort_the_rest(&ite, name, type) == 0)
 			return ;
-		else if (cmp > 0)
-		{
-			tmp = it->next;
-			it->next = ft_basiclstnew(name, type);
-			it->next->next = tmp;
-			return ;
-		}
-		else if (cmp < 0)
-		{
-			if (it->next->next && ft_strcmp(it->next->next->data, name) > 0)
-			{
-				tmp = ft_basiclstnew(name, type);
-				tmp->next = it->next->next;
-				it->next->next = tmp;
-				return ;
-			}
-		}
-		it = it->next;
+		ite = ite->next;
 	}
 	ft_basiclstpushbck(lst, name, type);
 }
@@ -118,7 +188,6 @@ int					get_dircontent(char *path, t_basic_list **list, char *word)
 	{
 		if (ft_strcmp(dp->d_name, ".") != 0 && ft_strcmp(dp->d_name, "..") != 0)
 		{
-			// type 4 == DIR
 			if (word == NULL || ft_strncmp(word, dp->d_name, ft_strlen(word)) == 0)
 				sort_push(list, dp->d_name, dp->d_type);
 		}
@@ -129,7 +198,7 @@ int					get_dircontent(char *path, t_basic_list **list, char *word)
 
 int					fill_list_compl(char *word, t_basic_list **lst)
 {
-	static char			*def[10] = {".", "cd", "echo", "env", "exit",
+	static char			*def[11] = {".", "..", "cd", "echo", "env", "exit",
 		"export", "setenv", "unset", "unsetenv", NULL};
 	int					i;
 	int					type;
@@ -139,7 +208,7 @@ int					fill_list_compl(char *word, t_basic_list **lst)
 	{
 		if (word == NULL || ft_strncmp(word, def[i], ft_strlen(word)) == 0)
 		{
-			type = (i == 0 ? 4 : 0);
+			type = (i <= 1? 4 : 0);
 			sort_push(lst, def[i], type);
 		}
 		i++;
@@ -207,6 +276,17 @@ char				*launch_select(t_basic_list *lst, char **str)
 		ft_putendl("---------- LAUNCH SELECT ----------");
 
 	int					pfd[2];
+	int					nb;
+
+	nb = ft_basiclstcount(lst);
+	if (nb == 0)
+		return (NULL);
+	else if (nb == 1)
+	{
+		if (lst->nb == 4)
+			return (*str = ft_strjoin(lst->data, "/"));
+		return (*str = ft_strdup(lst->data));
+	}
 	reset_term();
 	if (pipe(pfd) == ERROR)
 	{
@@ -241,7 +321,7 @@ int					split_path(char **word, char **path)
 	return (TRUE);
 }
 
-char				*compl_word(int f, char *word)
+char				*compl_word(int f, char **word)
 {
 	if (DEBUG_COMPL == 1)
 		ft_putendl("---------- COMPL WORD ----------");
@@ -253,16 +333,16 @@ char				*compl_word(int f, char *word)
 	ret = NULL;
 	lst = NULL;
 	path = NULL;
-	if (ft_strchr(word, '/'))
+	if (ft_strchr(*word, '/'))
 	{
-		split_path(&word, &path);
-		get_dircontent(path, &lst, word);
+		split_path(word, &path);
+		get_dircontent(path, &lst, *word);
 		ft_strdel(&path);
 	}
 	else if (f == FALSE)
-		get_execinpath(word, &lst);
+		get_execinpath(*word, &lst);
 	else
-		get_dircontent(".", &lst, word);
+		get_dircontent(".", &lst, *word);
 	reset_term();
 	if (lst)
 		launch_select(lst, &ret);
@@ -284,7 +364,7 @@ int					fct_tab(char **str, int *pos, t_line *stline,
 	(void)history;
 	word = NULL;
 	word = get_line(*str, *pos);
-	if ((ret = compl_word(is_file(*str, *pos, word), word)) == NULL)
+	if ((ret = compl_word(is_file(*str, *pos, word), &word)) == NULL)
 		return (FALSE);
 	i = ft_strlen(word);
 	while (ret[i])

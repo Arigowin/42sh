@@ -129,6 +129,7 @@ t_basic_list			*ft_basiclstnew(char *data, int nb);
 void					ft_basiclstpushbck(t_basic_list **alst,
 							char *data, int nb);
 void					ft_basiclstfree(t_basic_list **lst);
+int						ft_basiclstcount(t_basic_list *lst);
 
 void					ft_putnbrendl(int n);
 int						ft_strnlen(char *str, char c);
