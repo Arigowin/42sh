@@ -69,10 +69,7 @@ int					manage_local_var(char *str)
 	else if (local_var && get_env(local_var[0], FALSE))
 		change_env(local_var[0], local_var[1], FALSE);
 	else
-	{printf("TITI TATA TUTU\n");
 		duo_pushback(&local_env, local_var[0], local_var[1]);
-	printf("TITI TATA TUTU -- 2 ((%p))\n", local_env->next);
-	}
 	savior_local(local_env, TRUE);
 	return (TRUE);
 }
