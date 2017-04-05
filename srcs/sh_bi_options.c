@@ -19,11 +19,12 @@ static int			bi_opt(char *arg, char *bi, int *no_more, const char *handled_opt)
 {
 	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- BI OPT ------------------", 2);
+
 	int					i;
 	char				bi_opt[2];
 
 	i = 1;
-				printf("TROLOLO!!!!! ((%s))\n", handled_opt);
+//				printf("TROLOLO!!!!! ((%s))\n", handled_opt);
 	if (*no_more == TRUE)
 		return (FALSE);
 	if (ft_strcmp("echo", bi) && arg
@@ -54,6 +55,9 @@ static int			bi_opt(char *arg, char *bi, int *no_more, const char *handled_opt)
 
 int					check_opt(char **arg, int *i, const char *opt)
 {
+	if (DEBUG_BI == 1)
+		ft_putendl_fd("----------------------- CHECK OPT ------------------", 2);
+
 	int					no_more;
 	int					ret;
 	char				**tmp;

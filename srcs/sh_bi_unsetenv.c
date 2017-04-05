@@ -10,7 +10,7 @@ static int			del_first(t_duo **env, char *name, int local)
 	t_duo				*tmp;
 
 	tmp = *env;
-	if (ft_strcmp(name, (*env)->name) == 0)
+	if (name && env && *env && ft_strcmp(name, (*env)->name) == 0)
 	{
 		*env =(*env)->next;
 		ft_strdel(&(tmp->name));
@@ -29,7 +29,7 @@ static int			del_first(t_duo **env, char *name, int local)
 int					del_env(t_duo **env, char *name, int local)
 {
 	if (DEBUG_BI == 1)
-		ft_putendl_fd("----------------------- NGE ENV ------------------", 2);
+		ft_putendl_fd("----------------------- DEL ENV ------------------", 2);
 
 	t_duo				*cpy;
 	t_duo				*tmp;
@@ -73,9 +73,7 @@ int					bi_unsetenv(char **arg, t_duo **env, const char *opt)
 	{
 		if (del_env(env, arg[i], FALSE) == -1)
 			sh_error(TRUE, 14, arg[i], NULL);
-		printf("toto - 5\n");
 		i++;
 	}
-		printf("toto - 6\n");
 	return (0);
 }
