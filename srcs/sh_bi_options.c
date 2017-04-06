@@ -100,11 +100,12 @@ int					check_opt(char **arg, int *i, const char *opt, char *last_opt)
 	tmp = arg;
 	while (arg[*i] && arg[*i][0] && arg[*i][0] == '-' && arg[*i][1])
 	{
+		*last_opt = check_last_option(arg[*i]);
+		printf("%c\n", *last_opt);
 		if ((ret = bi_opt(arg, i, &no_more, opt)) != TRUE)
 			break ;
 		(*i)++;
 	}
-	*last_opt = check_last_option(arg[*i - 1]);
 	if (ft_strcmp(arg[0], "echo") == 0 && ret == ERROR)
 		arg = tmp;
 	if (ret == -2)

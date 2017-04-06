@@ -25,30 +25,10 @@ char				check_last_option(char *str)
 	return (car);
 }
 
-int					check_cd_arg(char **arg)
-{
-	int i;
-
-	i = 1;
-	if (arg && arg[i])
-	{
-		while (arg[i])
-		{
-			if (arg[i] && arg[i][0] == '-' && arg[i][1])
-			{
-				check_last_option(arg[i]);
-			}
-			i++;
-		}
-	}
-	return (TRUE);
-}
-
 static int			cd_option(char *path, char last_opt, struct stat stat_buf)
 {
 	(void)last_opt;
 	(void)path;
-	printf("++++++++++ last option dans cd_option = %c\n", last_opt);
 	if (S_ISLNK(stat_buf.st_mode))
 	{
 		ft_putstr(">>>>> link\n");
@@ -60,16 +40,16 @@ static int			cd_option(char *path, char last_opt, struct stat stat_buf)
 	return (TRUE);
 }
 
+/*
+** stat_ret = lstat(path, &stat_buf);
+*/
 static int			change_dir(char *path, char last_opt, char **arg)
 {
 	struct stat			stat_buf;
 	int					stat_ret;
 
-	check_cd_arg(arg);
+	(void)arg;
 	stat_ret = fstatat(AT_FDCWD, path, &stat_buf, AT_SYMLINK_NOFOLLOW);
-
-//	stat_ret = lstat(path, &stat_buf);
-	printf("++++++++++ last option dans change_dir = %c\n", last_opt);
 	if (!stat_ret)
 		cd_option(path, last_opt, stat_buf);
 	if (chdir(path) == -1)
@@ -109,7 +89,7 @@ static int			handle_cd_arg(int *i, int *ret, char **arg, const char *opt)
 		ft_strdel(&tmp);
 		return (FALSE);
 	}
-	printf("++++++++++ last option dans handle_cd_arg = %c\n", last_opt);
+	printf("+++++++++++ handle_cd_arg > last_opt : %c\n", last_opt);
 	if (!arg[*i])
 		*ret = cd_home();
 	else if (arg[*i] && arg[*i][0] == '-' && !arg[*i][1])
