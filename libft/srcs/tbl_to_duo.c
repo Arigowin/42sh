@@ -26,9 +26,7 @@ t_duo				*tbl_to_duo(char **tbl, char c)
 		tmp_name = srch_begining(tbl[i], c);
 		tmp_value = srch_value(tbl[i], c);
 		duo_pushback(&lst, tmp_name, tmp_value);
-		ft_strdel(&tmp_name);
 		i++;
 	}
-	ft_strdel(&tmp_name);
 	return (lst);
 }

@@ -82,6 +82,9 @@ char				*get_env(char *name, int local)
 
 int					modif_env(char **arg, t_duo *env, int len, int i)
 {
+	if (DEBUG_BI == 1)
+		ft_putendl_fd("----------------------- MODIF ENV ------------------", 2);
+
 	int					nb;
 
 	nb = 0;
