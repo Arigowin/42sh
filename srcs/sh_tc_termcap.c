@@ -23,12 +23,9 @@ static int			start_init_term(void)
 int					init_term(int full_init)
 {
 	struct termios		term;
-	char				*term_env;
 
 	if (ttyname(0) == NULL)
 		return (FALSE);
-	if ((term_env = get_env("TERM", FALSE)) == NULL)
-		return (sh_error(FALSE, 0, NULL, NULL));
 	if (full_init == TRUE)
 	{
 		if (start_init_term() == ERROR)
@@ -39,7 +36,6 @@ int					init_term(int full_init)
 	term.c_cc[VMIN] = 1;
 	term.c_cc[VTIME] = 0;
 	tcsetattr(0, TCSANOW, &term);
-	ft_strdel(&term_env);
 	return (TRUE);
 }
 
