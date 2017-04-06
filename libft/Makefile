@@ -70,6 +70,7 @@ SRC = ft_memset.c \
 	  ft_strsub.c \
 	  ft_strjoin.c \
 	  ft_strtrim.c \
+	  str_trim_all.c \
 	  ft_strsplit.c \
 	  ft_itoa.c \
 	  ft_putchar.c \

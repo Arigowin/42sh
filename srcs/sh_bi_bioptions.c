@@ -22,17 +22,3 @@ int					echo_n(char **arg, char curr_opt, char *bi)
 	(void)bi;
 	return (TRUE);
 }
-int					unset_f(char **arg, char curr_opt, char *bi)
-{
-	(void)arg;
-	(void)curr_opt;
-	(void)bi;
-	return (TRUE);
-}
-int					unset_v(char **arg, char curr_opt, char *bi)
-{
-	(void)arg;
-	(void)curr_opt;
-	(void)bi;
-	return (TRUE);
-}

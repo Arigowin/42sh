@@ -60,7 +60,7 @@ int					handle_builtin(char **cmd)
 
 int					manage_local_var(char **cmd, int *i)
 {
-	if (DEBUG_BI == 0)
+	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- MANAGE LOCAL VAR --------------------", 2);
 
 	char				**local_var;

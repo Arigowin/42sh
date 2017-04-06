@@ -68,11 +68,11 @@ int					bi_unsetenv(char **arg, t_duo **env, const char *opt)
 	i = 1;
 	(void)opt;
 	if (!arg[i])
-		sh_error(FALSE, 9, NULL, NULL);
+		sh_error(FALSE, 9, NULL, arg[0]);
 	while (arg[i])
 	{
 		if (del_env(env, arg[i], FALSE) == -1)
-			sh_error(TRUE, 14, arg[i], NULL);
+			sh_error(TRUE, 14, arg[i], arg[0]);
 		i++;
 	}
 	return (0);

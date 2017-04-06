@@ -90,6 +90,7 @@ int						ft_strnequ(char const *s1, char const *s2, int n);
 char					*ft_strsub(char const *s, int start, int len);
 char					*ft_strjoin(char const *s1, char const *s2);
 char					*ft_strtrim(char const *s);
+char					*str_trim_all(char *s);
 char					**ft_strsplit(const char *s, char c);
 char					*ft_itoa(int n);
 void					ft_putchar(char c);

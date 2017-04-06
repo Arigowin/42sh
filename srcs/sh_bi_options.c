@@ -57,25 +57,21 @@ int					manage_opt(char **arg,char curr_opt, const char *options)
 	i = 0;
 	while (i < 7 && ft_strcmp(opt_bi[i], join_bi_opt) != 0)
 		i++;
-	return (bi_option[i](arg, curr_opt, arg[0]));
-	return (TRUE);
+	int ret = bi_option[i](arg, curr_opt, arg[0]);
+	return (ret);
 }
 
-static int			bi_opt(char **arg, int i, int *no_more, const char *handled_opt)
+static int			bi_opt(char **arg, int i, const char *handled_opt)
 {
 	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- BI OPT ------------------", 2);
 
 	int					j;
-	char				bi_opt[2];
+	int					ret;
 
 	j = 1;
-	(void)bi_opt;
-	if (*no_more == TRUE)
-		return (FALSE);
-	if (ft_strcmp("echo", arg[i]) && arg[i] && arg[i][0] && arg[i][0] == '-' && arg[i][1] && arg[i][1] == '-')
-		*no_more = TRUE;
-	else if (arg[i] && arg[i][0] && arg[i][0] == '-' && arg[i][1])
+	ret = TRUE;
+	if (arg[i] && arg[i][0] && arg[i][0] == '-' && arg[i][1])
 	{
 		while (arg[i][j])
 		{
@@ -84,18 +80,14 @@ static int			bi_opt(char **arg, int i, int *no_more, const char *handled_opt)
 				return (ERROR);
 			else if (ft_strcmp("echo", arg[0])
 		   	&& ft_strchr(handled_opt, arg[i][j]) == NULL)
-			{
-				bi_opt[0] = arg[i][j];
-				bi_opt[1] = '\0';
 				return (bi_usage(arg[0], arg[i][j], handled_opt));
-			}
 			else if (ft_strchr(handled_opt, arg[i][j])
-			&& manage_opt(arg, arg[i][j], handled_opt) == 2)
+			&& (ret =  manage_opt(arg, arg[i][j], handled_opt)) == 2)
 				return (2);;
 			j++;
 		}
 	}
-	return (TRUE);
+	return (ret);
 }
 
 int					check_opt(char **arg, int *i, const char *opt)
@@ -109,9 +101,15 @@ int					check_opt(char **arg, int *i, const char *opt)
 
 	no_more = FALSE;
 	tmp = arg;
+	ret = FALSE;
 	while (arg && arg[*i] && arg[*i][0] && arg[*i][0] == '-' && arg[*i][1])
 	{
-		if ((ret = bi_opt(arg, *i, &no_more, opt)) != TRUE)
+		if (no_more == TRUE)
+			return (FALSE);
+		if (ft_strcmp("echo", arg[*i]) && arg[*i] && arg[*i][0]
+		&& arg[*i][0] == '-' && arg[*i][1] && arg[*i][1] == '-')
+			no_more = TRUE;
+		if ((ret = bi_opt(arg, *i, opt)) != TRUE)
 			break ;
 		(*i)++;
 	}
