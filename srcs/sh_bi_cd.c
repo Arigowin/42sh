@@ -40,9 +40,20 @@ static int			cd_option(char *path, char last_opt, struct stat stat_buf)
 	return (TRUE);
 }
 
+static int			manage_cd_errors(char *path, struct stat stat_buf, int stat_ret)
+{
+	if (!stat_ret && !S_ISDIR(stat_buf.st_mode))
+		return (sh_error(FALSE, 16, path, NULL));
+	else if ((access(path, F_OK)) == ERROR)
+		return (sh_error(FALSE, 17, path, NULL));
+	else
+		return (sh_error(FALSE, 18, path, NULL));
+}
+
 /*
 ** stat_ret = lstat(path, &stat_buf);
 */
+
 static int			change_dir(char *path, char last_opt, char **arg)
 {
 	struct stat			stat_buf;
@@ -53,14 +64,7 @@ static int			change_dir(char *path, char last_opt, char **arg)
 	if (!stat_ret)
 		cd_option(path, last_opt, stat_buf);
 	if (chdir(path) == -1)
-	{
-		if (!stat_ret && !S_ISDIR(stat_buf.st_mode))
-			return (sh_error(FALSE, 16, path, NULL));
-		else if ((access(path, F_OK)) == ERROR)
-			return (sh_error(FALSE, 17, path, NULL));
-		else
-			return (sh_error(FALSE, 18, path, NULL));
-	}
+		manage_cd_errors(path, stat_buf, stat_ret);
 	else
 		printf("chdir(path) -----> SUCCEED\n");
 	return (TRUE);
