@@ -40,6 +40,7 @@ int				fill_list(t_cduo **lst_param, t_basic_list *lst)
 	if (DEBUG_FT_SELECT == 1)
 		ft_putendl("---------- FILL LIST ----------");
 
+	char				*tmp;
 	int					i;
 	int					len;
 	int					max_len;
@@ -50,9 +51,10 @@ int				fill_list(t_cduo **lst_param, t_basic_list *lst)
 	while (lst)
 	{
 		if (lst->nb == 4)
-			cduo_pushback(lst_param, ft_strjoin(lst->data, "/"), i);
+			cduo_pushback(lst_param, (tmp = ft_strjoin(lst->data, "/")), i);
 		else
 			cduo_pushback(lst_param, lst->data, i);
+		ft_strdel(&tmp);
 		len = ft_strlen(lst->data);
 		if (len > 40)
 			max_len = 40;

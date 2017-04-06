@@ -400,6 +400,7 @@ int						handle_fork(int pipefd_tab[2][2], t_node *tree,
 /*
 ** sh_cmd_line_assemble
 */
+int						ft_is_dir(char *path);
 int						null_input(int fd);
 int						check_fct(int fd, char **cmd);
 

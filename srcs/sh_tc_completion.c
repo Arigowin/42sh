@@ -45,7 +45,7 @@ int					is_file(char *str, int pos, char *word)
 	return (TRUE);
 }
 
-int					my_cmp(char *s1, char *s2)
+int					insert_cmp(char *s1, char *s2)
 {
 	const unsigned char		*tmp_s1;
 	const unsigned char		*tmp_s2;
@@ -57,9 +57,11 @@ int					my_cmp(char *s1, char *s2)
 		tmp_s1++;
 		tmp_s2++;
 	}
-	if (*tmp_s1 && *tmp_s1 != *tmp_s2 && ft_isalnum(*tmp_s1) == 0 && ft_isalnum(*tmp_s2) == 1)
+	if (*tmp_s1 && *tmp_s1 != *tmp_s2 && ft_isalnum(*tmp_s1) == 0
+			&& ft_isalnum(*tmp_s2) == 1)
 		return (-1);
-	else if (*tmp_s1 && *tmp_s1 != *tmp_s2 && ft_isalnum(*tmp_s1) != 0 && ft_isalnum(*tmp_s2) == 0)
+	else if (*tmp_s1 && *tmp_s1 != *tmp_s2 && ft_isalnum(*tmp_s1) != 0
+			&& ft_isalnum(*tmp_s2) == 0)
 		return (1);
 	return (*tmp_s1 - *tmp_s2);
 }
@@ -78,17 +80,15 @@ int					cmp_dupli(char *s1, char *s2)
 		dot1 = TRUE;
 	if (s2[0] == '.')
 		dot2 = TRUE;
-
 	tmp1 = (dot1 ? ft_strdup(++s1) : ft_strdup(s1));
 	tmp2 = (dot2 ? ft_strdup(++s2) : ft_strdup(s2));
-
-	cmp = my_cmp(str_toupper(tmp1), str_toupper(tmp2));
+	cmp = insert_cmp(str_toupper(tmp1), str_toupper(tmp2));
 	ft_strdel(&tmp1);
 	ft_strdel(&tmp2);
 	if (cmp == 0)
 	{
 		if (dot1 != TRUE && dot2 != TRUE)
-			cmp = my_cmp(s1, s2);
+			cmp = insert_cmp(s1, s2);
 		else if (dot2)
 			cmp = -1;
 		else if (dot1)
@@ -125,7 +125,7 @@ int					sort_first(t_basic_list **lst, char *name, int type)
 	return (1);
 }
 
-int					sort_the_rest(t_basic_list **ite, char *name, int type)
+int					insert_sort(t_basic_list **ite, char *name, int type)
 {
 	t_basic_list		*tmp;
 	int					cmp;
@@ -168,14 +168,14 @@ void				sort_push(t_basic_list **lst, char *name, int type)
 	}
 	while (ite && ite->next)
 	{
-		if (sort_the_rest(&ite, name, type) == 0)
+		if (insert_sort(&ite, name, type) == 0)
 			return ;
 		ite = ite->next;
 	}
 	ft_basiclstpushbck(lst, name, type);
 }
 
-int					get_dircontent(char *path, t_basic_list **list, char *word)
+int					get_dircontent(int file, char *path, t_basic_list **list, char *word)
 {
 	if (DEBUG_COMPL == 1)
 		ft_putendl("---------- GET DIRCONTENT ----------");
@@ -186,7 +186,8 @@ int					get_dircontent(char *path, t_basic_list **list, char *word)
 	dir = opendir(path);
 	while (dir && (dp = readdir(dir)) != NULL)
 	{
-		if (ft_strcmp(dp->d_name, ".") != 0 && ft_strcmp(dp->d_name, "..") != 0)
+		if (file || (ft_strcmp(dp->d_name, ".") != 0
+					&& ft_strcmp(dp->d_name, "..") != 0))
 		{
 			if (word == NULL || ft_strncmp(word, dp->d_name, ft_strlen(word)) == 0)
 				sort_push(list, dp->d_name, dp->d_type);
@@ -208,7 +209,7 @@ int					fill_list_compl(char *word, t_basic_list **lst)
 	{
 		if (word == NULL || ft_strncmp(word, def[i], ft_strlen(word)) == 0)
 		{
-			type = (i <= 1? 4 : 0);
+			type = (i <= 1 ? 4 : 0);
 			sort_push(lst, def[i], type);
 		}
 		i++;
@@ -216,7 +217,7 @@ int					fill_list_compl(char *word, t_basic_list **lst)
 	return (TRUE);
 }
 
-int					get_execinpath(char *word, t_basic_list **lst)
+int					get_execinpath(int file, char *word, t_basic_list **lst)
 {
 	if (DEBUG_COMPL == 1)
 		ft_putendl("---------- GET EXECINPATH ----------");
@@ -235,7 +236,7 @@ int					get_execinpath(char *word, t_basic_list **lst)
 	while (path && path[i])
 	{
 		if (access(path[i], F_OK) != -1)
-			get_dircontent(path[i], lst, word);
+			get_dircontent(file, path[i], lst, word);
 		i++;
 	}
 	free_tab(&path);
@@ -245,9 +246,7 @@ int					get_execinpath(char *word, t_basic_list **lst)
 static void				fork_select(int pfd[2], char **str, t_basic_list *lst)
 {
 	pid_t				pid;
-	char				*line;
 
-	line = NULL;
 	if ((pid = fork()) < 0)
 		sh_error(FALSE, 5, NULL, NULL);
 	if (pid == 0)
@@ -262,8 +261,8 @@ static void				fork_select(int pfd[2], char **str, t_basic_list *lst)
 	{
 		check_signal(3);
 		close(pfd[1]);
-		while (get_next_line(pfd[0], &line) > 0)
-			*str = ft_strdup(line);
+		ft_strdel(str);
+		get_next_line(pfd[0], str);
 		wait(NULL);
 		close(pfd[0]);
 		reset_std_fd();
@@ -299,6 +298,24 @@ char				*launch_select(t_basic_list *lst, char **str)
 	return (*str);
 }
 
+int					parse_tilde(char **path)
+{
+	char				*home;
+	char				*tmp;
+
+	tmp = NULL;
+	home = NULL;
+	if ((*path)[0] == '~' && (home = get_env("HOME")) != NULL)
+	{
+		tmp = ft_strdup(srch_value(*path, '~'));
+		ft_strdel(path);
+		*path = ft_strjoin(home, tmp);
+		ft_strdel(&home);
+		ft_strdel(&tmp);
+	}
+	return (TRUE);
+}
+
 int					split_path(char **word, char **path)
 {
 	if (DEBUG_COMPL == 1)
@@ -307,7 +324,6 @@ int					split_path(char **word, char **path)
 	char				*tmp;
 	int					i;
 
-	// remplacer le tilde par HOME
 	i = ft_strlen(*word);
 	while (i > -1 && (*word)[i] != '/')
 		i--;
@@ -316,12 +332,45 @@ int					split_path(char **word, char **path)
 	ft_strdel(word);
 	*word = ft_strdup(tmp);
 	ft_strdel(&tmp);
-
-	//printf("\npath[%s]word[%s]\n", *path, *word);
+	parse_tilde(path);
 	return (TRUE);
 }
 
-char				*compl_word(int f, char **word)
+void				add_slash_after_path(char **word)
+{
+	char				*tmp;
+
+	tmp = NULL;
+	if (ft_strlen(*word) == 1 && (*word)[0] == '~')
+	{
+		tmp = ft_strjoin(*word, "/");
+		ft_strdel(word);
+		*word = ft_strdup(tmp);
+		ft_strdel(&tmp);
+	}
+}
+
+int					get_varlist(t_basic_list **lst, char **word)
+{
+	t_duo				*env;
+	char				*tmp;
+
+	tmp = ft_strdup(srch_value(*word, '$'));
+	ft_strdel(word);
+	*word = ft_strdup(tmp);
+	ft_strdel(&tmp);
+	env = savior_env(NULL, FALSE);
+	while (env)
+	{
+		if (ft_strlen(*word) == 0 ||
+				ft_strncmp(*word, env->name, ft_strlen(*word)) == 0)
+			sort_push(lst, env->name, 0);
+		env = env->next;
+	}
+	return (TRUE);
+}
+
+char				*compl_word(int file, char **word)
 {
 	if (DEBUG_COMPL == 1)
 		ft_putendl("---------- COMPL WORD ----------");
@@ -333,16 +382,21 @@ char				*compl_word(int f, char **word)
 	ret = NULL;
 	lst = NULL;
 	path = NULL;
-	if (ft_strchr(*word, '/'))
+	add_slash_after_path(word);
+	if (*word && (*word)[0] == '$')
+	{
+		get_varlist(&lst, word);
+	}
+	else if (ft_strchr(*word, '/'))
 	{
 		split_path(word, &path);
-		get_dircontent(path, &lst, *word);
+		get_dircontent(file, path, &lst, *word);
 		ft_strdel(&path);
 	}
-	else if (f == FALSE)
-		get_execinpath(*word, &lst);
+	else if (file == FALSE)
+		get_execinpath(file, *word, &lst);
 	else
-		get_dircontent(".", &lst, *word);
+		get_dircontent(file, ".", &lst, *word);
 	reset_term();
 	if (lst)
 		launch_select(lst, &ret);
@@ -364,8 +418,13 @@ int					fct_tab(char **str, int *pos, t_line *stline,
 	(void)history;
 	word = NULL;
 	word = get_line(*str, *pos);
+	if (word && word[0] == '~' && word[1] != '/')
+		fct_insert(str, pos, '/', stline);
 	if ((ret = compl_word(is_file(*str, *pos, word), &word)) == NULL)
+	{
+		ft_strdel(&word);
 		return (FALSE);
+	}
 	i = ft_strlen(word);
 	while (ret[i])
 	{
@@ -373,5 +432,6 @@ int					fct_tab(char **str, int *pos, t_line *stline,
 		i++;
 	}
 	ft_strdel(&word);
+	ft_strdel(&ret);
 	return (TRUE);
 }
