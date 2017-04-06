@@ -599,4 +599,31 @@ int						pfd_close(int pipefd_tab[2][2]);
 int						pipe_function(int pipefd_tab[2][2], t_node *tree,
 							t_lst_fd **lstfd);
 
+/*
+** sh_tc_completion
+*/
+char					*launch_select(t_basic_list *lst, char **str);
+int						fct_tab(char **str, int *pos, t_line *stline,
+							t_history **history);
+
+/*
+** sh_tc_completion_func
+*/
+char					*compl_word(int file, char **word);
+
+/*
+** sh_tc_completion_get
+*/
+int						get_dircontent(int file, char *path, t_basic_list **l,
+							char *word);
+int						get_dircontent(int file, char *path, t_basic_list **l,
+							char *word);
+int						get_execinpath(int file, char *word, t_basic_list **l);
+int						get_varlist(t_basic_list **lst, char **word);
+
+/*
+** sh_tc_completion_sort
+*/
+void					sort_push(t_basic_list **lst, char *name, int type);
+
 #endif
