@@ -109,6 +109,7 @@
 # define ANTIBUG_LOCAL 0
 >>>>>>> master
 # define DEBUG_BI 0
+# define DEBUG 0
 
 
 typedef enum			e_types
@@ -290,7 +291,7 @@ int						miniprt_reset_stline(t_line *stline);
 int						mini_prt_handler(char **str, int *pos, t_line *stline);
 int						display_prompt(void);
 char					**cpy_env(char **env);
-int						fill_path(char ***env);
+int						fill_path(t_duo **env);
 
 /*
 ** sh_signal
@@ -327,6 +328,7 @@ int						unset_v(char **arg, char curr_opt, char *bi);
 */
 int						change_env(char *name, char *value, int local);
 char					*get_env(char *name, int local);
+int						modif_env(char **arg, t_duo *env, int len, int i);
 
 /*
 ** sh_bi_cd
@@ -341,6 +343,9 @@ int						bi_echo(char **arg, t_duo **env, const char *opt);
 /*
 ** sh_bi_env
 */
+int						print_env(t_duo *env);
+int						format_env(char *arg, int *nb);
+int						exec_cmd_env(int i, int len, char **arg);
 int						bi_env(char **arg, t_duo **env, const char *opt);
 
 /*

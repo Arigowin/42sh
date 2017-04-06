@@ -5,6 +5,9 @@
 
 static int			read_n_check(int *nb_hrd, char *read_buff, t_node **tree)
 {
+	if (DEBUG == 1)
+		ft_putendl_fd("----------------------- READ N CHECK ------------------", 2);
+
 	t_e_list			*l_expr;
 	t_e_list			*save;
 	static int			hrd = 0;
@@ -30,6 +33,9 @@ static int			read_n_check(int *nb_hrd, char *read_buff, t_node **tree)
 
 int					check_after_read(t_line *stline, t_history **history)
 {
+	if (DEBUG == 1)
+		ft_putendl_fd("----------------------- CHECK AFTER READ ------------------", 2);
+
 	t_node				*tree;
 	t_node				*node;
 	t_lst_fd			*lstfd;

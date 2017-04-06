@@ -14,22 +14,10 @@
 
 int			duo_del(t_duo **lst)
 {
-//	t_duo		*tmp;
-
-//	tmp = NULL;
 	if (lst == NULL || *lst == NULL)
 		return (-1);
-	while ((*lst)->next)
-	{
+	while (*lst)
 		free_tduo_link(lst);
-//		tmp = (*lst)->next;
-//		ft_strdel(&(*lst)->name);
-//		ft_strdel(&(*lst)->value);
-//		free(*lst);
-//		*lst = tmp;
-	}
-	ft_strdel(&(*lst)->name);
-	ft_strdel(&(*lst)->value);
 	free(*lst);
 	*lst = NULL;
 	return (0);
