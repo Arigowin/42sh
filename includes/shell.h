@@ -104,10 +104,7 @@
 
 //A VIRER !!!!!!!!!
 #include <stdio.h>
-<<<<<<< HEAD
-=======
 # define ANTIBUG_LOCAL 0
->>>>>>> master
 # define DEBUG_BI 0
 # define DEBUG 0
 
