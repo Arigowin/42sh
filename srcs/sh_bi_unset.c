@@ -12,7 +12,7 @@ int					bi_unset(char **arg, t_duo **env, const char *opt)
 
 	i = 1;
 	(void)env;
-	check_opt(arg, &i, opt);
+	check_opt(arg, &i, opt, 0);
 	env_tmp = savior_env(NULL, FALSE);
 	while (arg[i])
 	{

@@ -13,7 +13,7 @@ static int			add_env(char *name, char *value, int local)
 		env = savior_local(NULL, FALSE);
 	else if (local == FALSE)
 		env = savior_env(NULL, FALSE);
-	printf("name = %s\n", name);
+//	printf("name = %s\n", name);
 	if (name == NULL)
 		return (sh_error(TRUE, 26, "setenv", NULL));
 	if (value && value[0] == 26)

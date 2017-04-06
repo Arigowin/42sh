@@ -50,8 +50,6 @@ int					manage_opt(char **arg,char curr_opt, const char *options)
 
 static int			bi_opt(char **arg, int *i, int *no_more, const char *handled_opt)
 {
-//	printf("XXXXXXXXX bi = %s\n", bi);
-//	printf("OPTIONS BI DANS BI_OPT = %s\n", handled_opt);
 	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- BI OPT ------------------", 2);
 
@@ -67,7 +65,6 @@ static int			bi_opt(char **arg, int *i, int *no_more, const char *handled_opt)
 	{
 		while (arg[*i][j])
 		{
-			printf(">>> argchar[%d] %c\n", j, arg[*i][j]);
 			if (ft_strcmp("echo", arg[0]) == 0
 			&& ft_strchr(handled_opt, arg[*i][j]) == NULL)
 				return (ERROR);
@@ -90,7 +87,7 @@ static int			bi_opt(char **arg, int *i, int *no_more, const char *handled_opt)
 /*
 ** *i++ parce que faut tester les options si ils sont separe par des espaces
 */
-int					check_opt(char **arg, int *i, const char *opt)
+int					check_opt(char **arg, int *i, const char *opt, char *last_opt)
 {
 	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- CHECK OPT ------------------", 2);
@@ -101,22 +98,16 @@ int					check_opt(char **arg, int *i, const char *opt)
 
 	no_more = FALSE;
 	tmp = arg;
-//	printf("OPTIONS BI DANS CHECK_OPT = %s\n", opt);
-/*
 	while (arg[*i] && arg[*i][0] && arg[*i][0] == '-' && arg[*i][1])
 	{
-		if ((ret = bi_opt(arg[*i], arg[0], &no_more, opt)) != TRUE)
-*/
-	while (arg && arg[*i] && arg[*i][0] && arg[*i][0] == '-' && arg[*i][1])
-	{
-//		printf("arg[%d] = %s\n", *i, arg[*i]);
 		if ((ret = bi_opt(arg, i, &no_more, opt)) != TRUE)
 			break ;
 		(*i)++;
 	}
+	*last_opt = check_last_option(arg[*i - 1]);
 	if (ft_strcmp(arg[0], "echo") == 0 && ret == ERROR)
 		arg = tmp;
-	if (ret == -2) // -P je rentre dedans
+	if (ret == -2)
 		return (ERROR);
 	return (ret);
 }

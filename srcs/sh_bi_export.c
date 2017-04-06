@@ -63,7 +63,7 @@ int					bi_export(char **arg, t_duo **env, const char *opt)
 	(void)env;
 	if (!(arg && *arg && ft_strcmp(arg[0], "export") == 0))
 		return (FALSE);
-	if (check_opt(arg, &i, opt) == ERROR)
+	if (check_opt(arg, &i, opt, 0) == ERROR)
 		return (FALSE);
 	local = savior_local(NULL, FALSE);
 	tmp_local = local;

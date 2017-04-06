@@ -311,7 +311,7 @@ int						manage_local_var(char *str);
 /*
 ** sh_bi_options
 */
-int						check_opt(char **arg, int *i, const char *opt);
+int						check_opt(char **arg, int *i, const char *opt, char *last_opt);
 int						cd_L(char **arg, char curr_opt, char *bi);
 int						cd_P(char **arg, char curr_opt, char *bi);
 int						echo_n(char **arg, char curr_opt, char *bi);
@@ -330,6 +330,7 @@ int						modif_env(char **arg, t_duo *env, int len, int i);
 /*
 ** sh_bi_cd
 */
+char					check_last_option(char *opt);
 int						bi_cd(char **arg, t_duo **env, const char *opt);
 
 /*
