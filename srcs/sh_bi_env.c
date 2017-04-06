@@ -81,7 +81,7 @@ int					bi_env(char **arg, t_duo **env, const char *opt)
 	int					i;
 
 	len = tbl_len(arg);
-	i = 1;
+	i = (ft_strchr(arg[0], '=') ? 0 : 1);
 	env_tmp = cpy_duo(*env);
 	if (check_opt(arg, &i, opt) == ERROR)
 		return (FALSE);

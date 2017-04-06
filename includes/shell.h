@@ -306,7 +306,7 @@ int						check_builtin(int fd, char **cmd, int pipefd_tab[2][2],
 /*
 ** sh_bi_local_var
 */
-int						manage_local_var(char *str);
+int						manage_local_var(char **cmd, int *i);
 
 /*
 ** sh_bi_options
