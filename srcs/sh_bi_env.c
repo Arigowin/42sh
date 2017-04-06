@@ -49,6 +49,9 @@ int					format_env(char *arg, int *nb)
 
 int					exec_cmd_env(int i, int len, char **arg)
 {
+	if (DEBUG_BI == 1)
+		ft_putendl_fd("----------------------- EXEC CMD ENV ------------------", 2);
+
 	char				**cmd;
 	int					pipefd_tab[2][2];
 	int					j;

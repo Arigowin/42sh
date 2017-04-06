@@ -104,8 +104,9 @@
 
 //A VIRER !!!!!!!!!
 #include <stdio.h>
-# define ANTIBUG_LOCAL 1
+# define ANTIBUG_LOCAL 0
 # define DEBUG_BI 0
+# define DEBUG 0
 
 
 typedef enum			e_types

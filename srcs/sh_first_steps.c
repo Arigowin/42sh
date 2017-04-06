@@ -75,6 +75,9 @@ int					display_prompt(void)
 
 int					fill_path(t_duo **env)
 {
+	if (DEBUG_BI == 1)
+		ft_putendl_fd("----------------------- FILL PATH --------------------", 2);
+
 	char				*tmp;
 
 	tmp = NULL;
