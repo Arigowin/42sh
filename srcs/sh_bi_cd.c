@@ -25,6 +25,7 @@ char				check_last_option(char *str)
 	return (car);
 }
 
+/*
 static int			cd_option(char *path, char last_opt, struct stat stat_buf)
 {
 	(void)last_opt;
@@ -39,6 +40,7 @@ static int			cd_option(char *path, char last_opt, struct stat stat_buf)
 	}
 	return (TRUE);
 }
+*/
 
 static int			manage_cd_errors(char *path, struct stat stat_buf, int stat_ret)
 {
@@ -52,21 +54,41 @@ static int			manage_cd_errors(char *path, struct stat stat_buf, int stat_ret)
 
 /*
 ** stat_ret = lstat(path, &stat_buf);
+** cd_option(path, last_opt, stat_buf);
 */
 
 static int			change_dir(char *path, char last_opt, char **arg)
 {
 	struct stat			stat_buf;
 	int					stat_ret;
+	int					fd;
 
 	(void)arg;
-	stat_ret = fstatat(AT_FDCWD, path, &stat_buf, AT_SYMLINK_NOFOLLOW);
+	(void)last_opt;
+	fd = 0;
+	stat_ret = lstat(path, &stat_buf);
+//	stat_ret = fstatat(AT_FDCWD, path, &stat_buf, AT_SYMLINK_NOFOLLOW);
 	if (!stat_ret)
-		cd_option(path, last_opt, stat_buf);
-	if (chdir(path) == -1)
-		manage_cd_errors(path, stat_buf, stat_ret);
-	else
-		printf("chdir(path) -----> SUCCEED\n");
+	{
+		if (S_ISLNK(stat_buf.st_mode))
+		{
+			fd = open(path, O_SYMLINK);
+			if (fchdir(fd) == -1)
+				manage_cd_errors(path, stat_buf, stat_ret);
+			else
+				printf("fchdir(path) -----> SUCCEED\n");
+			printf(">>> link\n");
+		}
+		else
+		{
+			if (chdir(path) == -1)
+				manage_cd_errors(path, stat_buf, stat_ret);
+			else
+				printf("chdir(path) -----> SUCCEED\n");
+			printf(">>> non_link\n");
+		}
+	}
+	printf("path = %s\n", path);
 	return (TRUE);
 }
 
@@ -132,6 +154,7 @@ int					bi_cd(char **arg, t_duo **env, const char *opt)
 		tmp = get_env("PWD", FALSE);
 		change_env("OLDPWD", tmp, FALSE);
 		path = getcwd(path, MAX_PATH);
+		printf("%s\n", path);
 		change_env("PWD", path, FALSE);
 	}
 	ft_strdel(&tmp);
