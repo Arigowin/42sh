@@ -104,7 +104,7 @@
 
 //A VIRER !!!!!!!!!
 #include <stdio.h>
-# define ANTIBUG_LOCAL 0
+# define ANTIBUG_LOCAL 1
 # define DEBUG_BI 0
 
 
@@ -287,7 +287,7 @@ int						miniprt_reset_stline(t_line *stline);
 int						mini_prt_handler(char **str, int *pos, t_line *stline);
 int						display_prompt(void);
 char					**cpy_env(char **env);
-int						fill_path(char ***env);
+int						fill_path(t_duo **env);
 
 /*
 ** sh_signal
@@ -339,6 +339,9 @@ int						bi_echo(char **arg, t_duo **env, const char *opt);
 /*
 ** sh_bi_env
 */
+int						print_env(t_duo *env);
+int						format_env(char *arg, int *nb);
+int						exec_cmd_env(int i, int len, char **arg);
 int						bi_env(char **arg, t_duo **env, const char *opt);
 int						exec_cmd_env(int i, int len, char **arg);
 int						format_env(char *arg, int *nb);

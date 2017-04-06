@@ -8,6 +8,7 @@ int					env_i(char **arg, char curr_opt, char *bi)
 	(void)arg;
 	(void)curr_opt;
 	(void)bi;
+	savior_env(NULL, TRUE);
 	return (TRUE);
 }
 
@@ -79,18 +80,18 @@ int					bi_env(char **arg, t_duo **env, const char *opt)
 
 	len = tbl_len(arg);
 	i = 1;
-	env_tmp = *env;
+	env_tmp = cpy_duo(*env);
 	if ((ret = check_opt(arg, &i, opt)) == ERROR)
 		return (FALSE);
 	else if (ret == TRUE)
 		env_tmp = NULL;
 	if (len > 1)
 	{
-		if (modif_env(arg, env_tmp, len, i) == ERROR)
+		if (modif_env(arg, savior_env(NULL, FALSE), len, i) == ERROR)
 			return (ERROR);
 	}
 	else if (i == 1)
 		print_env(env_tmp);
-	savior_env(*env, TRUE);
+	savior_env(env_tmp, TRUE);
 	return (TRUE);
 }
