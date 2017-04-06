@@ -65,6 +65,7 @@ SRC = sh_main.c \
 	  sh_tc_termcap.c \
 	  sh_tc_completion.c \
 	  sh_tc_completion_func.c \
+	  sh_tc_completion_func2.c \
 	  sh_tc_completion_get.c \
 	  sh_tc_completion_sort.c \
 	  \

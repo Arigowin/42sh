@@ -1,6 +1,5 @@
 #include "shell.h"
 #include "libft.h"
-#include "ft_select.h"
 
 static int			parse_tilde(char **path)
 {
@@ -67,13 +66,10 @@ char				*compl_word(int file, char **word)
 	lst = NULL;
 	path = NULL;
 	add_slash_after_path(word);
-	if (*word && (*word)[0] == '$')
+	split_path(word, &path);
+	complet_var(&lst, word, &path);
+	if (ft_strchr(*word, '/'))
 	{
-		get_varlist(&lst, word);
-	}
-	else if (ft_strchr(*word, '/'))
-	{
-		split_path(word, &path);
 		get_dircontent(file, path, &lst, *word);
 		ft_strdel(&path);
 	}

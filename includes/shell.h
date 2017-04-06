@@ -612,6 +612,11 @@ int						fct_tab(char **str, int *pos, t_line *stline,
 char					*compl_word(int file, char **word);
 
 /*
+** sh_tc_completion_func2
+*/
+int						complet_var(t_basic_list **lst, char **word, char **path);
+
+/*
 ** sh_tc_completion_get
 */
 int						get_dircontent(int file, char *path, t_basic_list **l,

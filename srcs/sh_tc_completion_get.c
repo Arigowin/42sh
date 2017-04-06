@@ -1,7 +1,6 @@
 #include <dirent.h>
 #include "shell.h"
 #include "libft.h"
-#include "ft_select.h"
 
 static int			fill_list_compl(char *word, t_basic_list **lst)
 {
@@ -23,7 +22,8 @@ static int			fill_list_compl(char *word, t_basic_list **lst)
 	return (TRUE);
 }
 
-int					get_dircontent(int file, char *path, t_basic_list **list, char *word)
+int					get_dircontent(int file, char *path, t_basic_list **list,
+						char *word)
 {
 	if (DEBUG_COMPL == 1)
 		ft_putendl("---------- GET DIRCONTENT ----------");
@@ -37,7 +37,8 @@ int					get_dircontent(int file, char *path, t_basic_list **list, char *word)
 		if (file || (ft_strcmp(dp->d_name, ".") != 0
 					&& ft_strcmp(dp->d_name, "..") != 0))
 		{
-			if (word == NULL || ft_strncmp(word, dp->d_name, ft_strlen(word)) == 0)
+			if (word == NULL ||
+					ft_strncmp(word, dp->d_name, ft_strlen(word)) == 0)
 				sort_push(list, dp->d_name, dp->d_type);
 		}
 	}
