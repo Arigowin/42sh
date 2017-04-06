@@ -81,11 +81,14 @@ int					fill_path(t_duo **env)
 	char				*tmp;
 
 	tmp = NULL;
-	if (!get_env("PATH", FALSE) && duo_pushback(env, "PATH", "/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:.") == ERROR)
+	if (!get_env("PATH", FALSE) && duo_pushback(env, "PATH", "/usr/local/bin:\
+			/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:.") == ERROR)
 		return (sh_error(FALSE, 6, NULL, NULL));
 	if (get_env("PWD", FALSE) == NULL)
 	{
-		if ((tmp = getcwd(tmp, MAX_PATH)) == NULL && duo_pushback(env, "PWD", tmp) == ERROR)
+		if ((tmp = getcwd(tmp, MAX_PATH)) == NULL)
+			return (sh_error(FALSE, 6, NULL, NULL));
+		if (duo_pushback(env, "PWD", tmp) == ERROR)
 			return (sh_error(FALSE, 6, NULL, NULL));
 		ft_strdel(&tmp);
 	}
