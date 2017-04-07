@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <term.h>
 #include "libft.h"
 #include "ft_select.h"
 
@@ -20,7 +21,6 @@ char				*enter_key(void)
 
 	char				*ret;
 	t_cduo				*tmp;
-	//int					i;
 
 	tmp = get_stuff()->lst_param;
 	ret = NULL;

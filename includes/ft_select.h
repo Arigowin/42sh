@@ -108,7 +108,8 @@ int						up_arrow();
 */
 char					*enter_key();
 char					*esc_key(void);
-//int						suppr_key();
+void					left_arrow(void);
+void					right_arrow(void);
 
 /*
 ** manage_struct.c

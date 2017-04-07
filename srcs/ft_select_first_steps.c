@@ -98,12 +98,18 @@ char			*select_read(void)
 		ft_putendl("---------- SELECT READ ----------");
 
 	int					buff;
+	int					ret_r;
 	char				*ret;
 
 	buff = 0;
+	ret_r = 0;
 	ret = NULL;
-	if (read(0, &buff, 4) == -1)
+	while ((ret_r = read(0, &buff, 4)) > 0)
+	{
+		ret = get_input(buff);
+		break ;
+	}
+	if (ret_r < 0)
 		return (NULL);
-	ret = get_input(buff);
 	return (ret);
 }
