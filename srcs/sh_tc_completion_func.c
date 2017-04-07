@@ -13,9 +13,11 @@ static int			parse_tilde(char **path)
 	home = NULL;
 	if ((*path)[0] == '~' && (home = get_env("HOME")) != NULL)
 	{
-		tmp = ft_strdup(srch_value(*path, '~'));
+		if ((tmp = ft_strdup(srch_value(*path, '~'))) == NULL)
+			return (sh_error(FALSE, 6, NULL, NULL));
 		ft_strdel(path);
-		*path = ft_strjoin(home, tmp);
+		if ((*path = ft_strjoin(home, tmp)) == NULL)
+			sh_error(FALSE, 6, NULL, NULL);
 		ft_strdel(&home);
 		ft_strdel(&tmp);
 	}
@@ -34,7 +36,8 @@ static void			add_slash_after_path(char **word)
 	{
 		tmp = ft_strjoin(*word, "/");
 		ft_strdel(word);
-		*word = ft_strdup(tmp);
+		if (tmp == NULL || (*word = ft_strdup(tmp)) == NULL)
+			sh_error(FALSE, 6, NULL, NULL);
 		ft_strdel(&tmp);
 	}
 }
@@ -54,7 +57,8 @@ int					split_path(char **word, char **path)
 	*path = ft_strsub(*word, 0, i + 1);
 	tmp = ft_strsub(*word, i + 1, ft_strlen(*word) - i);
 	ft_strdel(word);
-	*word = ft_strdup(tmp);
+	if (tmp && (*word = ft_strdup(tmp)) == NULL)
+		return (sh_error(FALSE, 6, NULL, NULL));
 	ft_strdel(&tmp);
 	parse_tilde(path);
 	return (TRUE);
@@ -81,12 +85,12 @@ char				*compl_word(int file, char **word)
 		if (path == NULL)
 			split_path(word, &path);
 		get_dircontent(file, path, &lst, *word);
-		ft_strdel(&path);
 	}
 	else if (!i && file == FALSE)
 		get_execinpath(file, *word, &lst);
 	else if (!i)
 		get_dircontent(file, ".", &lst, *word);
+	ft_strdel(&path);
 	reset_term();
 	if (lst)
 		launch_select(lst, &ret);

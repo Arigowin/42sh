@@ -27,10 +27,12 @@ static int			add_var(int rm, char **env_name, char **data_tmp, char *read_buff)
 
 	if (rm == TRUE)
 		return (FALSE);
-	tmp = ft_strdup(*data_tmp);
+	if ((tmp = ft_strdup(*data_tmp)) == NULL)
+		return (sh_error(FALSE, 6, NULL, NULL));
 	ft_strdel(data_tmp);
 	i = ft_strlen(tmp) + ft_strlen(read_buff) + ft_strlen(*env_name) + 1;
-	*data_tmp = ft_strnew(i);
+	if ((*data_tmp = ft_strnew(i)) == NULL)
+		return (sh_error(FALSE, 6, NULL, NULL));
 	*data_tmp = ft_strncpy(*data_tmp, tmp, i);
 	ft_strdel(&tmp);
 	add_in_tbl(data_tmp, '$');

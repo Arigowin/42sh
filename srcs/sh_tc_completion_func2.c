@@ -8,7 +8,11 @@ static char			*expander(char *word)
 
 	if (word == NULL)
 		return (FALSE);
-	buff = ft_strnew(ft_strlen(word));
+	if ((buff = ft_strnew(ft_strlen(word))) == NULL)
+	{
+		sh_error(FALSE, 6, NULL, NULL);
+		return (NULL);
+	}
 	while (word && *word)
 	{
 		if (*word == '$')
@@ -37,7 +41,8 @@ int					complet_var(t_basic_list **lst, char **path, char **word)
 		return (FALSE);
 	tmp = expander(*word);
 	ft_strdel(word);
-	*word = ft_strdup(tmp);
+	if ((*word = ft_strdup(tmp)) == NULL)
+		return (sh_error(FALSE, 6, NULL, NULL));
 	split_path(word, path);
 	if (ft_strchr(*word, '$'))
 	{

@@ -43,8 +43,10 @@ static int				cmp_dupli(char *s1, char *s2)
 		dot1 = TRUE;
 	if (s2[0] == '.')
 		dot2 = TRUE;
-	tmp1 = (dot1 ? ft_strdup(++s1) : ft_strdup(s1));
-	tmp2 = (dot2 ? ft_strdup(++s2) : ft_strdup(s2));
+	if ((tmp1 = (dot1 ? ft_strdup(++s1) : ft_strdup(s1))) == NULL)
+			return (sh_error(FALSE, 6, NULL, NULL));
+	if ((tmp2 = (dot2 ? ft_strdup(++s2) : ft_strdup(s2))) == NULL)
+			return (sh_error(FALSE, 6, NULL, NULL));
 	cmp = insert_cmp(str_toupper(tmp1), str_toupper(tmp2));
 	ft_strdel(&tmp1);
 	ft_strdel(&tmp2);

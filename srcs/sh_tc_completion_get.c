@@ -26,7 +26,7 @@ static int			fill_list_compl(char *word, t_basic_list **lst)
 }
 
 int					get_dircontent(int file, char *path, t_basic_list **list,
-						char *word)
+		char *word)
 {
 	if (DEBUG_COMPL == 1)
 		ft_putendl("---------- GET DIRCONTENT ----------");
@@ -83,9 +83,11 @@ int					get_varlist(t_basic_list **lst, char **word)
 	t_duo				*env;
 	char				*tmp;
 
-	tmp = ft_strdup(srch_value(*word, '$'));
+	if ((tmp = ft_strdup(srch_value(*word, '$'))) == NULL)
+		return (sh_error(FALSE, 6, NULL, NULL));
 	ft_strdel(word);
-	*word = ft_strdup(tmp);
+	if ((*word = ft_strdup(tmp)) == NULL)
+		return (sh_error(FALSE, 6, NULL, NULL));
 	ft_strdel(&tmp);
 	env = savior_env(NULL, FALSE);
 	while (env)
