@@ -615,7 +615,7 @@ char					*compl_word(int file, char **word);
 /*
 ** sh_tc_completion_func2
 */
-int						complet_var(t_basic_list **lst, char **word);
+int						complet_var(t_basic_list **lst, char **path, char **word);
 
 /*
 ** sh_tc_completion_get

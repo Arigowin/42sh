@@ -47,7 +47,8 @@ int					split_path(char **word, char **path)
 	char				*tmp;
 	int					i;
 
-	i = ft_strlen(*word);
+	if ((i = ft_strlen(*word)) == 0)
+		return (FALSE);
 	while (i > -1 && (*word)[i] != '/')
 		i--;
 	*path = ft_strsub(*word, 0, i + 1);
@@ -74,10 +75,11 @@ char				*compl_word(int file, char **word)
 	path = NULL;
 	i = FALSE;
 	add_slash_after_path(word);
-	i = complet_var(&lst, word);
-	if (!i && ft_strchr(*word, '/'))
+	i = complet_var(&lst, &path, word);
+	if (!i && ((*word && ft_strchr(*word, '/')) || path))
 	{
-		split_path(word, &path);
+		if (path == NULL)
+			split_path(word, &path);
 		get_dircontent(file, path, &lst, *word);
 		ft_strdel(&path);
 	}

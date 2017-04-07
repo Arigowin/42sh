@@ -26,20 +26,19 @@ static char			*expander(char *word)
 	return (buff);
 }
 
-int					complet_var(t_basic_list **lst, char **word)
+int					complet_var(t_basic_list **lst, char **path, char **word)
 {
 	if (DEBUG_COMPL == 1)
 		ft_putendl("---------- COMPLET VAR ----------");
 
 	char				*tmp;
-	char				*path;
 
 	if (!(*word && ft_strchr(*word, '$')))
 		return (FALSE);
 	tmp = expander(*word);
 	ft_strdel(word);
 	*word = ft_strdup(tmp);
-	split_path(word, &path);
+	split_path(word, path);
 	if (ft_strchr(*word, '$'))
 	{
 		get_varlist(lst, word);
