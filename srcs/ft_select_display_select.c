@@ -116,9 +116,9 @@ int				manage_columns(void)
 		(i[0])++;
 	while ((i[0] += tmp->first) < 2)
 	{
-		tmp->col_nb = ++i[2];
+		tmp->col_nb = ++(i[2]);
 		i[1] = -1;
-		while (++i[1] < fct_size()->ws_row)
+		while (++(i)[1] < fct_size()->ws_row)
 		{
 			manage_win_size();
 			manage_display(i[1], i[2], tmp);

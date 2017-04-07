@@ -82,6 +82,10 @@ static char		*get_input(int buff)
 		down_arrow(0);
 	if (buff == UP_ARROW)
 		up_arrow();
+	if (buff == RIGHT_ARROW)
+		right_arrow();
+	if (buff == LEFT_ARROW)
+		left_arrow();
 	if (buff == ESCAPE || buff == 'q')
 		ret = esc_key();
 	if (buff == RETURN || buff == TAB)
