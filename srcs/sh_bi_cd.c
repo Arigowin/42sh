@@ -151,16 +151,17 @@ int					bi_cd(char **arg, t_duo **env, const char *opt)
 	(void)env;
 	i = 1;
 	ret = TRUE;
+	last_opt = '\0';
 	check_opt(arg, &i, opt, &last_opt);
 	if (last_opt)
 		printf("last_opt = %c\n", last_opt);
-	if (ret == TRUE)
+	if (!last_opt || last_opt == 'L')
 	{
 		switch_env_pwd();
 		if (handle_cd_arg(&i, &ret, arg, opt) == FALSE)
 			return (FALSE);
 	}
-	else
+	else if (last_opt == 'P')
 	{
 		if (handle_cd_arg(&i, &ret, arg, opt) == FALSE)
 			return (FALSE);
