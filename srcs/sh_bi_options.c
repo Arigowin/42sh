@@ -98,6 +98,7 @@ int					check_opt(char **arg, int *i, const char *opt, char *last_opt)
 
 	no_more = FALSE;
 	tmp = arg;
+	*last_opt = 0;
 	while (arg[*i] && arg[*i][0] && arg[*i][0] == '-' && arg[*i][1])
 	{
 		*last_opt = check_last_option(arg[*i]);
