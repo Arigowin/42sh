@@ -22,19 +22,21 @@ static int			full_check_opt(char **arg, char *oth_opt)
 	return (TRUE);
 }
 
-static int			unset_opt(char **arg, int fct, char opt, char *oth_opt)
+static int			unset_opt(char **arg, int fct, char opt, char **err_msg)
 {
 	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- UNSET OPT ------------------", 2);
 
-	static int			err_ret = FALSE;
-	char				*err_msg;
+	static char			oth_opt = '0';
+	static int			ret = TRUE;
 	int					i;
-	int					ret;
 
 	i = 0;
-	ret = TRUE;
-	if (full_check_opt(arg, oth_opt) == 2)
+	if (oth_opt == opt)
+		return (ret);
+	if (oth_opt == '0')
+		oth_opt = opt;
+	if (full_check_opt(arg, &oth_opt) == 2)
 		return (2);
 	while (arg[++i])
 	{
@@ -43,12 +45,7 @@ static int			unset_opt(char **arg, int fct, char opt, char *oth_opt)
 			if ((ret = unset_check_env(arg[i], fct, FALSE)) == FALSE)
 				ret = unset_check_env(arg[i], fct, TRUE);
 			if (ret == ERROR)
-			{
-				err_msg = fill_tbl("unset -", opt);
-				err_ret = sh_error(err_ret, 34, arg[i], err_msg);
-				ft_strdel(&err_msg);
-				return (ERROR);
-			}
+				error_clear_str(ERROR, 34, arg[i], err_msg);
 		}
 	}
 	return (ret);
@@ -59,15 +56,12 @@ int					unset_v(char **arg, char curr_opt, char *bi)
 	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- UNSET V ------------------", 2);
 
-	static char			oth_opt = 'v';
-	int 				fct;
+	char				*err_msg;
 	int					ret;
 
 	(void)bi;
-	if (oth_opt != 'v')
-		return (2);
-	fct = FALSE;
-	ret = unset_opt(arg, fct, curr_opt, &oth_opt);
+	err_msg = fill_tbl("unset -", curr_opt);
+	ret = unset_opt(arg, FALSE, curr_opt, &err_msg);
 	return (ret);
 }
 
@@ -76,14 +70,11 @@ int					unset_f(char **arg, char curr_opt, char *bi)
 	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- UNSET F ------------------", 2);
 
-	static char			oth_opt = 'f';
-	int 				fct;
+	char				*err_msg;
 	int					ret;
 
 	(void)bi;
-	if (oth_opt != 'f')
-		return (2);
-	fct = TRUE;
-	ret = unset_opt(arg, fct, curr_opt, &oth_opt);
+	err_msg = fill_tbl("unset -", curr_opt);
+	ret = unset_opt(arg, TRUE, curr_opt, &err_msg);
 	return (ret);
 }

@@ -19,7 +19,7 @@ int					is_builtin(char **cmd)
 				return (i);
 			i++;
 		}
-		if (ft_strchr(cmd[0], '='))
+		if (ft_strchr(cmd[0], '=') && cmd[0][0] != '=')
 			return (4);
 	}
 	return (-1);
@@ -79,6 +79,8 @@ int					manage_local_var(char **cmd, int *i)
 	{
 		ret = TRUE;
 		local_var = ft_strsplit(cpy[*i], '=');
+		if (!valid_env_name(local_var[0], "local") || cpy[*i][0] == '=')
+			return (FALSE);
 		local_env = savior_local(NULL, FALSE);
 		if (local_var && get_env(local_var[0], TRUE))
 			change_env(local_var[0], local_var[1], TRUE);
@@ -108,7 +110,8 @@ int					check_builtin(int fd, char **cmd, int pipefd_tab[2][2],
 	ret = -1;
 	if ((ret = manage_local_var(cmd, &i)) == TRUE && cmd[i] == NULL)
 		return (TRUE);
-	if (is_builtin(cmd) != -1)
+	int toto;
+	if ((toto = is_builtin(cmd)) != -1)
 	{
 		if (handle_builtin(cmd) == ERROR)
 		{

@@ -10,12 +10,20 @@ int					valid_env_name(char *str, char *bi)
 	int					i;
 
 	i = -1;
-	if ( str[++i] != '_' && ft_isalpha(str[i]) == FALSE)
+	if (str && str[++i] != '_' && ft_isalpha(str[i]) == FALSE)
+	{
+		if (ft_strcmp("local", bi))
+			return (FALSE);
 		return (sh_error(FALSE, 15, str, bi));
+	}
 	while (str[i])
 	{
 		if (str[i] != '_' && str[i] != '.' && ft_isalnum(str[i]) == FALSE)
+		{
+			if (ft_strcmp("local", bi))
+				return (FALSE);
 			return (sh_error(FALSE, 15, str, bi));
+		}
 		i++;
 	}
 	return (TRUE);

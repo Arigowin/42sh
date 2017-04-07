@@ -83,7 +83,7 @@ static int			bi_opt(char **arg, int i, const char *handled_opt)
 				return (bi_usage(arg[0], arg[i][j], handled_opt));
 			else if (ft_strchr(handled_opt, arg[i][j])
 			&& (ret =  manage_opt(arg, arg[i][j], handled_opt)) == 2)
-				return (2);;
+				return (2);
 			j++;
 		}
 	}
