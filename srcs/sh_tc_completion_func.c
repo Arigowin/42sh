@@ -3,6 +3,9 @@
 
 static int			parse_tilde(char **path)
 {
+	if (DEBUG_COMPL == 1)
+		ft_putendl("---------- PARSE TILDE ----------");
+
 	char				*home;
 	char				*tmp;
 
@@ -19,7 +22,24 @@ static int			parse_tilde(char **path)
 	return (TRUE);
 }
 
-static int			split_path(char **word, char **path)
+static void			add_slash_after_path(char **word)
+{
+	if (DEBUG_COMPL == 1)
+		ft_putendl("---------- ADD SLASH AFTER PATH ----------");
+
+	char				*tmp;
+
+	tmp = NULL;
+	if (ft_strlen(*word) == 1 && (*word)[0] == '~')
+	{
+		tmp = ft_strjoin(*word, "/");
+		ft_strdel(word);
+		*word = ft_strdup(tmp);
+		ft_strdel(&tmp);
+	}
+}
+
+int					split_path(char **word, char **path)
 {
 	if (DEBUG_COMPL == 1)
 		ft_putendl("--------- SPLIT PATH ----------");
@@ -39,20 +59,6 @@ static int			split_path(char **word, char **path)
 	return (TRUE);
 }
 
-static void			add_slash_after_path(char **word)
-{
-	char				*tmp;
-
-	tmp = NULL;
-	if (ft_strlen(*word) == 1 && (*word)[0] == '~')
-	{
-		tmp = ft_strjoin(*word, "/");
-		ft_strdel(word);
-		*word = ft_strdup(tmp);
-		ft_strdel(&tmp);
-	}
-}
-
 char				*compl_word(int file, char **word)
 {
 	if (DEBUG_COMPL == 1)
@@ -61,21 +67,23 @@ char				*compl_word(int file, char **word)
 	t_basic_list		*lst;
 	char				*path;
 	char				*ret;
+	int					i;
 
 	ret = NULL;
 	lst = NULL;
 	path = NULL;
+	i = FALSE;
 	add_slash_after_path(word);
-	split_path(word, &path);
-	complet_var(&lst, word, &path);
-	if (ft_strchr(*word, '/'))
+	i = complet_var(&lst, word);
+	if (!i && ft_strchr(*word, '/'))
 	{
+		split_path(word, &path);
 		get_dircontent(file, path, &lst, *word);
 		ft_strdel(&path);
 	}
-	else if (file == FALSE)
+	else if (!i && file == FALSE)
 		get_execinpath(file, *word, &lst);
-	else
+	else if (!i)
 		get_dircontent(file, ".", &lst, *word);
 	reset_term();
 	if (lst)

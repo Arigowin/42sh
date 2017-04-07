@@ -10,6 +10,9 @@
 
 static void				fork_select(int pfd[2], char **str, t_basic_list *lst)
 {
+	if (DEBUG_COMPL == 1)
+		ft_putendl("---------- FORK SELECT ----------");
+
 	pid_t				pid;
 
 	if ((pid = fork()) < 0)

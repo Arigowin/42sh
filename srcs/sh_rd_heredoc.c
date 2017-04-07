@@ -40,7 +40,7 @@ char				*hrd_quote_dup(char *str, int len, int type)
 			ft_strncat(ret, str, 1);
 		}
 		else if (*str == '$' && type == 8)
-			token_dollar(&str, &ret);
+			token_dollar(&str, &ret, TRUE);
 		else
 			ft_strncat(ret, str, 1);
 		str++;

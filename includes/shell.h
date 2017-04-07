@@ -366,7 +366,7 @@ int						tokenizer(int *hrd, char *read_buff, t_e_list **l_expr);
 */
 int						token_backslash(t_states state, char **read_buff,
 							char **data_tmp);
-int						token_dollar(char **read_buff, char **data_tmp);
+int						token_dollar(char **read_buff, char **data_tmp, int rm);
 int						token_tilde(char **buff, char **data_tmp, int *bln);
 
 /*
@@ -609,12 +609,13 @@ int						fct_tab(char **str, int *pos, t_line *stline,
 /*
 ** sh_tc_completion_func
 */
+int						split_path(char **word, char **path);
 char					*compl_word(int file, char **word);
 
 /*
 ** sh_tc_completion_func2
 */
-int						complet_var(t_basic_list **lst, char **word, char **path);
+int						complet_var(t_basic_list **lst, char **word);
 
 /*
 ** sh_tc_completion_get

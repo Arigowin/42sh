@@ -2,49 +2,48 @@
 #include "libft.h"
 #include "ft_select.h"
 
-int					complet_var(t_basic_list **lst, char **word, char **path)
+static char			*expander(char *word)
 {
-	char				*tmp;
-	char				*tmp2;
+	char				*buff;
 
-	(void)lst;
-	if (*path && ft_strchr(*path, '$'))
+	if (word == NULL)
+		return (FALSE);
+	buff = ft_strnew(ft_strlen(word));
+	while (word && *word)
 	{
-		tmp = ft_strnew(ft_strlen(*path));
-		while (*path && **path)
+		if (*word == '$')
 		{
-			if (**path == '$')
-			{
-				token_dollar(path, &tmp);
-				(*path)++;
-			}
-			add_in_tbl(&tmp, **path);
-			(*path)++;
+			token_dollar(&word, &buff, FALSE);
+			if (!(*word))
+				break ;
+			word++;
 		}
-		*path = ft_strdup(tmp);
-		ft_strdel(&tmp);
+		if (!(*word))
+			break ;
+		add_in_tbl(&buff, *word);
+		word++;
 	}
-	if (*word && ft_strchr(*word, '$'))
+	return (buff);
+}
+
+int					complet_var(t_basic_list **lst, char **word)
+{
+	if (DEBUG_COMPL == 1)
+		ft_putendl("---------- COMPLET VAR ----------");
+
+	char				*tmp;
+	char				*path;
+
+	if (!(*word && ft_strchr(*word, '$')))
+		return (FALSE);
+	tmp = expander(*word);
+	ft_strdel(word);
+	*word = ft_strdup(tmp);
+	split_path(word, &path);
+	if (ft_strchr(*word, '$'))
 	{
-		tmp = ft_strnew(ft_strlen(*word));
-		tmp2 = *word;
-		while (tmp2 && *tmp2)
-		{
-			if (*tmp2 == '$')
-			{
-				token_dollar(&tmp2, &tmp);
-				(tmp2)++;
-			}
-			add_in_tbl(&tmp, *tmp2);
-			(tmp2)++;
-		}
-		printf("\nword[%s] tmp[%s] tmp2[%s]\n", *word, tmp, tmp2);
-		if (ft_strlen(*word) < ft_strlen(tmp))
-		{
-			*word = ft_strdup(tmp);
-			ft_strdel(&tmp);
-		}
+		get_varlist(lst, word);
+		return (TRUE);
 	}
-	printf("\npath [%s] word[%s]\n", *path, *word);
-	return (TRUE);
+	return (FALSE);
 }

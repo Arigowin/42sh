@@ -4,6 +4,9 @@
 
 static int			fill_list_compl(char *word, t_basic_list **lst)
 {
+	if (DEBUG_COMPL == 1)
+		ft_putendl("---------- FILL LIST COMPL ----------");
+
 	static char			*def[11] = {".", "..", "cd", "echo", "env", "exit",
 		"export", "setenv", "unset", "unsetenv", NULL};
 	int					i;
@@ -74,6 +77,9 @@ int					get_execinpath(int file, char *word, t_basic_list **lst)
 
 int					get_varlist(t_basic_list **lst, char **word)
 {
+	if (DEBUG_COMPL == 1)
+		ft_putendl("---------- GET VARLIST ----------");
+
 	t_duo				*env;
 	char				*tmp;
 
@@ -86,7 +92,9 @@ int					get_varlist(t_basic_list **lst, char **word)
 	{
 		if (ft_strlen(*word) == 0 ||
 				ft_strncmp(*word, env->name, ft_strlen(*word)) == 0)
+		{
 			sort_push(lst, env->name, 0);
+		}
 		env = env->next;
 	}
 	return (TRUE);

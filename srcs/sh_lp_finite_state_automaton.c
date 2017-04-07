@@ -24,7 +24,7 @@ static int			state_standard(int *int_tbl[2], char **read_buff,
 	if (**read_buff == '\\')
 		token_backslash(STANDARD, read_buff, data_tmp);
 	else if (**read_buff == '$' && *(*read_buff + 1) && *(*read_buff + 1) != '?')
-		token_dollar(read_buff, data_tmp);
+		token_dollar(read_buff, data_tmp, TRUE);
 	else if (**read_buff && **read_buff == '~' && (*(int_tbl[0]) == TRUE
 	|| (*(int_tbl[0]) == FALSE
 	&& token_tilde(read_buff, data_tmp, int_tbl[0]) == FALSE)))
@@ -67,7 +67,7 @@ static int			state_dquote(int *hrd, char **read_buff, char **data_tmp)
 	if (**read_buff == '\\')
 		token_backslash(IN_DQUOTE, read_buff, data_tmp);
 	else if (**read_buff == '$' && *(*read_buff + 1) && *(*read_buff + 1) != '?')
-		token_dollar(read_buff, data_tmp);
+		token_dollar(read_buff, data_tmp, TRUE);
 	else
 		add_in_tbl(data_tmp, **read_buff);
 	return (TRUE);

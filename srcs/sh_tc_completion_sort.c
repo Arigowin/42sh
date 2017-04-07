@@ -4,6 +4,9 @@
 
 static int				insert_cmp(char *s1, char *s2)
 {
+	if (DEBUG_COMPL == 1)
+		ft_putendl("---------- INSERT CMP ----------");
+
 	const unsigned char		*tmp_s1;
 	const unsigned char		*tmp_s2;
 
@@ -25,6 +28,9 @@ static int				insert_cmp(char *s1, char *s2)
 
 static int				cmp_dupli(char *s1, char *s2)
 {
+	if (DEBUG_COMPL == 1)
+		ft_putendl("---------- CMP DUPLI ----------");
+
 	int					cmp;
 	char				*tmp1;
 	char				*tmp2;
@@ -56,6 +62,9 @@ static int				cmp_dupli(char *s1, char *s2)
 
 static int			sort_first(t_basic_list **lst, char *name, int type)
 {
+	if (DEBUG_COMPL == 1)
+		ft_putendl("---------- SORT FIRST ----------");
+
 	t_basic_list		*tmp;
 	int					cmp;
 
@@ -84,6 +93,9 @@ static int			sort_first(t_basic_list **lst, char *name, int type)
 
 static int			insert_sort(t_basic_list **ite, char *name, int type)
 {
+	if (DEBUG_COMPL == 1)
+		ft_putendl("---------- INSERT SORT ----------");
+
 	t_basic_list		*tmp;
 	int					cmp;
 
@@ -113,7 +125,7 @@ static int			insert_sort(t_basic_list **ite, char *name, int type)
 void				sort_push(t_basic_list **lst, char *name, int type)
 {
 	if (DEBUG_COMPL == 1)
-		ft_putendl("---------- SORT PUSHBCK ----------");
+		ft_putendl("---------- SORT PUSH ----------");
 
 	t_basic_list		*ite;
 
