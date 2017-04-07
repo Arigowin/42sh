@@ -53,6 +53,7 @@ SRC = ft_memset.c \
 	  ft_toupper.c \
 	  str_toupper.c \
 	  ft_tolower.c \
+	  str_tolower.c \
 \
 	  ft_memalloc.c \
 	  ft_memdel.c \
@@ -69,6 +70,7 @@ SRC = ft_memset.c \
 	  ft_strsub.c \
 	  ft_strjoin.c \
 	  ft_strtrim.c \
+	  str_trim_all.c \
 	  ft_strsplit.c \
 	  ft_itoa.c \
 	  ft_putchar.c \
@@ -110,11 +112,13 @@ SRC = ft_memset.c \
 	  ft_split_to_lst.c \
 	  tbl_to_duo.c \
 	  add_in_tbl.c \
+	  fill_tbl.c \
 	  duo_to_tbl.c \
 	  srch_value.c \
 	  srch_begining.c \
 	  duo_pushbk.c \
 	  duo_del.c \
+	  free_tduo_link.c \
 	  last_duo_del.c \
 	  cpy_duo.c \
 	  free_tab.c \

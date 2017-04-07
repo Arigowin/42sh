@@ -2,32 +2,39 @@
 #include "shell.h"
 #include "libft.h"
 
-static int			del_first(t_duo **env, char *name)
+static int			del_first(t_duo **env, char *name, int local)
 {
-	t_duo				*cpy;
+	if (DEBUG_BI == 1)
+		ft_putendl_fd("----------------------- DEL FIRST ------------------", 2);
+
 	t_duo				*tmp;
 
-	cpy = *env;
-	tmp = NULL;
-	if (ft_strcmp(name, cpy->name) == 0)
+	tmp = *env;
+	if (name && env && *env && ft_strcmp(name, (*env)->name) == 0)
 	{
-		tmp = cpy->next;
-		ft_strdel(&(cpy->name));
-		ft_strdel(&(cpy->value));
-		free(cpy);
-		*env = tmp;
-		savior_env(*env, TRUE);
+		*env =(*env)->next;
+		ft_strdel(&(tmp->name));
+		ft_strdel(&(tmp->value));
+		free(tmp);
+		tmp = NULL;
+		if (local == TRUE)
+			savior_local(*env, TRUE);
+		else if (local == FALSE)
+			savior_env(*env, TRUE);
 		return (1);
 	}
 	return (0);
 }
 
-int					del_env(t_duo **env, char *name)
+int					del_env(t_duo **env, char *name, int local)
 {
+	if (DEBUG_BI == 1)
+		ft_putendl_fd("----------------------- DEL ENV ------------------", 2);
+
 	t_duo				*cpy;
 	t_duo				*tmp;
 
-	if (del_first(env, name) == 1)
+	if (del_first(env, name, local) == 1)
 		return (1);
 	cpy = *env;
 	tmp = NULL;
@@ -40,7 +47,10 @@ int					del_env(t_duo **env, char *name)
 			ft_strdel(&(cpy->next->value));
 			free(cpy->next);
 			cpy->next = tmp;
-			savior_env(*env, TRUE);
+			if (local == TRUE)
+				savior_local(*env, TRUE);
+			else if (local == FALSE)
+				savior_env(*env, TRUE);
 			return (1);
 		}
 		cpy = cpy->next;
@@ -48,17 +58,21 @@ int					del_env(t_duo **env, char *name)
 	return (-1);
 }
 
-int					bi_unsetenv(char **arg, t_duo **env)
+int					bi_unsetenv(char **arg, t_duo **env, const char *opt)
 {
+	if (DEBUG_BI == 1)
+		ft_putendl_fd("----------------------- UNSETENV ------------------", 2);
+
 	int					i;
 
 	i = 1;
+	(void)opt;
 	if (!arg[i])
-		sh_error(FALSE, 9, NULL, NULL);
+		sh_error(FALSE, 9, NULL, arg[0]);
 	while (arg[i])
 	{
-		if (del_env(env, arg[i]) == -1)
-			sh_error(TRUE, 14, arg[i], NULL);
+		if (del_env(env, arg[i], FALSE) == -1)
+			sh_error(TRUE, 14, arg[i], arg[0]);
 		i++;
 	}
 	return (0);

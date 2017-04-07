@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   duo_del.c                                          :+:      :+:    :+:   */
+/*   str_tolower.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avacher <avacher@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/01/10 10:47:52 by avacher           #+#    #+#             */
-/*   Updated: 2016/01/10 12:01:07 by avacher          ###   ########.fr       */
+/*   Created: 2015/12/08 21:07:55 by avacher           #+#    #+#             */
+/*   Updated: 2015/12/12 12:45:25 by avacher          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int			duo_del(t_duo **lst)
+char				*str_tolower(char *str)
 {
-	if (lst == NULL || *lst == NULL)
-		return (-1);
-	while (*lst)
-		free_tduo_link(lst);
-	free(*lst);
-	*lst = NULL;
-	return (0);
+	int					i;
+
+	i = 0;
+	while (str[i])
+	{
+		str[i] = ft_tolower(str[i]);
+		i++;
+	}
+	return (str);
 }

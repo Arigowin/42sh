@@ -30,10 +30,12 @@ int					error_clear_str(int ret, int index, char *err,
 					char **to_free)
 {
 	int					tmp_ret;
+	char				*bi;
 
 	tmp_ret = (index <= 7 || index == 23 || index == 24 || index == 32
 				? TRUE : ret);
-	tmp_ret = sh_error(tmp_ret, index, err, NULL);
+	bi = (index == 34 ? *to_free : NULL);
+	tmp_ret = sh_error(tmp_ret, index, err, bi);
 	if (to_free)
 		ft_strdel(to_free);
 	if (index <= 7 || index == 23 || index == 24 || index == 32)

@@ -61,7 +61,7 @@ int					token_dollar(char **read_buff, char **data_tmp, int rm)
 	(*read_buff)--;
 	if (ft_strcmp(env_name, "$") == 0)
 		env_val = ft_itoa(getpid());
-	else if ((env_val = get_env(env_name)) == NULL)
+	else if ((env_val = get_env(env_name, TRUE)) == NULL && (env_val = get_env(env_name, FALSE)) == NULL)
 		return (add_var(rm, &env_name, data_tmp, *read_buff));
 	ft_strdel(&env_name);
 	if (*data_tmp && (tmp = ft_strdup(*data_tmp)) == NULL)
@@ -76,25 +76,26 @@ int					token_dollar(char **read_buff, char **data_tmp, int rm)
 
 int					token_tilde(char **read_buff, char **data_tmp, int *bln)
 {
-	char				*env_val;
+	char				*val;
 	char				*tmp;
 
 	tmp = NULL;
-	if (!(env_val = get_env("HOME")) || !ft_strchr(SEP, *(*read_buff - 1))
-			|| (*(*read_buff + 1) && !ft_strchr(SEP, *(*read_buff + 1))
-				&& *(*read_buff + 1) != '/'))
-		return (dblstr_duo_ret(FALSE, &env_val, NULL, NULL));
+	if ((!(val = get_env("HOME", TRUE)) && !(val = get_env("HOME", FALSE)))
+	|| !ft_strchr(SEP, *(*read_buff - 1))
+	|| (*(*read_buff + 1) && !ft_strchr(SEP, *(*read_buff + 1))
+	&& *(*read_buff + 1) != '/'))
+		return (dblstr_duo_ret(FALSE, &val, NULL, NULL));
 	if (*data_tmp && (tmp = ft_strdup(*data_tmp)) == NULL)
-		return (error_clear_str(FALSE, 6, NULL, &env_val));
+		return (error_clear_str(FALSE, 6, NULL, &val));
 	ft_strdel(data_tmp);
-	if ((*data_tmp = ft_strnew(ft_strlen(tmp) + ft_strlen(env_val)
+	if ((*data_tmp = ft_strnew(ft_strlen(tmp) + ft_strlen(val)
 					+ ft_strlen((*read_buff)++))) == NULL)
 	{
-		ft_strdel(&env_val);
+		ft_strdel(&val);
 		ft_strdel(&tmp);
 		return (sh_error(FALSE, 6, NULL, NULL));
 	}
-	concat(data_tmp, tmp, env_val);
+	concat(data_tmp, tmp, val);
 	*bln = TRUE;
-	return (dblstr_duo_ret(TRUE, &env_val, &tmp, NULL));
+	return (dblstr_duo_ret(TRUE, &val, &tmp, NULL));
 }

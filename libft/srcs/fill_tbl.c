@@ -1,24 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   duo_del.c                                          :+:      :+:    :+:   */
+/*   fill_tbl.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avacher <avacher@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/01/10 10:47:52 by avacher           #+#    #+#             */
-/*   Updated: 2016/01/10 12:01:07 by avacher          ###   ########.fr       */
+/*   Created: 2015/11/23 17:49:05 by avacher           #+#    #+#             */
+/*   Updated: 2016/01/13 19:32:15 by avacher          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int			duo_del(t_duo **lst)
+char			*fill_tbl(char *str, char c)
 {
-	if (lst == NULL || *lst == NULL)
-		return (-1);
-	while (*lst)
-		free_tduo_link(lst);
-	free(*lst);
-	*lst = NULL;
-	return (0);
+	char			*tmp;
+	int				i;
+
+	i = 0;
+	if ((tmp = ft_strnew(ft_strlen(str) + 2)) == NULL)
+		return (NULL);
+	while (str[i])
+	{
+		tmp[i] = str[i];
+		i++;
+	}
+	tmp[i] = c;
+	tmp[++i] = '\0';
+	return (tmp);
 }

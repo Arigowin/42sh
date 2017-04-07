@@ -1,10 +1,12 @@
-#include <unistd.h>
 #include <stdlib.h>
 #include "shell.h"
 #include "libft.h"
 
 static char			**tree_to_tbl(t_node *tree, int nb_elem)
 {
+	if (DEBUG == 1)
+		ft_putendl_fd("----------------------- TREE TO TBL ------------------", 2);
+
 	int					i;
 	char				**tbl;
 
@@ -53,6 +55,9 @@ static char			**format_cmd(t_node *tree)
 static int			nopipe_cmd(int pipefd_tab[2][2], t_node *tree,
 		t_lst_fd **lstfd, char **cmd)
 {
+	if (DEBUG == 1)
+		ft_putendl_fd("----------------------- NOPIPE CMD ------------------", 2);
+
 	int					ret;
 	int					fd;
 
@@ -72,6 +77,17 @@ static int			nopipe_cmd(int pipefd_tab[2][2], t_node *tree,
 			return (ret);
 	}
 	ret = check_builtin(fd, cmd, pipefd_tab, NULL);
+	/*ANTIBUG!!!!!!!!*/
+	if (ANTIBUG_LOCAL == 1)
+	{
+		t_duo *tmp = savior_local(NULL, FALSE);
+		while (tmp)
+		{
+			tmp=tmp->next;
+		}
+	}
+	/* FIN ANTIBUG!!!!!!!!*/
+
 	if (ret != FALSE)
 		free_tab(&cmd);
 	return (ret);
@@ -80,6 +96,9 @@ static int			nopipe_cmd(int pipefd_tab[2][2], t_node *tree,
 int					manage_cmd(int pipefd_tab[2][2], t_node *tree,
 		t_lst_fd **lstfd)
 {
+	if (DEBUG == 1)
+		ft_putendl_fd("----------------------- MANAGE CMD ------------------", 2);
+
 	char				**cmd;
 	int					ret;
 

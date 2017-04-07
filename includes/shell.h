@@ -18,10 +18,10 @@
 # define IGN " \t\n"
 # define SEP "|&;>< \t\n\0"
 # define SPECIAL "|&><;"
-
 # define SPECIAL2 "|><;"
 # define LWAKA "><|&"
 # define WAKA "><"
+
 # define BUFF_SIZE 1024
 # define MAX_PATH 1024
 
@@ -102,6 +102,15 @@
 
 # include <sys/ioctl.h>
 # include "libft.h"
+
+
+
+//A VIRER !!!!!!!!!
+#include <stdio.h>
+# define ANTIBUG_LOCAL 0
+# define DEBUG_BI 0
+# define DEBUG 0
+
 
 typedef enum			e_types
 {
@@ -260,6 +269,7 @@ int						save_history(void);
 ** sh_savior
 */
 t_duo					*savior_env(t_duo *env, int code);
+t_duo					*savior_local(t_duo *env, int code);
 t_line					*savior_stline(t_line *stline, int code);
 char					*savior_tty(char *tty, int code);
 t_node					*savior_tree(t_node *tree, int code);
@@ -281,7 +291,7 @@ int						miniprt_reset_stline(t_line *stline);
 int						mini_prt_handler(char **str, int *pos, t_line *stline);
 int						display_prompt(void);
 char					**cpy_env(char **env);
-int						fill_path(char ***env);
+int						fill_path(t_duo **env);
 
 /*
 ** sh_signal
@@ -297,49 +307,84 @@ int						check_builtin(int fd, char **cmd, int pipefd_tab[2][2],
 							t_lst_fd **lstfd);
 
 /*
+** sh_bi_local_var
+*/
+int						manage_local_var(char **cmd, int *i);
+
+/*
 ** sh_bi_options
 */
-int						check_opt(char **arg, int *i);
+int						check_opt(char **arg, int *i, const char *opt);
+int						cd_L(char **arg, char curr_opt, char *bi);
+int						cd_P(char **arg, char curr_opt, char *bi);
+int						echo_n(char **arg, char curr_opt, char *bi);
+int						env_i(char **arg, char curr_opt, char *bi);
+int						export_p(char **arg, char curr_opt, char *bi);
 
 /*
 ** sh_bi_handle_env_modif
 */
-int						change_env(char *name, char *value);
-char					*get_env(char *name);
+int						change_env(char *name, char *value, int local);
+char					*get_env(char *name, int local);
+int						modif_env(char **arg, t_duo *env, int len, int i);
 
 /*
 ** sh_bi_cd
 */
-int						bi_cd(char **arg, t_duo **env);
+int						bi_cd(char **arg, t_duo **env, const char *opt);
 
 /*
 ** sh_bi_echo
 */
-int						bi_echo(char **arg, t_duo **env);
+int						bi_echo(char **arg, t_duo **env, const char *opt);
 
 /*
 ** sh_bi_env
 */
-int						bi_env(char **arg, t_duo **env);
+int						print_env(t_duo *env);
+int						format_env(char *arg, int *nb);
+int						exec_cmd_env(int i, int len, char **arg);
+int						bi_env(char **arg, t_duo **env, const char *opt);
+int						exec_cmd_env(int i, int len, char **arg);
+int						format_env(char *arg, int *nb);
+int						print_env(t_duo *env);
+int						env_i(char **arg, char curr_opt, char *bi);
 
 /*
 ** sh_bi_exit
 */
 int						del_stline(t_line **stline);
-int						bi_exit(char **arg, t_duo **env);
+int						bi_exit(char **arg, t_duo **env, const char *opt);
 int						exit_pgm(int exit_code);
+
+/*
+** sh_bi_export
+*/
+int						bi_export(char **arg, t_duo **env, const char *opt);
+
+/*
+** sh_bi_unset
+*/
+int						unset_check_env(char *name, int fct, int local);
+int						bi_unset(char **arg, t_duo **env, const char *opt);
+
+/*
+** sh_bi_unset
+*/
+int						unset_f(char **arg, char curr_opt, char *bi);
+int						unset_v(char **arg, char curr_opt, char *bi);
 
 /*
 ** sh_bi_setenv
 */
 int						valid_env_name(char *str, char *bi);
-int						bi_setenv(char **arg, t_duo **env);
+int						bi_setenv(char **arg, t_duo **env, const char *opt);
 
 /*
 ** sh_bi_unsetenv
 */
-int						del_env(t_duo **env, char *name);
-int						bi_unsetenv(char **arg, t_duo **env);
+int						del_env(t_duo **env, char *name, int local);
+int						bi_unsetenv(char **arg, t_duo **env, const char *opt);
 
 /*
 ** sh_t_e_list_handler

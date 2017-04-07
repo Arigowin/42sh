@@ -14,6 +14,9 @@ int					del_stline(t_line **stline)
 
 int					exit_pgm(int exit_code)
 {
+	if (DEBUG_BI == 1)
+		ft_putendl_fd("----------------------- EXIT PGM ------------------", 2);
+
 	t_node				*tree;
 	t_line				*stline;
 	t_duo				*env;
@@ -34,12 +37,13 @@ int					exit_pgm(int exit_code)
 	return (0);
 }
 
-int					bi_exit(char **arg, t_duo **env)
+int					bi_exit(char **arg, t_duo **env, const char *opt)
 {
 	int					i;
 
 	i = 0;
 	(void)env;
+	(void)opt;
 	if (arg && arg[1] && arg[2])
 		return (sh_error(FALSE, 27, NULL, NULL));
 	while (arg && arg[1] && arg[1][i])

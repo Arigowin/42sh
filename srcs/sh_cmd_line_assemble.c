@@ -16,6 +16,9 @@ int					ft_is_dir(char *path)
 static int			check_rights(char *tmp, char **path, char **cmd,
 					char **tbl_env)
 {
+	if (DEBUG_BI == 1)
+		ft_putendl_fd("----------------------- CHECK RIGHT ---------------", 2);
+
 	if (access(tmp, F_OK) != ERROR)
 	{
 		if (access(tmp, X_OK) == ERROR)
@@ -36,6 +39,9 @@ static int			check_rights(char *tmp, char **path, char **cmd,
 
 static int			join_exe(int i, char **cmd, char **path, char **tbl_env)
 {
+	if (DEBUG_BI == 1)
+		ft_putendl_fd("----------------------- JOIN EXE ------------------", 2);
+
 	char				*rlt;
 	char				*tmp;
 
@@ -77,6 +83,9 @@ int					null_input(int fd)
 
 int					check_fct(int fd, char **cmd)
 {
+	if (DEBUG_BI == 1)
+		ft_putendl_fd("----------------------- CHECK FCT ------------------", 2);
+
 	char				**path;
 	char				*tmp;
 	t_duo				*env;
@@ -89,7 +98,7 @@ int					check_fct(int fd, char **cmd)
 	env = savior_env(NULL, FALSE);
 	if ((tbl_env = duo_to_tbl(env, "=")) == NULL)
 		return (sh_error(FALSE, 6, NULL, NULL));
-	tmp = get_env("PATH");
+	tmp = get_env("PATH", FALSE);
 	if (tmp && (path = ft_strsplit(tmp, ':')) == NULL)
 		return (str_dbltbl_ret(ERROR, NULL, &tbl_env, NULL));
 	ft_strdel(&tmp);

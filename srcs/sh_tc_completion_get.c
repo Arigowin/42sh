@@ -59,7 +59,7 @@ int					get_execinpath(int file, char *word, t_basic_list **lst)
 	int					i;
 
 	path = NULL;
-	tmp = get_env("PATH");
+	tmp = get_env("PATH", FALSE);
 	if (tmp)
 		path = ft_strsplit(tmp, ':');
 	fill_list_compl(word, lst);
