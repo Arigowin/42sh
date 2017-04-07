@@ -40,6 +40,7 @@ int					del_env(t_duo **env, char *name, int local)
 	tmp = NULL;
 	while (cpy && cpy->next)
 	{
+		printf("name ((%s)) -> cpy ((%s))\n", name, cpy->next->name);
 		if (ft_strcmp(name, cpy->next->name) == 0)
 		{
 			tmp = cpy->next->next;
@@ -51,6 +52,7 @@ int					del_env(t_duo **env, char *name, int local)
 				savior_local(*env, TRUE);
 			else if (local == FALSE)
 				savior_env(*env, TRUE);
+		printf(";;;;;;;;;;;;;;;;;;;;;;;;;;;\n");
 			return (1);
 		}
 		cpy = cpy->next;

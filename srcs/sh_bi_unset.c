@@ -32,6 +32,9 @@ int					check_env_fct(char *value)
 
 int					unset_check_env(char *name, int fct, int local)
 {
+	if (DEBUG_BI == 1)
+		ft_putendl_fd("----------------------- UNSET CHECK ENV ------------------", 2);
+
 	t_duo				*env_tmp;
 	char				*value;
 
@@ -53,12 +56,15 @@ int					unset_check_env(char *name, int fct, int local)
 
 int					unset_opt(char **arg, int fct, char opt, char *oth_opt)
 {
+	if (DEBUG_BI == 1)
+		ft_putendl_fd("----------------------- UNSET OPT ------------------", 2);
+
 	static char			err_msg[8] = {'u', 'n', 's', 'e', 't', ' ', '-',' '};
 	int					i;
 	int					j;
 	int					ret;
 
-	i = 0;
+	i = 1;
 	ret = TRUE;
 	while (arg && arg[i] && arg[i][0] == '-')
 	{
@@ -89,6 +95,7 @@ int					unset_opt(char **arg, int fct, char opt, char *oth_opt)
 			if (ret == ERROR)
 			{
 				err_msg[7] = opt;
+			printf("!!!!>>>>>>%c<<<<<<<<\n", arg[i][j]);
 				sh_error(ERROR, 34, arg[i], err_msg);
 			}
 		}
@@ -139,19 +146,23 @@ int					bi_unset(char **arg, t_duo **env, const char *opt)
 	int					i;
 	t_duo				*env_tmp;
 
-	(void)env;
 	i = 1;
 	ret = check_opt(arg, &i, opt);
 	if (!arg[i])
 		sh_error(FALSE, 9, NULL, arg[0]);
-	env_tmp = savior_env(NULL, FALSE);
+	env_tmp = *env;
 	while (ret != ERROR && arg[i])
 	{
-		if ((del_env(&env_tmp, arg[i], FALSE)) == -1)
+			printf(">>>>>>%s<<<<<<<<\n", arg[i]);
+		if (arg[i][0] != '-' && (del_env(&env_tmp, arg[i], FALSE)) == -1)
 		{
+			printf(">>>>>>%s<<<<<<<<\n", arg[i]);
 			env_tmp = savior_local(NULL, FALSE);
 			if (arg[i][0] != '-' && (del_env(&env_tmp, arg[i], TRUE)) == -1)
+			{
+			printf(">>>>>>%s<<<<<<<<\n", arg[i]);
 				sh_error(TRUE, 14, arg[i], arg[0]);
+			}
 		}
 		i++;
 	}
