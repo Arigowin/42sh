@@ -72,58 +72,17 @@ static int			change_dir(char **path, char last_opt, char **arg, int *ret)
 			else
 				change_env("PWD", *path, FALSE);
 			printf(">>> link\n");
+			ft_strdel(path);
 		}
 		else
 		{
 			*ret = FALSE;
-			if (chdir(new_path) == -1)
-				manage_cd_errors(new_path, stat_buf, stat_ret);
+			if (chdir(*path) == -1)
+				manage_cd_errors(*path, stat_buf, stat_ret);
 			printf(">>> non_link\n");
 		}
 	}
 	ft_strdel(&new_path);
-	return (TRUE);
-}
-
-static int			cd_home(void)
-{
-	char				*path;
-	int					ret;
-	int					ret2;
-
-	if ((path = get_env("HOME", FALSE)) == NULL)
-		return (sh_error(FALSE, 13, NULL, NULL));
-	ret = change_dir(&path, 0, NULL, &ret2);
-	ft_strdel(&path);
-	return (ret);
-}
-
-static int			handle_cd_arg(int *i, int *ret, char **arg, const char *opt)
-{
-	char				*tmp;
-	char				last_opt;
-
-	tmp = get_env("OLDPWD", FALSE);
-	if (check_opt(arg, i, opt, &last_opt) == ERROR)
-	{
-		ft_strdel(&tmp);
-		return (FALSE);
-	}
-	if (!arg[*i])
-		*ret = cd_home();
-	else if (arg[*i] && arg[*i][0] == '-' && !arg[*i][1])
-	{
-		if (tmp)
-		{
-			change_dir(&tmp, last_opt, arg, ret);
-			ft_putendl(tmp);
-		}
-		else
-			return (sh_error(TRUE, 11, NULL, NULL));
-	}
-	else
-		change_dir(&arg[*i], last_opt, arg, ret);
-	ft_strdel(&tmp);
 	return (TRUE);
 }
 
@@ -142,6 +101,51 @@ static int			switch_env_pwd()
 	return (0);
 }
 
+static int			cd_home(void)
+{
+	char				*path;
+	int					ret;
+	int					ret2;
+
+	if ((path = get_env("HOME", FALSE)) == NULL)
+		return (sh_error(FALSE, 13, NULL, NULL));
+	ret = change_dir(&path, 0, NULL, &ret2);
+	switch_env_pwd();
+	ft_strdel(&path);
+	return (ret);
+}
+
+static int			handle_cd_arg(int *i, int *ret, char **arg, const char *opt)
+{
+	char				*tmp;
+	char				last_opt;
+
+	tmp = get_env("OLDPWD", FALSE);
+	if (check_opt(arg, i, opt, &last_opt) == ERROR)
+	{
+		ft_strdel(&tmp);
+		return (FALSE);
+	}
+	/*
+	if (!arg[*i])
+		*ret = cd_home();
+	*/
+	else if (arg[*i] && arg[*i][0] == '-' && !arg[*i][1])
+	{
+		if (tmp)
+		{
+			change_dir(&tmp, last_opt, arg, ret);
+			ft_putendl(tmp);
+		}
+		else
+			return (sh_error(TRUE, 11, NULL, NULL));
+	}
+	else
+		change_dir(&arg[*i], last_opt, arg, ret);
+	ft_strdel(&tmp);
+	return (TRUE);
+}
+
 int					bi_cd(char **arg, t_duo **env, const char *opt)
 {
 	int					i;
@@ -153,9 +157,12 @@ int					bi_cd(char **arg, t_duo **env, const char *opt)
 	ret = TRUE;
 	last_opt = '\0';
 	check_opt(arg, &i, opt, &last_opt);
+	printf("last_option : %c\n", last_opt);
 	if (last_opt)
 		printf("last_opt = %c\n", last_opt);
-	if (!last_opt || last_opt == 'L')
+	if (!arg[1])
+		cd_home();
+	else if (!last_opt || last_opt == 'L')
 	{
 		switch_env_pwd();
 		if (handle_cd_arg(&i, &ret, arg, opt) == FALSE)
