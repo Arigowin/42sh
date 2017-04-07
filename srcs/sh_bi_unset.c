@@ -3,7 +3,7 @@
 
 int					check_env_fct(char *value)
 {
-	if (DEBUG_BI == 0)
+	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- CHECK ENV FCT ------------------", 2);
 
 	char				*tmp;
@@ -54,88 +54,6 @@ int					unset_check_env(char *name, int fct, int local)
 	return (FALSE);
 }
 
-int					unset_opt(char **arg, int fct, char opt, char *oth_opt)
-{
-	if (DEBUG_BI == 1)
-		ft_putendl_fd("----------------------- UNSET OPT ------------------", 2);
-
-	static char			err_msg[8] = {'u', 'n', 's', 'e', 't', ' ', '-',' '};
-	int					i;
-	int					j;
-	int					ret;
-
-	i = 1;
-	ret = TRUE;
-	while (arg && arg[i] && arg[i][0] == '-')
-	{
-		j = 0;
-		while (arg[i][j])
-		{
-			if (arg[i][j] != *oth_opt)
-			{
-				*oth_opt = arg[i][j];
-				return (2);
-			}
-			if (arg[i][j] == *oth_opt)
-			{
-				*oth_opt = arg[i][j];
-				return (4);
-			}
-			j++;
-		}
-		i++;
-	}
-	i = 0;
-	while (arg[++i])
-	{
-		if (arg[i][0] != '-')
-		{
-			if ((ret = unset_check_env(arg[i], fct, FALSE)) == FALSE)
-				ret = unset_check_env(arg[i], fct, TRUE);
-			if (ret == ERROR)
-			{
-				err_msg[7] = opt;
-				sh_error(ERROR, 34, arg[i], err_msg);
-			}
-		}
-	}
-	return (ret);
-}
-
-int					unset_v(char **arg, char curr_opt, char *bi)
-{
-	if (DEBUG_BI == 0)
-		ft_putendl_fd("----------------------- UNSET V ------------------", 2);
-
-	static char			oth_opt = 'v';
-	int 				fct;
-	int					ret;
-
-	(void)bi;
-	if (oth_opt != 'v')
-		return (2);
-	fct = FALSE;
-	ret = unset_opt(arg, fct, curr_opt, &oth_opt);
-	return (ret);
-}
-
-int					unset_f(char **arg, char curr_opt, char *bi)
-{
-	if (DEBUG_BI == 0)
-		ft_putendl_fd("----------------------- UNSET F ------------------", 2);
-
-	static char			oth_opt = 'f';
-	int 				fct;
-	int					ret;
-
-	(void)bi;
-	if (oth_opt != 'f')
-		return (2);
-	fct = TRUE;
-	ret = unset_opt(arg, fct, curr_opt, &oth_opt);
-	return (ret);
-}
-
 int					bi_unset(char **arg, t_duo **env, const char *opt)
 {
 	if (DEBUG_BI == 1)
@@ -156,7 +74,9 @@ int					bi_unset(char **arg, t_duo **env, const char *opt)
 		{
 			env_tmp = savior_local(NULL, FALSE);
 			if (arg[i][0] != '-' && (del_env(&env_tmp, arg[i], TRUE)) == -1)
+			{
 				sh_error(TRUE, 14, arg[i], arg[0]);
+			}
 		}
 		i++;
 	}

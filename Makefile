@@ -38,6 +38,7 @@ SRC = sh_main.c \
 	  sh_bi_echo.c \
 	  sh_bi_export.c \
 	  sh_bi_unset.c \
+	  sh_bi_unset_opt.c \
 	  sh_bi_setenv.c \
 	  sh_bi_unsetenv.c \
 	  \

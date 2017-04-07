@@ -87,7 +87,7 @@ int					sh_error(int ret, int index, char *err, char *bi)
 	ft_putendl_fd("", 2);
 	if (index <= 7 || index == 23 || index == 24 || index == 32)
 		exit_pgm(EXIT_FAILURE);
-	if (index == 26)
+	if (index == 26 || index == 34)
 		return (NO_PRINT);
 	return (ret);
 }

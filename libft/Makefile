@@ -107,6 +107,7 @@ SRC = ft_memset.c \
 	  ft_split_to_lst.c \
 	  tbl_to_duo.c \
 	  add_in_tbl.c \
+	  fill_tbl.c \
 	  duo_to_tbl.c \
 	  srch_value.c \
 	  srch_begining.c \

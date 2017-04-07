@@ -317,8 +317,6 @@ int						cd_P(char **arg, char curr_opt, char *bi);
 int						echo_n(char **arg, char curr_opt, char *bi);
 int						env_i(char **arg, char curr_opt, char *bi);
 int						export_p(char **arg, char curr_opt, char *bi);
-int						unset_f(char **arg, char curr_opt, char *bi);
-int						unset_v(char **arg, char curr_opt, char *bi);
 
 /*
 ** sh_bi_handle_env_modif
@@ -364,7 +362,14 @@ int						bi_export(char **arg, t_duo **env, const char *opt);
 /*
 ** sh_bi_unset
 */
+int						unset_check_env(char *name, int fct, int local);
 int						bi_unset(char **arg, t_duo **env, const char *opt);
+
+/*
+** sh_bi_unset
+*/
+int						unset_f(char **arg, char curr_opt, char *bi);
+int						unset_v(char **arg, char curr_opt, char *bi);
 
 /*
 ** sh_bi_setenv
