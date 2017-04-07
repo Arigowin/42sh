@@ -72,12 +72,12 @@ int					unset_opt(char **arg, int fct, char opt, char *oth_opt)
 		while (arg[i][j])
 		{
 			if (arg[i][j] != *oth_opt)
-			{printf("la on passe? P\n");
+			{
 				*oth_opt = arg[i][j];
 				return (2);
 			}
 			if (arg[i][j] == *oth_opt)
-			{printf("la on passe? P2\n");
+			{
 				*oth_opt = arg[i][j];
 				return (4);
 			}
@@ -95,7 +95,6 @@ int					unset_opt(char **arg, int fct, char opt, char *oth_opt)
 			if (ret == ERROR)
 			{
 				err_msg[7] = opt;
-			printf("!!!!>>>>>>%c<<<<<<<<\n", arg[i][j]);
 				sh_error(ERROR, 34, arg[i], err_msg);
 			}
 		}
@@ -153,16 +152,11 @@ int					bi_unset(char **arg, t_duo **env, const char *opt)
 	env_tmp = *env;
 	while (ret != ERROR && arg[i])
 	{
-			printf(">>>>>>%s<<<<<<<<\n", arg[i]);
 		if (arg[i][0] != '-' && (del_env(&env_tmp, arg[i], FALSE)) == -1)
 		{
-			printf(">>>>>>%s<<<<<<<<\n", arg[i]);
 			env_tmp = savior_local(NULL, FALSE);
 			if (arg[i][0] != '-' && (del_env(&env_tmp, arg[i], TRUE)) == -1)
-			{
-			printf(">>>>>>%s<<<<<<<<\n", arg[i]);
 				sh_error(TRUE, 14, arg[i], arg[0]);
-			}
 		}
 		i++;
 	}
