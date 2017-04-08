@@ -13,23 +13,6 @@ char				check_last_option(char *str)
 	return (car);
 }
 
-/*
-static int			cd_option(char *path, char last_opt, struct stat stat_buf)
-{
-	(void)last_opt;
-	(void)path;
-	if (S_ISLNK(stat_buf.st_mode))
-	{
-		ft_putstr(">>>>> link\n");
-	}
-	else
-	{
-		ft_putstr(">>>>> non_link\n");
-	}
-	return (TRUE);
-}
-*/
-
 static int			manage_cd_errors(char *path, struct stat stat_buf, int stat_ret)
 {
 	if (!stat_ret && !S_ISDIR(stat_buf.st_mode))
@@ -56,31 +39,45 @@ static int			change_dir(char **path, char last_opt, char **arg, int *ret)
 	(void)last_opt;
 	tmp_path = ft_strjoin(get_env("PWD", FALSE), "/");
 	new_path = NULL;
-	stat_ret = lstat(*path, &stat_buf);
+	stat_ret = stat(*path, &stat_buf);
 	if (!stat_ret)
 	{
-		if (S_ISLNK(stat_buf.st_mode))
+		if (last_opt == 'L' || !last_opt )
 		{
-			*ret = TRUE;
-			new_path = ft_strjoin(tmp_path, *path);
-			ft_strdel(&tmp_path);
-			ft_strdel(path);
-			*path = ft_strdup(new_path);
-			printf("new_path : %s\n", *path);
-			if (chdir(*path) == -1)
-				manage_cd_errors(new_path, stat_buf, stat_ret);
+			stat_ret = lstat(*path, &stat_buf);
+			if (S_ISLNK(stat_buf.st_mode))
+			{
+				printf(">>> link\n");
+				printf("last_opt = %c, path : %s\n", last_opt, *path);
+				new_path = ft_strjoin(tmp_path, *path);
+				ft_strdel(&tmp_path);
+				ft_strdel(path);
+				*path = ft_strdup(new_path);
+				if (chdir(*path) == -1)
+					manage_cd_errors(*path, stat_buf, stat_ret);
+				else
+					change_env("PWD", *path, FALSE);
+				ft_strdel(&new_path);
+			}
 			else
-				change_env("PWD", *path, FALSE);
-			printf(">>> link\n");
-			ft_strdel(path);
+			{
+				printf(">>> non_link\n");
+				printf("last_opt = %c, path : %s\n", last_opt, *path);
+				if (chdir(*path) == -1)
+					manage_cd_errors(*path, stat_buf, stat_ret);
+				else
+					change_env("PWD", *path, FALSE);
+			}
 		}
-		else
+		else if (last_opt == 'P')
 		{
-			*ret = FALSE;
+			printf(">>> non_link\n");
+			printf("last_opt = %c, path : %s\n", last_opt, *path);
+			stat_ret = stat(*path, &stat_buf);
 			if (chdir(*path) == -1)
 				manage_cd_errors(*path, stat_buf, stat_ret);
-			printf(">>> non_link\n");
 		}
+		*ret = TRUE;
 	}
 	ft_strdel(&new_path);
 	return (TRUE);
@@ -88,13 +85,13 @@ static int			change_dir(char **path, char last_opt, char **arg, int *ret)
 
 static int			switch_env_pwd()
 {
-	char				*tmp;
 	char				*path;
+	char				*tmp;
 
-	tmp = get_env("PWD", FALSE);
 	path = NULL;
-	change_env("OLDPWD", tmp, FALSE);
 	path = getcwd(path, MAX_PATH);
+	tmp = get_env("PWD", FALSE);
+	change_env("OLDPWD", tmp, FALSE);
 	change_env("PWD", path, FALSE);
 	ft_strdel(&tmp);
 	ft_strdel(&path);
@@ -105,11 +102,10 @@ static int			cd_home(void)
 {
 	char				*path;
 	int					ret;
-	int					ret2;
 
 	if ((path = get_env("HOME", FALSE)) == NULL)
 		return (sh_error(FALSE, 13, NULL, NULL));
-	ret = change_dir(&path, 0, NULL, &ret2);
+	change_dir(&path, 0, NULL, &ret);
 	switch_env_pwd();
 	ft_strdel(&path);
 	return (ret);
@@ -126,10 +122,8 @@ static int			handle_cd_arg(int *i, int *ret, char **arg, const char *opt)
 		ft_strdel(&tmp);
 		return (FALSE);
 	}
-	/*
 	if (!arg[*i])
 		*ret = cd_home();
-	*/
 	else if (arg[*i] && arg[*i][0] == '-' && !arg[*i][1])
 	{
 		if (tmp)
