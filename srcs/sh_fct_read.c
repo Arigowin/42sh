@@ -3,6 +3,26 @@
 #include "shell.h"
 #include "libft.h"
 
+void				tree_debug(t_node *tree)
+{
+	if (tree != NULL)
+	{
+		printf("tree : %s - %d\n", tree->data, tree->type);
+		if (tree && tree->left != NULL)
+		{
+			printf("{{%s left %s}}\n", tree->data, tree->left->data);
+			tree_debug(tree->left);
+		}
+		if (tree && tree->right != NULL)
+		{
+			printf("{{%s right %s}}\n", tree->data, tree->right->data);
+			tree_debug(tree->right);
+		}
+	}
+	else
+		printf("\nend tree\n");
+}
+
 static int			read_n_check(int *nb_hrd, char *read_buff, t_node **tree)
 {
 	if (DEBUG == 1)
@@ -26,6 +46,12 @@ static int			read_n_check(int *nb_hrd, char *read_buff, t_node **tree)
 		return (ret);
 	if ((ret = parser(nb_hrd, &l_expr, tree)) != TRUE)
 		return (telist_ret(ret, &save, NULL, NULL));
+
+	// ANTIBUG
+	if (ANTIBUG)
+		tree_debug(*tree);
+	// ANTIBUG
+
 	savior_tree(*tree, TRUE);
 	expr_del(&save);
 	return (TRUE);
