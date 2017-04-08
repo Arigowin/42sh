@@ -6,7 +6,7 @@
 /*   By: avacher <avacher@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/12 18:37:28 by avacher           #+#    #+#             */
-/*   Updated: 2016/04/12 18:37:28 by avacher          ###   ########.fr       */
+/*   Updated: 2017/04/08 10:33:37 by dolewski         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int		three_dots_up(int len, t_cduo *tmp)
 		tputs(tmp->name, 1, ft_putchr);
 	ft_putstr_fd("\033[0m", get_stuff()->fd);
 	tputs(tgoto(tgetstr("cm", NULL), get_stuff()->col_size - 6,
-		0), 1, ft_putchr);
+				0), 1, ft_putchr);
 	tputs("[...]", 1, ft_putchr);
 	return (0);
 }
@@ -62,7 +62,7 @@ static int		three_dots_down(void)
 		ft_putendl("---------- THREE DOTS DOWN ----------");
 
 	tputs(tgoto(tgetstr("cm", NULL), fct_size()->ws_col - 5,
-		fct_size()->ws_row), 1, ft_putchr);
+				fct_size()->ws_row), 1, ft_putchr);
 	tputs("[...]", 1, ft_putchr);
 	return (0);
 }
@@ -75,17 +75,16 @@ static int		manage_display(int j, int k, t_cduo *tmp)
 	int				len;
 
 	tputs(tgoto(tgetstr("cm", NULL),
-		(k * (get_stuff()->col_size)), j), 1, ft_putchr);
+				(k * (get_stuff()->col_size)), j), 1, ft_putchr);
 	len = ft_strlen(tmp->name);
 	if (fct_size()->ws_col - ((k * (get_stuff()->col_size))
 				+ get_stuff()->col_size) >= 0)
 	{
 		if (tmp->cursor == TRUE)
-			//ft_putstr_fd("\033[4m", get_stuff()->fd);
 			ft_putstr_fd("\033[7m", get_stuff()->fd);
 		if ((get_stuff()->nb_elt <= fct_size()->ws_row
-			&& len > fct_size()->ws_col) || (len > get_stuff()->col_size
-			&& get_stuff()->nb_elt > fct_size()->ws_row))
+					&& len > fct_size()->ws_col) || (len > get_stuff()->col_size
+					&& get_stuff()->nb_elt > fct_size()->ws_row))
 			putchr_max_len_fd(tmp->name, 0);
 		else if (tmp->first == FALSE && tmp->first_disp == TRUE)
 			three_dots_up(len, tmp);

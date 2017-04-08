@@ -4,6 +4,9 @@
 
 static char			*expander(char *word)
 {
+	if (DEBUG_COMPL == 1)
+		ft_putendl("---------- EXPANDER ----------");
+
 	char				*buff;
 
 	if (word == NULL)
@@ -50,4 +53,17 @@ int					complet_var(t_basic_list **lst, char **path, char **word)
 		return (TRUE);
 	}
 	return (FALSE);
+}
+
+int				init_getdircontent(t_basic_list **lst, char **path,
+		char **word, int file)
+{
+	if (DEBUG_COMPL == 1)
+		ft_putendl("---------- INIT GETDIRCONTENT ----------");
+
+	if (*path == NULL)
+		split_path(word, path);
+	parse_tilde(path);
+	get_dircontent(file, *path, lst, *word);
+	return (TRUE);
 }

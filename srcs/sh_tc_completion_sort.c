@@ -37,27 +37,20 @@ static int				cmp_dupli(char *s1, char *s2)
 	int					dot1;
 	int					dot2;
 
-	dot1 = FALSE;
-	dot2 = FALSE;
-	if (s1[0] == '.')
-		dot1 = TRUE;
-	if (s2[0] == '.')
-		dot2 = TRUE;
+	dot1 = (s1[0] == '.');
+	dot2 = (s2[0] == '.');
 	if ((tmp1 = (dot1 ? ft_strdup(++s1) : ft_strdup(s1))) == NULL)
-			return (sh_error(FALSE, 6, NULL, NULL));
+		return (sh_error(FALSE, 6, NULL, NULL));
 	if ((tmp2 = (dot2 ? ft_strdup(++s2) : ft_strdup(s2))) == NULL)
-			return (sh_error(FALSE, 6, NULL, NULL));
+		return (sh_error(FALSE, 6, NULL, NULL));
 	cmp = insert_cmp(str_toupper(tmp1), str_toupper(tmp2));
 	ft_strdel(&tmp1);
 	ft_strdel(&tmp2);
 	if (cmp == 0)
 	{
-		if (dot1 != TRUE && dot2 != TRUE)
-			cmp = insert_cmp(s1, s2);
-		else if (dot2)
-			cmp = -1;
-		else if (dot1)
-			cmp = 1;
+		cmp = (dot1 != TRUE && dot2 != TRUE ? insert_cmp(s1, s2) : cmp);
+		cmp = (cmp == 0 && dot2 ? -1 : cmp);
+		cmp = (cmp == 0 && dot1 ? 1 : cmp);
 	}
 	return (cmp);
 }
@@ -111,15 +104,13 @@ static int			insert_sort(t_basic_list **ite, char *name, int type)
 		(*ite)->next->next = tmp;
 		return (0);
 	}
-	else if (cmp < 0)
+	else if (cmp < 0 && ((*ite)->next->next
+				&& cmp_dupli((*ite)->next->next->data, name) > 0))
 	{
-		if ((*ite)->next->next && cmp_dupli((*ite)->next->next->data, name) > 0)
-		{
-			tmp = ft_basiclstnew(name, type);
-			tmp->next = (*ite)->next->next;
-			(*ite)->next->next = tmp;
-			return (0);
-		}
+		tmp = ft_basiclstnew(name, type);
+		tmp->next = (*ite)->next->next;
+		(*ite)->next->next = tmp;
+		return (0);
 	}
 	return (1);
 }

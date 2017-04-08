@@ -6,7 +6,7 @@
 /*   By: avacher <avacher@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/12 18:37:29 by avacher           #+#    #+#             */
-/*   Updated: 2016/04/12 18:37:29 by avacher          ###   ########.fr       */
+/*   Updated: 2017/04/08 10:33:59 by dolewski         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,5 +95,4 @@ void			manage_signal(void)
 	signal(SIGINT, sig_exit_pgm);
 	signal(SIGQUIT, sig_exit_pgm);
 	signal(SIGTERM, sig_exit_pgm);
-//	signal(SIGKILL, sig_exit_pgm);
 }

@@ -538,12 +538,6 @@ int						fct_highlight(char **str, int *pos, t_line *stline,
 							t_history **history);
 
 /*
-** sh_tc_completion.c
-*/
-int						fct_tab(char **str, int *pos, t_line *stline,
-							t_history **history);
-
-/*
 ** sh_lp_parser
 */
 int						parse_error(char *data);
@@ -654,6 +648,7 @@ int						fct_tab(char **str, int *pos, t_line *stline,
 /*
 ** sh_tc_completion_func
 */
+int						parse_tilde(char **path);
 int						split_path(char **word, char **path);
 char					*compl_word(int file, char **word);
 
@@ -661,6 +656,8 @@ char					*compl_word(int file, char **word);
 ** sh_tc_completion_func2
 */
 int						complet_var(t_basic_list **lst, char **path, char **word);
+int						init_getdircontent(t_basic_list **lst, char **path,
+							char **word, int file);
 
 /*
 ** sh_tc_completion_get

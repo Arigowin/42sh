@@ -1,7 +1,7 @@
 #include "shell.h"
 #include "libft.h"
 
-static int			parse_tilde(char **path)
+int					parse_tilde(char **path)
 {
 	if (DEBUG_COMPL == 1)
 		ft_putendl("---------- PARSE TILDE ----------");
@@ -11,7 +11,7 @@ static int			parse_tilde(char **path)
 
 	tmp = NULL;
 	home = NULL;
-	if ((*path)[0] == '~' && (home = get_env("HOME", FALSE)) != NULL)
+	if (*path && (*path)[0] == '~' && (home = get_env("HOME", FALSE)) != NULL)
 	{
 		if ((tmp = ft_strdup(srch_value(*path, '~'))) == NULL)
 			return (sh_error(FALSE, 6, NULL, NULL));
@@ -81,11 +81,7 @@ char				*compl_word(int file, char **word)
 	add_slash_after_path(word);
 	i = complet_var(&lst, &path, word);
 	if (!i && ((*word && ft_strchr(*word, '/')) || path))
-	{
-		if (path == NULL)
-			split_path(word, &path);
-		get_dircontent(file, path, &lst, *word);
-	}
+		init_getdircontent(&lst, &path, word, file);
 	else if (!i && file == FALSE)
 		get_execinpath(file, *word, &lst);
 	else if (!i)

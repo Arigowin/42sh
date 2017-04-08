@@ -6,7 +6,7 @@
 /*   By: avacher <avacher@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/12 18:37:29 by avacher           #+#    #+#             */
-/*   Updated: 2016/04/12 18:37:29 by avacher          ###   ########.fr       */
+/*   Updated: 2017/04/08 10:32:29 by dolewski         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef struct			s_glst
 int						cduo_pushback(t_cduo **lst_param, char *name, int no);
 void					free_lst_param();
 char					*ft_select(t_basic_list *lst);
+char					*select_read(void);
 
 /*
 ** first_steps.c
@@ -70,7 +71,7 @@ char					*ft_select(t_basic_list *lst);
 int						ft_putchr(int c);
 void					clr_screen(void);
 int						fill_list(t_cduo **lst_param, t_basic_list *lst);
-char					*select_read(void);
+char					*get_input(int buff);
 
 /*
 ** init.c

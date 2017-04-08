@@ -8,7 +8,7 @@
 #define SEP2 "|&;><\"' \t\n\0"
 #define SEP3 "|&;\0"
 
-static void				fork_select(int pfd[2], char **str, t_basic_list *lst)
+static void			fork_select(int pfd[2], char **str, t_basic_list *lst)
 {
 	if (DEBUG_COMPL == 1)
 		ft_putendl("---------- FORK SELECT ----------");

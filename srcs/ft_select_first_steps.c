@@ -6,7 +6,7 @@
 /*   By: avacher <avacher@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/12 18:37:28 by avacher           #+#    #+#             */
-/*   Updated: 2016/04/12 18:37:28 by avacher          ###   ########.fr       */
+/*   Updated: 2017/04/08 10:31:54 by dolewski         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,25 @@ void			clr_screen(void)
 	tputs(str, 1, ft_putchr);
 }
 
+static int		fill_bis(t_basic_list *lst, t_cduo **lst_param, int i)
+{
+	char			*tmp;
+
+	if (lst->nb == 4)
+	{
+		cduo_pushback(lst_param, (tmp = ft_strjoin(lst->data, "/")), i);
+		ft_strdel(&tmp);
+	}
+	else
+		cduo_pushback(lst_param, lst->data, i);
+	return (TRUE);
+}
+
 int				fill_list(t_cduo **lst_param, t_basic_list *lst)
 {
 	if (DEBUG_FT_SELECT == 1)
 		ft_putendl("---------- FILL LIST ----------");
 
-	char				*tmp;
 	int					i;
 	int					len;
 	int					max_len;
@@ -50,13 +63,7 @@ int				fill_list(t_cduo **lst_param, t_basic_list *lst)
 	max_len = 0;
 	while (lst)
 	{
-		if (lst->nb == 4)
-		{
-			cduo_pushback(lst_param, (tmp = ft_strjoin(lst->data, "/")), i);
-			ft_strdel(&tmp);
-		}
-		else
-			cduo_pushback(lst_param, lst->data, i);
+		fill_bis(lst, lst_param, i);
 		len = ft_strlen(lst->data);
 		if (len > 40)
 			max_len = 40;
@@ -70,7 +77,7 @@ int				fill_list(t_cduo **lst_param, t_basic_list *lst)
 	return (max_len);
 }
 
-static char		*get_input(int buff)
+char			*get_input(int buff)
 {
 	if (DEBUG_FT_SELECT == 1)
 		ft_putendl("---------- GET INPUT ----------");
@@ -93,27 +100,5 @@ static char		*get_input(int buff)
 		down_arrow(1);
 		ret = enter_key();
 	}
-	return (ret);
-}
-
-char			*select_read(void)
-{
-	if (DEBUG_FT_SELECT == 1)
-		ft_putendl("---------- SELECT READ ----------");
-
-	int					buff;
-	int					ret_r;
-	char				*ret;
-
-	buff = 0;
-	ret_r = 0;
-	ret = NULL;
-	while ((ret_r = read(0, &buff, 4)) > 0)
-	{
-		ret = get_input(buff);
-		break ;
-	}
-	if (ret_r < 0)
-		return (NULL);
 	return (ret);
 }

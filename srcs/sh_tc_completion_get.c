@@ -45,7 +45,8 @@ int					get_dircontent(int file, char *path, t_basic_list **list,
 				sort_push(list, dp->d_name, dp->d_type);
 		}
 	}
-	closedir(dir);
+	if (dir)
+		closedir(dir);
 	return (TRUE);
 }
 

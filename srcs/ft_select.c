@@ -6,7 +6,7 @@
 /*   By: avacher <avacher@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/12 18:37:29 by avacher           #+#    #+#             */
-/*   Updated: 2016/04/12 18:37:29 by avacher          ###   ########.fr       */
+/*   Updated: 2017/04/08 10:30:08 by dolewski         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,9 @@ int				manage_error(int i)
 
 	if (i == 1)
 	{
-		ft_putendl("ft_select: can't initialize termcap");
-		termcap_reset();
+		ft_putendl("\nft_select: can't initialize termcap");
+		exit(EXIT_FAILURE);
 	}
-	if (i == 2)
-		ft_putendl("ft_select: usage: ./ft_select arg_1 [arg_2] [...] [arg_n]");
 	exit(EXIT_FAILURE);
 	return (-1);
 }
@@ -48,6 +46,28 @@ void			free_lst_param(void)
 		free(tmp->name);
 		free(tmp);
 	}
+}
+
+char			*select_read(void)
+{
+	if (DEBUG_FT_SELECT == 1)
+		ft_putendl("---------- SELECT READ ----------");
+
+	int					buff;
+	int					ret_r;
+	char				*ret;
+
+	buff = 0;
+	ret_r = 0;
+	ret = NULL;
+	while ((ret_r = read(0, &buff, 4)) > 0)
+	{
+		ret = get_input(buff);
+		break ;
+	}
+	if (ret_r < 0)
+		return (NULL);
+	return (ret);
 }
 
 char			*ft_select(t_basic_list *lst)
