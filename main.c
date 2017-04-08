@@ -9,6 +9,5 @@ int		main (void)
 	path = NULL;
 	printf("getcwd     = %s\n", getcwd(path, 40));
 	printf("getenv pwd = %s\n", getenv("PWD"));
-	printf("getenv cdpath = %s\n", getenv("CDPATH"));
 	return (0);
 }
