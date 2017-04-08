@@ -69,8 +69,10 @@ int					echo_n(char **arg, char curr_opt, char *bi)
 	{
 		if (parse_str(arg[i]) == 2)
 			return (TRUE);
+		ft_putchar(' ');
 		i++;
 	}
+	ft_putchar('\n');
 	return (TRUE);
 }
 
