@@ -658,6 +658,7 @@ char					*compl_word(int file, char **word);
 int						complet_var(t_basic_list **lst, char **path, char **word);
 int						init_getdircontent(t_basic_list **lst, char **path,
 							char **word, int file);
+int						display_or_not(int nb);
 
 /*
 ** sh_tc_completion_get
