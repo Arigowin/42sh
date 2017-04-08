@@ -3,6 +3,10 @@
 
 #include <stdio.h>
 #define DEBUG_COMPL 0
+# define ANTIBUG_LOCAL 0
+# define DEBUG_BI 0
+# define DEBUG 0
+
 
 # define HISTORY_FILE_NAME "/.42sh_history"
 
@@ -102,15 +106,6 @@
 
 # include <sys/ioctl.h>
 # include "libft.h"
-
-
-
-//A VIRER !!!!!!!!!
-#include <stdio.h>
-# define ANTIBUG_LOCAL 0
-# define DEBUG_BI 0
-# define DEBUG 0
-
 
 typedef enum			e_types
 {

@@ -37,6 +37,7 @@ int					manage_opt(char **arg,char curr_opt, const char *options)
 		ft_putendl_fd("----------------------- MANAGE OPT ------------------", 2);
 
 	int					i;
+	int					ret;
 	char				*tmp;
 	char				*join_bi_opt;
 	static char			*opt_bi[] = {"cd_L", "cd_P",
@@ -45,6 +46,7 @@ int					manage_opt(char **arg,char curr_opt, const char *options)
 						{&cd_L, &cd_P, &echo_n, &env_i, &export_p, &unset_f,
 						&unset_v};
 	(void)options;
+	ret = FALSE;
 	i = 0;
 	tmp = ft_strjoin(arg[0], "_");
 	join_bi_opt = ft_strnew(ft_strlen(tmp) + 1);
@@ -57,7 +59,8 @@ int					manage_opt(char **arg,char curr_opt, const char *options)
 	i = 0;
 	while (i < 7 && ft_strcmp(opt_bi[i], join_bi_opt) != 0)
 		i++;
-	int ret = bi_option[i](arg, curr_opt, arg[0]);
+	if (i < 7)
+		ret = bi_option[i](arg, curr_opt, arg[0]);
 	return (ret);
 }
 

@@ -75,7 +75,7 @@ int					display_or_not(int nb)
 	// trouver comment reproduire le comportement de la fonction getchar()
 	// car si on ecrit il faut appuyer sur entrer pour vlider
 	// et si on mest y ca fait buguer le select
-	ft_bzero(buff, '\0');
+	ft_bzero(buff, 2);
 	ft_putendl("");
 	ft_putstr("Display all ");
 	ft_putnbr(nb);
