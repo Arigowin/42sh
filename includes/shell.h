@@ -6,7 +6,7 @@
 # define ANTIBUG_LOCAL 0
 # define DEBUG_BI 0
 # define DEBUG 0
-# define ANTIBUG 1
+# define ANTIBUG 0
 
 
 # define HISTORY_FILE_NAME "/.42sh_history"
