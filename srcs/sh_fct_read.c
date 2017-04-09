@@ -98,9 +98,9 @@ int					ctrl_c_hrd(t_line *stline, int prt)
 		if (fd > STDERR_FILENO)
 			close(fd);
 		stline->ctrl_c = FALSE;
+		if (prt)
+			display_prompt();
 	}
-	if (prt)
-		display_prompt();
 	return (TRUE);
 }
 
