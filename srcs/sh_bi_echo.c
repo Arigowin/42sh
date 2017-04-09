@@ -61,24 +61,22 @@ int					bi_echo(char **arg, t_duo **env, char opt[3][2])
 	int					i;
 	int					ret;
 
-	i = 0;
+	i = 1;
 	ret = -1;
 	(void)env;
-	if (check_opt(arg, &i, opt) == TRUE)
-		return (TRUE);
+	if (check_opt(arg, &i, opt) == ERROR)
+		return (FALSE);
 	if (tbl_len(arg) > 1)
 	{
-		while (arg && arg[++i])
+		while (arg && arg[i])
 		{
-			if (opt[1][1] == 1)
-			{
-				if ((ret = parse_str(arg[i])) == FALSE)
-					break ;
-			}
-			else
+			if (opt[1][1] == 1 && (ret = parse_str(arg[i])) == FALSE)
+				break ;
+			else if (opt[1][1] == 0)
 				ft_putstr_visible(arg[i]);
 			if (arg[i + 1])
 				ft_putchar(' ');
+			i++;
 		}
 	}
 	if (opt[0][1] == 0 && ret != FALSE)
