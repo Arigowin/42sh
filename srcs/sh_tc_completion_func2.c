@@ -69,44 +69,51 @@ int					init_getdircontent(t_basic_list **lst, char **path,
 	return (TRUE);
 }
 
+int					check_yn(int key, t_line *stline)
+{
+	int					i;
+
+	ft_putchar(key);
+	if (key != RETURN)
+		ft_putchar('\n');
+	tputs(tgetstr("up", NULL), 1, my_outc);
+	tputs(tgetstr("ce", NULL), 1, my_outc);
+	tputs(tgetstr("up", NULL), 1, my_outc);
+	i = 0;
+	while (i < stline->curs_x)
+	{
+		tputs(tgetstr("nd", NULL), 1, my_outc);
+		i++;
+	}
+	check_signal(1);
+	if (key == 'y' || key == 'Y' || key == RETURN || key == TAB)
+		return (TRUE);
+	else
+		return (FALSE);
+}
+
 int					display_or_not(int nb)
 {
 	t_line				*stline;
-	int					buff;
+	int					key;
 	int					ret;
-	int					i;
 
 	init_term(FALSE);
 	check_signal(4);
-	ft_putendl("");
-	ft_putstr("Display all ");
+	ft_putstr("\nDisplay all ");
 	ft_putnbr(nb);
 	ft_putstr(" possibilities? (y or n) ");
 	stline = savior_stline(NULL, FALSE);
-	while ((ret = read(STDIN_FILENO, &buff, sizeof(int))) > 0)
+	while ((ret = read(STDIN_FILENO, &key, sizeof(int))) > 0)
 	{
-		if (buff == 'y' || buff == 'Y' || buff == 'n' || buff == 'N'
-				|| buff == TAB || buff== RETURN || buff == 27)
+		if (key == 'y' || key == 'Y' || key == 'n' || key == 'N'
+				|| key == TAB || key== RETURN || key == 27)
 		{
-			ft_putchar(buff);
-			if (buff != RETURN)
-				ft_putchar('\n');
-			tputs(tgetstr("up", NULL), 1, my_outc);
-			tputs(tgetstr("ce", NULL), 1, my_outc);
-			tputs(tgetstr("up", NULL), 1, my_outc);
-			i = 0;
-			while (i < stline->curs_x)
-			{
-				tputs(tgetstr("nd", NULL), 1, my_outc);
-				i++;
-			}
-			check_signal(1);
-			if (buff == 'y' || buff == 'Y' || buff == RETURN || buff == TAB)
+			if (check_yn(key, stline) == TRUE)
 				break;
-			else
-				return (FALSE);
+			return (FALSE);
 		}
-		buff = 0;
+		key = 0;
 	}
 	ctrl_c_hrd(stline, TRUE);
 	if (ret < 0)
