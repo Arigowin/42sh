@@ -107,10 +107,10 @@ int					display_or_not(int nb)
 	while ((ret = read(STDIN_FILENO, &key, sizeof(int))) > 0)
 	{
 		if (key == 'y' || key == 'Y' || key == 'n' || key == 'N'
-				|| key == TAB || key== RETURN)
+				|| key == TAB || key == RETURN)
 		{
 			if (check_yn(key, stline) == TRUE)
-				break;
+				break ;
 			return (FALSE);
 		}
 		key = 0;
