@@ -83,7 +83,7 @@ int					check_after_read(t_line *stline, t_history **history)
 	return (lstfd_node_ret(ret, &tree, &lstfd, NULL));
 }
 
-int					ctrl_c_hrd(t_line *stline)
+int					ctrl_c_hrd(t_line *stline, int prt)
 {
 	int					fd;
 
@@ -99,6 +99,8 @@ int					ctrl_c_hrd(t_line *stline)
 			close(fd);
 		stline->ctrl_c = FALSE;
 	}
+	if (prt)
+		display_prompt();
 	return (TRUE);
 }
 
@@ -118,7 +120,7 @@ int					fct_read(int hrd, t_line *stline, t_history **history)
 			continue ;
 		key = 0;
 	}
-	ctrl_c_hrd(stline);
+	ctrl_c_hrd(stline, FALSE);
 	if (key == RETURN && (stline->line)[0] == '\0')
 		return (FALSE);
 	if (ret <= 0)

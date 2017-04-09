@@ -90,9 +90,13 @@ char				*launch_select(t_basic_list *lst, char **str)
 			return (*str = ft_strjoin(lst->data, "/"));
 		return (*str = ft_strdup(lst->data));
 	}
-//	else if (nb > 49)
-//		if (display_or_not(nb) == FALSE)
-//			return (NULL);
+	else if (nb > 50)
+	{
+		if (display_or_not(nb) != TRUE)
+		{
+			return (NULL);
+		}
+	}
 	reset_term();
 	if (pipe(pfd) == ERROR)
 	{

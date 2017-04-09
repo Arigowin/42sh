@@ -1,3 +1,4 @@
+#include <term.h>
 #include "shell.h"
 #include "libft.h"
 #include "ft_select.h"
@@ -70,18 +71,45 @@ int					init_getdircontent(t_basic_list **lst, char **path,
 
 int					display_or_not(int nb)
 {
-	char				buff[2];
+	t_line				*stline;
+	int					buff;
+	int					ret;
+	int					i;
 
-	// trouver comment reproduire le comportement de la fonction getchar()
-	// car si on ecrit il faut appuyer sur entrer pour vlider
-	// et si on mest y ca fait buguer le select
-	ft_bzero(buff, 2);
+	init_term(FALSE);
+	check_signal(4);
 	ft_putendl("");
 	ft_putstr("Display all ");
 	ft_putnbr(nb);
 	ft_putstr(" possibilities? (y or n) ");
-	read(0, &buff, 1);
-	if (ft_tolower(buff[0]) != 'y' && buff[0] != 10)
-		return (FALSE);
+	stline = savior_stline(NULL, FALSE);
+	while ((ret = read(STDIN_FILENO, &buff, sizeof(int))) > 0)
+	{
+		if (buff == 'y' || buff == 'Y' || buff == 'n' || buff == 'N'
+				|| buff == TAB || buff== RETURN || buff == 27)
+		{
+			ft_putchar(buff);
+			if (buff != RETURN)
+				ft_putchar('\n');
+			tputs(tgetstr("up", NULL), 1, my_outc);
+			tputs(tgetstr("ce", NULL), 1, my_outc);
+			tputs(tgetstr("up", NULL), 1, my_outc);
+			i = 0;
+			while (i < stline->curs_x)
+			{
+				tputs(tgetstr("nd", NULL), 1, my_outc);
+				i++;
+			}
+			check_signal(1);
+			if (buff == 'y' || buff == 'Y' || buff == RETURN || buff == TAB)
+				break;
+			else
+				return (FALSE);
+		}
+		buff = 0;
+	}
+	ctrl_c_hrd(stline, TRUE);
+	if (ret < 0)
+		return (ERROR);
 	return (TRUE);
 }

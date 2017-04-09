@@ -430,6 +430,7 @@ t_node					*create_node(t_types type);
 */
 int						tree_traversal_verif(t_node *tree);
 int						check_after_read(t_line *stline, t_history **history);
+int						ctrl_c_hrd(t_line *stline, int prt);
 int						fct_read(int hrd, t_line *line, t_history **history);
 
 /*
