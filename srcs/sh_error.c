@@ -16,7 +16,8 @@ const char			*tbl_error1(int index)
    	/*12*/"42sh: no PATH variable set", /*13*/"42sh: cd: no HOME variable set", /*14*/"",
    	/*15*/"42sh: setenv", /*16*/"42sh: cd", /*17*/"42sh", /*18*/"42sh: parse error near", /*19*/"42sh: exit",
 	/*20*/"42sh: warning: here-document was delimited by",
-	/*21*/"42sh: cannot performe stat function"};
+	/*21*/"42sh: cannot performe stat function",
+	/*22*/"42sh: env: cannot specify '-0' with command"};
 	int					ret_index;
 
 	ret_index = index;
@@ -27,6 +28,7 @@ const char			*tbl_error1(int index)
 	ret_index = (index >= 27 && index <= 28 ? 19 : ret_index);
 	ret_index = (index == 31 ? 20 : ret_index);
 	ret_index = (index == 32 ? 21 : ret_index);
+	ret_index = (index == 35 ? 22 : ret_index);
 	return (err_tbl1[ret_index]);
 }
 

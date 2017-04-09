@@ -12,14 +12,14 @@ int					env_i(char **arg, char curr_opt, char *bi)
 	return (TRUE);
 }
 
-int					print_env(t_duo *env)
+int					print_env(t_duo *env, int eol)
 {
 	while (env)
 	{
 		ft_putstr(env->name);
 		ft_putchar('=');
 		ft_putstr_print(env->value);
-		ft_putchar('\n');
+		ft_putchar(eol);
 		env = env->next;
 	}
 	return (TRUE);
@@ -77,21 +77,29 @@ int					exec_cmd_env(int i, int len, char **arg)
 int					bi_env(char **arg, t_duo **env, char opt[3][2])
 {
 	t_duo				*env_tmp;
+	int					opt_i;
 	int					len;
 	int					i;
 
-	len = tbl_len(arg);
 	i = (ft_strchr(arg[0], '=') ? 0 : 1);
 	env_tmp = cpy_duo(*env);
 	if (check_opt(arg, &i, opt) == ERROR)
 		return (FALSE);
-	if (len > 1)
+	len = (tbl_len(arg) - i);
+	opt_i = (opt[0][1] == 1 ? TRUE : FALSE);
+	printf("iiiiiiii ((%d)) opt_0 ((%d)) arg((%p))\n", i, opt[1][1], arg[2]);
+	if (len > 1 && opt[1][1] == 0)
 	{
-		if (modif_env(arg, savior_env(NULL, FALSE), len, i) == ERROR)
+		if (modif_env(arg, savior_env(NULL, opt_i), len, i) == ERROR)
 			return (ERROR);
 	}
-	else if (i == 1)
-		print_env(env_tmp);
+	else if (i == 1 || (i == 2 && opt[1][1] == 1 && !arg[2]))
+	{
+		opt_i = (opt[1][1] == 1 ? '\0' : '\n');
+		print_env(env_tmp, opt_i);
+	}
+	else if (opt[1][1] && arg[2])
+		return (sh_error(FALSE, 35, NULL, NULL));
 	savior_env(env_tmp, TRUE);
 	return (TRUE);
 }

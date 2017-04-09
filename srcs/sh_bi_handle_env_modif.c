@@ -107,7 +107,7 @@ int					modif_env(char **arg, t_duo *env, int len, int i)
 	if (i < len)
 		exec_cmd_env(i, len, arg);
 	else
-		print_env(env);
+		print_env(env, '\n');
 	duo_del(&env);
 	return (TRUE);
 }

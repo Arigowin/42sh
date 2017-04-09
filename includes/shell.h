@@ -339,13 +339,12 @@ int						bi_echo(char **arg, t_duo **env, char opt[3][2]);
 /*
 ** sh_bi_env
 */
-int						print_env(t_duo *env);
+int						print_env(t_duo *env, int eol);
 int						format_env(char *arg, int *nb);
 int						exec_cmd_env(int i, int len, char **arg);
 int						bi_env(char **arg, t_duo **env, char opt[3][2]);
 int						exec_cmd_env(int i, int len, char **arg);
 int						format_env(char *arg, int *nb);
-int						print_env(t_duo *env);
 int						env_i(char **arg, char curr_opt, char *bi);
 
 /*
