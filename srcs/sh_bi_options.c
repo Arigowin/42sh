@@ -55,7 +55,7 @@ static int			bi_opt(char **arg, int *i, int *no_more, const char *handled_opt)
 
 	int					j;
 	char				bi_opt[2];
-	static	char		last_opt = 0;
+//	static	char		last_opt = 0;
 
 	j = 1;
 	if (*no_more == TRUE)
@@ -66,7 +66,7 @@ static int			bi_opt(char **arg, int *i, int *no_more, const char *handled_opt)
 	{
 		while (arg[*i][j])
 		{
-			last_opt = check_last_option(arg[*i]);
+			//	last_opt = check_last_option(arg[*i]);
 			if (ft_strcmp("echo", arg[0]) == 0
 			&& ft_strchr(handled_opt, arg[*i][j]) == NULL)
 				return (ERROR);
@@ -100,11 +100,14 @@ int					check_opt(char **arg, int *i, const char *opt, char *last_opt)
 
 	no_more = FALSE;
 	tmp = arg;
-	while (arg[*i] && arg[*i][0] && arg[*i][0] == '-' && arg[*i][1])
+	while (arg[*i])
 	{
-		*last_opt = check_last_option(arg[*i]);
-		if ((ret = bi_opt(arg, i, &no_more, opt)) != TRUE)
-			break ;
+		if (arg[*i][0] && arg[*i][0] == '-' && arg[*i][1])
+		{
+			*last_opt = check_last_option(arg[*i]);
+			if ((ret = bi_opt(arg, i, &no_more, opt)) != TRUE)
+				break ;
+		}
 		(*i)++;
 	}
 	if (ft_strcmp(arg[0], "echo") == 0 && ret == ERROR)
