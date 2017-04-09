@@ -69,7 +69,7 @@ int					keep_last_opt(char opt[3][2], char curr_opt, int i)
 
 int					set_opt(char *bi, char opt[3][2], char curr_opt)
 {
-	if (DEBUG_BI == 0)
+	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- SET OPT ------------------", 2);
 
 	int					i;
@@ -97,7 +97,7 @@ int					set_opt(char *bi, char opt[3][2], char curr_opt)
 
 static int			bi_opt(char **arg, int i, char handled_opt[3][2])
 {
-	if (DEBUG_BI == 0)
+	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- BI OPT ------------------", 2);
 
 	int					j;
@@ -119,7 +119,7 @@ static int			bi_opt(char **arg, int i, char handled_opt[3][2])
 
 int					check_opt(char **arg, int *i, char opt[3][2])
 {
-	if (DEBUG_BI == 0)
+	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- CHECK OPT ------------------", 2);
 
 	int					no_more;
