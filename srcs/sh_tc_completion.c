@@ -99,10 +99,7 @@ char				*launch_select(t_basic_list *lst, char **str)
 	}
 	reset_term();
 	if (pipe(pfd) == ERROR)
-	{
 		sh_error(FALSE, 4, NULL, NULL);
-		return (NULL);
-	}
 	fork_select(pfd, str, lst);
 	init_term(FALSE);
 	check_signal(1);

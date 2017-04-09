@@ -13,10 +13,7 @@ static char			*expander(char *word)
 	if (word == NULL)
 		return (FALSE);
 	if ((buff = ft_strnew(ft_strlen(word))) == NULL)
-	{
 		sh_error(FALSE, 6, NULL, NULL);
-		return (NULL);
-	}
 	while (word && *word)
 	{
 		if (*word == '$')
