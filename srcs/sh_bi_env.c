@@ -87,7 +87,6 @@ int					bi_env(char **arg, t_duo **env, char opt[3][2])
 		return (FALSE);
 	len = (tbl_len(arg) - i);
 	opt_i = (opt[0][1] == 1 ? TRUE : FALSE);
-	printf("iiiiiiii ((%d)) opt_0 ((%d)) arg((%p))\n", i, opt[1][1], arg[2]);
 	if (len > 1 && opt[1][1] == 0)
 	{
 		if (modif_env(arg, savior_env(NULL, opt_i), len, i) == ERROR)

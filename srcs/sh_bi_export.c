@@ -35,7 +35,6 @@ int					export_p(char **arg, int i)
 	ret = TRUE;
 	while (arg && arg[i] && arg[i][0] && arg[i][0] == '-')
 		i++;
-	printf("1er elt ds export -p ((%s))\n", arg[i]);
 	if (arg[i])
 		return (sh_error(FALSE, 36, arg[i], NULL));
 	env = savior_env(NULL, FALSE);

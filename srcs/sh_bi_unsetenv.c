@@ -21,9 +21,9 @@ static int			del_first(t_duo **env, char *name, int local)
 			savior_local(*env, TRUE);
 		else if (local == FALSE)
 			savior_env(*env, TRUE);
-		return (1);
+		return (TRUE);
 	}
-	return (0);
+	return (FALSE);
 }
 
 int					del_env(t_duo **env, char *name, int local)
@@ -34,8 +34,8 @@ int					del_env(t_duo **env, char *name, int local)
 	t_duo				*cpy;
 	t_duo				*tmp;
 
-	if (del_first(env, name, local) == 1)
-		return (1);
+	if (del_first(env, name, local) == TRUE)
+		return (TRUE);
 	cpy = *env;
 	tmp = NULL;
 	while (cpy && cpy->next)
@@ -51,11 +51,11 @@ int					del_env(t_duo **env, char *name, int local)
 				savior_local(*env, TRUE);
 			else if (local == FALSE)
 				savior_env(*env, TRUE);
-			return (1);
+			return (TRUE);
 		}
 		cpy = cpy->next;
 	}
-	return (-1);
+	return (FALSE);
 }
 
 int					bi_unsetenv(char **arg, t_duo **env, char opt[3][2])

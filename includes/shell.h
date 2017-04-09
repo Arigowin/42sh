@@ -362,7 +362,7 @@ int						bi_export(char **arg, t_duo **env, char opt[3][2]);
 /*
 ** sh_bi_unset
 */
-int						unset_check_env(char *name, int fct, int local);
+int						unset_check_env(char *value, char opt[3][2], int local);
 int						bi_unset(char **arg, t_duo **env, char opt[3][2]);
 
 /*
