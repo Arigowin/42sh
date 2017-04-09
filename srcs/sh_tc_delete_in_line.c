@@ -9,7 +9,7 @@ int					fct_ctrl_d(char **str, int *pos, t_line *stline,
 
 	env = savior_env(NULL, FALSE);
 	if (*str[0] == '\0' && stline->hrd.nb == 0)
-		bi_exit(NULL, &env, "");
+		bi_exit(NULL, &env, NULL);
 	else if (stline->hrd.nb != 0 && (*str[0] == '\0'
 	|| (*str)[ft_strlen(*str) - 1] == '\n'))
 	{

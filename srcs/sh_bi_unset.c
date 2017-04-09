@@ -54,7 +54,7 @@ int					unset_check_env(char *name, int fct, int local)
 	return (FALSE);
 }
 
-int					bi_unset(char **arg, t_duo **env, const char *opt)
+int					bi_unset(char **arg, t_duo **env, char opt[3][2])
 {
 	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- BI UNSET ------------------", 2);
@@ -74,9 +74,7 @@ int					bi_unset(char **arg, t_duo **env, const char *opt)
 		{
 			env_tmp = savior_local(NULL, FALSE);
 			if (arg[i][0] != '-' && (del_env(&env_tmp, arg[i], TRUE)) == -1)
-			{
 				sh_error(TRUE, 14, arg[i], arg[0]);
-			}
 		}
 		i++;
 	}

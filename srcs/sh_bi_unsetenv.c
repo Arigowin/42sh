@@ -58,7 +58,7 @@ int					del_env(t_duo **env, char *name, int local)
 	return (-1);
 }
 
-int					bi_unsetenv(char **arg, t_duo **env, const char *opt)
+int					bi_unsetenv(char **arg, t_duo **env, char opt[3][2])
 {
 	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- UNSETENV ------------------", 2);

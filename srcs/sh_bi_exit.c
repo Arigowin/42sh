@@ -37,7 +37,7 @@ int					exit_pgm(int exit_code)
 	return (0);
 }
 
-int					bi_exit(char **arg, t_duo **env, const char *opt)
+int					bi_exit(char **arg, t_duo **env, char opt[3][2])
 {
 	int					i;
 

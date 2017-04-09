@@ -25,7 +25,24 @@ int					is_builtin(char **cmd)
 	return (-1);
 }
 
-int					handle_builtin(char **cmd)
+int					init_opt_tbl(char options[8][3][2])
+{
+	int					i;
+	int					j;
+
+	i = -1;
+	while ((++i) < 8)
+	{
+		j = -1;
+		while ((++j) < 3)
+		{
+			options[i][j][1] = 0;
+		}
+	}
+	return (TRUE);
+}
+
+int					handle_builtin(char **cmd, char options[8][3][2])
 {
 	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- HANDLE BI --------------------", 2);
@@ -34,10 +51,9 @@ int					handle_builtin(char **cmd)
 	int					i;
 	int					ret;
 	t_duo				*env;
-	static const char	*options[] = {"neE", "LP", "", "", "iu", "", "p", "vf"};
 	static const char	*bi[] = {"echo", "cd", "setenv", "unsetenv", "env",
 						"exit", "export", "unset"};
-	static int			(*tbl_bi[])(char **cmd, t_duo **env, const char *opt) = {&bi_echo,
+	static int			(*tbl_bi[])(char **cmd, t_duo **env, char opt[3][2]) = {&bi_echo,
 						&bi_cd, &bi_setenv, &bi_unsetenv, &bi_env, &bi_exit,
 						&bi_export, &bi_unset};
 
@@ -82,10 +98,8 @@ int					manage_local_var(char **cmd, int *i)
 		if (!valid_env_name(local_var[0], "local") || cpy[*i][0] == '=')
 			return (FALSE);
 		local_env = savior_local(NULL, FALSE);
-		if (local_var && get_env(local_var[0], TRUE))
-			change_env(local_var[0], local_var[1], TRUE);
-		else if (local_var && get_env(local_var[0], FALSE))
-			change_env(local_var[0], local_var[1], FALSE);
+		if (local_var)
+			change_env(local_var[0], local_var[1], REV);
 		else
 			duo_pushback(&local_env, local_var[0], local_var[1]);
 		savior_local(local_env, TRUE);
@@ -100,6 +114,10 @@ int					check_builtin(int fd, char **cmd, int pipefd_tab[2][2],
 	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- CHECK BI --------------------", 2);
 
+	static char			options[8][3][2] = {{{'n', 0}, {'e', 0}, {'E', 0}},
+	{{'L', 0}, {'P', 0}, {0, 0}}, {{0, 0}, {0, 0}, {0, 0}}, {{0, 0}, {0, 0},
+	{0, 0}}, {{'i', 0}, {'u', 0}, {0, 0}}, {{0, 0}, {0, 0}, {0, 0}}, {{'p', 0},
+	{0, 0}, {0, 0}}, {{'v', 0}, {'f', 0}, {0, 0}}};
 	int					ret;
 	int					i;
 
@@ -107,13 +125,13 @@ int					check_builtin(int fd, char **cmd, int pipefd_tab[2][2],
 		return (FALSE);
 	i = 0;
 	(void)*pipefd_tab;
+	init_opt_tbl(options);
 	ret = -1;
 	if ((ret = manage_local_var(cmd, &i)) == TRUE && cmd[i] == NULL)
 		return (TRUE);
-	int toto;
-	if ((toto = is_builtin(cmd)) != -1)
+	if (is_builtin(cmd) != -1)
 	{
-		if (handle_builtin(cmd) == ERROR)
+		if (handle_builtin(cmd, options) == ERROR)
 		{
 			close_lstfd(lstfd);
 			return (ERROR);

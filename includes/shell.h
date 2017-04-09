@@ -3,6 +3,8 @@
 
 # define HISTORY_FILE_NAME "/.42sh_history"
 
+# define REV 5
+# define BOTH 4
 # define CONTINUE 3
 # define BREAK 2
 # define TRUE 1
@@ -299,7 +301,7 @@ int						check_signal(int loc);
 ** sh_bi_builtin
 */
 int						is_builtin(char **cmd);
-int						handle_builtin(char **cmd);
+int						handle_builtin(char **cmd, char options[8][3][2]);
 int						check_builtin(int fd, char **cmd, int pipefd_tab[2][2],
 							t_lst_fd **lstfd);
 
@@ -311,10 +313,9 @@ int						manage_local_var(char **cmd, int *i);
 /*
 ** sh_bi_options
 */
-int						check_opt(char **arg, int *i, const char *opt);
-int						cd_L(char **arg, char curr_opt, char *bi);
-int						cd_P(char **arg, char curr_opt, char *bi);
-int						echo_n(char **arg, char curr_opt, char *bi);
+int						check_opt(char **arg, int *i, char opt[3][2]);
+int						cd_L(char **arg, char curr_opt, char bi[3][2]);
+int						cd_P(char **arg, char curr_opt, char bi[3][2]);
 int						env_i(char **arg, char curr_opt, char *bi);
 int						export_p(char **arg, char curr_opt, char *bi);
 
@@ -328,12 +329,12 @@ int						modif_env(char **arg, t_duo *env, int len, int i);
 /*
 ** sh_bi_cd
 */
-int						bi_cd(char **arg, t_duo **env, const char *opt);
+int						bi_cd(char **arg, t_duo **env, char opt[3][2]);
 
 /*
 ** sh_bi_echo
 */
-int						bi_echo(char **arg, t_duo **env, const char *opt);
+int						bi_echo(char **arg, t_duo **env, char opt[3][2]);
 
 /*
 ** sh_bi_env
@@ -341,7 +342,7 @@ int						bi_echo(char **arg, t_duo **env, const char *opt);
 int						print_env(t_duo *env);
 int						format_env(char *arg, int *nb);
 int						exec_cmd_env(int i, int len, char **arg);
-int						bi_env(char **arg, t_duo **env, const char *opt);
+int						bi_env(char **arg, t_duo **env, char opt[3][2]);
 int						exec_cmd_env(int i, int len, char **arg);
 int						format_env(char *arg, int *nb);
 int						print_env(t_duo *env);
@@ -351,19 +352,19 @@ int						env_i(char **arg, char curr_opt, char *bi);
 ** sh_bi_exit
 */
 int						del_stline(t_line **stline);
-int						bi_exit(char **arg, t_duo **env, const char *opt);
+int						bi_exit(char **arg, t_duo **env, char opt[3][2]);
 int						exit_pgm(int exit_code);
 
 /*
 ** sh_bi_export
 */
-int						bi_export(char **arg, t_duo **env, const char *opt);
+int						bi_export(char **arg, t_duo **env, char opt[3][2]);
 
 /*
 ** sh_bi_unset
 */
 int						unset_check_env(char *name, int fct, int local);
-int						bi_unset(char **arg, t_duo **env, const char *opt);
+int						bi_unset(char **arg, t_duo **env, char opt[3][2]);
 
 /*
 ** sh_bi_unset
@@ -375,13 +376,13 @@ int						unset_v(char **arg, char curr_opt, char *bi);
 ** sh_bi_setenv
 */
 int						valid_env_name(char *str, char *bi);
-int						bi_setenv(char **arg, t_duo **env, const char *opt);
+int						bi_setenv(char **arg, t_duo **env, char opt[3][2]);
 
 /*
 ** sh_bi_unsetenv
 */
 int						del_env(t_duo **env, char *name, int local);
-int						bi_unsetenv(char **arg, t_duo **env, const char *opt);
+int						bi_unsetenv(char **arg, t_duo **env, char opt[3][2]);
 
 /*
 ** sh_t_e_list_handler

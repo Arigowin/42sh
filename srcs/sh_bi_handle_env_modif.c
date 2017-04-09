@@ -32,11 +32,14 @@ int					change_env(char *name, char *value, int local)
 		ft_putendl_fd("----------------------- CHANGE ENV ------------------", 2);
 
 	t_duo				*tmp;
+	int					ret;
+	int					local_tmp;
 
+	ret = FALSE;
 	tmp = NULL;
-	if (local == TRUE)
+	if (local == TRUE || local == BOTH)
 		tmp = savior_local(NULL, FALSE);
-	else if (local == FALSE)
+	else if (local == FALSE || local == REV)
 		tmp = savior_env(NULL, FALSE);
 	while (tmp)
 	{
@@ -49,8 +52,11 @@ int					change_env(char *name, char *value, int local)
 		}
 		tmp = tmp->next;
 	}
+	local_tmp = (local == BOTH ? FALSE : TRUE);
+	if (local == BOTH || local == REV)
+		ret = change_env(name, value, local_tmp);
 	add_env(name, value, local);
-	return (TRUE);
+	return (ret);
 }
 
 char				*get_env(char *name, int local)
@@ -63,7 +69,7 @@ char				*get_env(char *name, int local)
 
 	tmp = NULL;
 	env = NULL;
-	if (local == TRUE)
+	if (local == TRUE || local == BOTH)
 		env = savior_local(NULL, FALSE);
 	else if (local == FALSE)
 		env = savior_env(NULL, FALSE);
@@ -77,7 +83,9 @@ char				*get_env(char *name, int local)
 		}
 		env = env->next;
 	}
-	return (NULL);
+	if (local == BOTH)
+		tmp = get_env(name, FALSE);
+	return (tmp);
 }
 
 int					modif_env(char **arg, t_duo *env, int len, int i)

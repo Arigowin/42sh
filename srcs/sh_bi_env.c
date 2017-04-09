@@ -39,7 +39,7 @@ int					format_env(char *arg, int *nb)
 	{
 		j++;
 		value = ft_strsub(arg, j, ft_strlen(arg) - j);
-		change_env(key, value, FALSE);
+		change_env(key, value, BOTH);
 		ft_strdel(&value);
 		(*nb)++;
 	}
@@ -74,7 +74,7 @@ int					exec_cmd_env(int i, int len, char **arg)
 	return (TRUE);
 }
 
-int					bi_env(char **arg, t_duo **env, const char *opt)
+int					bi_env(char **arg, t_duo **env, char opt[3][2])
 {
 	t_duo				*env_tmp;
 	int					len;

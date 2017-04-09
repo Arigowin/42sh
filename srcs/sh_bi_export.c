@@ -55,7 +55,7 @@ int					export_p(char **arg, char curr_opt, char *bi)
 }
 
 
-int					bi_export(char **arg, t_duo **env, const char *opt)
+int					bi_export(char **arg, t_duo **env, char opt[3][2])
 {
 	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- BI EXPORT --------------------", 2);

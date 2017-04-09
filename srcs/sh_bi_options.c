@@ -6,8 +6,28 @@
 #define echo "neE"
 #define export "p"
 
-static int			bi_usage(char *bi, char curr_opt, const char *handled_opt)
+static char			*concat_to_str(char opt[3][2])
 {
+	char				*str;
+	int					i;
+
+	i = 0;
+	if ((str = ft_strnew(4)) == NULL)
+		sh_error(FALSE, 6, NULL, NULL);
+	while (i < 3)
+	{
+		str[i] = opt[i][0];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
+}
+
+static int			bi_usage(char *bi, char curr_opt, char handled_opt[3][2])
+{
+	char				*str;
+
+	str = concat_to_str(handled_opt);
 	ft_putstr("42sh: ");
 	ft_putstr(bi);
 	ft_putstr(": '");
@@ -17,7 +37,8 @@ static int			bi_usage(char *bi, char curr_opt, const char *handled_opt)
 	ft_putstr(": usage: ");
 	ft_putstr(bi);
 	ft_putstr(" [-");
-	ft_putstr(handled_opt);
+	ft_putstr(str);
+	ft_strdel(&str);
 	ft_putstr("] [");
 	if (ft_strcmp(bi, "cd") == 0)
 		ft_putstr("dir");
@@ -31,39 +52,52 @@ static int			bi_usage(char *bi, char curr_opt, const char *handled_opt)
 	return(ERROR);
 }
 
-int					manage_opt(char **arg,char curr_opt, const char *options)
+int					keep_last_opt(char opt[3][2], char curr_opt, int i)
 {
-	if (DEBUG_BI == 1)
-		ft_putendl_fd("----------------------- MANAGE OPT ------------------", 2);
-
-	int					i;
-	char				*tmp;
-	char				*join_bi_opt;
-	static char			*opt_bi[] = {"cd_L", "cd_P",
-						"echo_n", "env_i", "export_p", "unset_f", "unset_v"};
-	static int			(*bi_option[])(char **arg, char curr_opt, char *bi) =
-						{&cd_L, &cd_P, &echo_n, &env_i, &export_p, &unset_f,
-						&unset_v};
-	(void)options;
-	i = 0;
-	tmp = ft_strjoin(arg[0], "_");
-	join_bi_opt = ft_strnew(ft_strlen(tmp) + 1);
-	while (tmp[i])
+	if (curr_opt == 'e' || curr_opt == 'L')
 	{
-		join_bi_opt[i] = tmp[i];
-		i++;
+		opt[i][1] = 1;
+		opt[i + 1][1] = 0;
 	}
-	join_bi_opt[i] = curr_opt;
-	i = 0;
-	while (i < 7 && ft_strcmp(opt_bi[i], join_bi_opt) != 0)
-		i++;
-	int ret = bi_option[i](arg, curr_opt, arg[0]);
-	return (ret);
+	else if (curr_opt == 'E' || curr_opt == 'P')
+	{
+		opt[i][1] = 0;
+		opt[i + 1][1] = 1;
+	}
+	return (TRUE);
 }
 
-static int			bi_opt(char **arg, int i, const char *handled_opt)
+int					set_opt(char *bi, char opt[3][2], char curr_opt)
 {
-	if (DEBUG_BI == 1)
+	if (DEBUG_BI == 0)
+		ft_putendl_fd("----------------------- SET OPT ------------------", 2);
+
+	int					i;
+	int					j;
+
+	i = 0;
+	j = 0;
+	while (i < 3)
+	{
+		if (opt[i][0] == curr_opt && opt[i][0] != 'n' && (ft_strcmp("echo", bi) == 0 || ft_strcmp("cd", bi) == 0))
+		{
+			j = (ft_strcmp("echo", bi) == 0 ? 1 : 0);
+			keep_last_opt(opt, curr_opt, j);
+			return (TRUE);
+		}
+		else if (opt[i][0] == curr_opt)
+		{
+			opt[i][1] =  1;
+			return (TRUE);
+		}
+		i++;
+	}
+	return (ERROR);
+}
+
+static int			bi_opt(char **arg, int i, char handled_opt[3][2])
+{
+	if (DEBUG_BI == 0)
 		ft_putendl_fd("----------------------- BI OPT ------------------", 2);
 
 	int					j;
@@ -75,24 +109,17 @@ static int			bi_opt(char **arg, int i, const char *handled_opt)
 	{
 		while (arg[i][j])
 		{
-			if (ft_strcmp("echo", arg[0]) == 0
-			&& ft_strchr(handled_opt, arg[i][j]) == NULL)
-				return (ERROR);
-			else if (ft_strcmp("echo", arg[0])
-		   	&& ft_strchr(handled_opt, arg[i][j]) == NULL)
+			if (ft_strcmp("echo", arg[0]) && (ret = set_opt(arg[0], handled_opt, arg[i][j])) == ERROR)
 				return (bi_usage(arg[0], arg[i][j], handled_opt));
-			else if (ft_strchr(handled_opt, arg[i][j])
-			&& (ret =  manage_opt(arg, arg[i][j], handled_opt)) == 2)
-				return (2);
 			j++;
 		}
 	}
-	return (ret);
+	return (TRUE);
 }
 
-int					check_opt(char **arg, int *i, const char *opt)
+int					check_opt(char **arg, int *i, char opt[3][2])
 {
-	if (DEBUG_BI == 1)
+	if (DEBUG_BI == 0)
 		ft_putendl_fd("----------------------- CHECK OPT ------------------", 2);
 
 	int					no_more;
