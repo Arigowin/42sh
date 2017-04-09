@@ -80,32 +80,23 @@ int					manage_local_var(char **cmd, int *i)
 		ft_putendl_fd("----------------------- MANAGE LOCAL VAR --------------------", 2);
 
 	char				**local_var;
-	char				**cpy;
 	t_duo				*local_env;
-	int					ret;
 
-	ret = FALSE;
-	cpy = cmd;
-	while (cpy && cpy[*i] && cpy[*i] && ft_strchr(cpy[*i], '='))
+	while (cmd && cmd[*i] && cmd[*i] && ft_strchr(cmd[*i], '='))
 		(*i)++;
-	if (cpy[*i])
+	if (cmd[*i])
 		return (FALSE);
 	*i = 0;
-	while (cpy && cpy[*i] && cpy[*i] && ft_strchr(cpy[*i], '='))
+	while (cmd && cmd[*i] && cmd[*i] && ft_strchr(cmd[*i], '='))
 	{
-		ret = TRUE;
-		local_var = ft_strsplit(cpy[*i], '=');
-		if (!valid_env_name(local_var[0], "local") || cpy[*i][0] == '=')
+		local_var = ft_strsplit(cmd[*i], '=');
+		if (!valid_env_name(local_var[0], "local") || cmd[*i][0] == '=')
 			return (FALSE);
 		local_env = savior_local(NULL, FALSE);
-		if (local_var)
-			change_env(local_var[0], local_var[1], REV);
-		else
-			duo_pushback(&local_env, local_var[0], local_var[1]);
-		savior_local(local_env, TRUE);
+		change_env(local_var[0], local_var[1], REV);
 		(*i)++;
 	}
-	return (ret);
+	return (TRUE);
 }
 
 int					check_builtin(int fd, char **cmd, int pipefd_tab[2][2],

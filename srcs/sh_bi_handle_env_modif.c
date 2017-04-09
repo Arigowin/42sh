@@ -37,10 +37,8 @@ int					change_env(char *name, char *value, int local)
 
 	ret = FALSE;
 	tmp = NULL;
-	if (local == TRUE || local == BOTH)
-		tmp = savior_local(NULL, FALSE);
-	else if (local == FALSE || local == REV)
-		tmp = savior_env(NULL, FALSE);
+	tmp = (local == TRUE || local == BOTH ? savior_local(NULL, FALSE)
+											: savior_env(NULL, FALSE));
 	while (tmp)
 	{
 		if (tmp && name && ft_strcmp(tmp->name, name) == 0)
@@ -55,7 +53,8 @@ int					change_env(char *name, char *value, int local)
 	local_tmp = (local == BOTH ? FALSE : TRUE);
 	if (local == BOTH || local == REV)
 		ret = change_env(name, value, local_tmp);
-	add_env(name, value, local);
+	if (ret == FALSE)
+		ret = add_env(name, value, local);
 	return (ret);
 }
 

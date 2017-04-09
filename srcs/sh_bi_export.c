@@ -31,7 +31,6 @@ int					export_p(char **arg, int i)
 	int					ret;
 	t_duo				*env;
 
-	i = 1;
 	ret = TRUE;
 	while (arg && arg[i] && arg[i][0] && arg[i][0] == '-')
 		i++;
@@ -41,7 +40,7 @@ int					export_p(char **arg, int i)
 	while (env)
 	{
 		ret = 2;
-		ft_putstr("export ");
+		ft_putstr("export -p ");
 		ft_putstr(env->name);
 		ft_putstr("=\"");
 		ft_putstr(env->value);
@@ -67,7 +66,7 @@ int					bi_export(char **arg, t_duo **env, char opt[3][2])
 		return (FALSE);
 	if (check_opt(arg, &i, opt) == ERROR)
 		return (FALSE);
-	if (opt[0][1] == 1 && export_p(arg, i))
+	if (opt[0][1] == 1 && export_p(arg, i) != TRUE)
 		return (FALSE);
 	local = savior_local(NULL, FALSE);
 	tmp_local = local;
