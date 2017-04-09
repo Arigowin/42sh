@@ -23,52 +23,76 @@ static int			manage_cd_errors(char *path, struct stat stat_buf, int stat_ret)
 		return (sh_error(FALSE, 18, path, NULL));
 }
 
-static int			getcwd_link_path(char **path, int is_symlink)
+static int			getcwd_link_path(char **path, int is_symlink, char last_opt)
 {
 	printf("[ getcwd_link_path ]\n");
 	char				*tmp_path;
 	char				*new_path;
 	char				*env_pwd;
+	int					i;
+	int					len;
 	
 	(void)is_symlink;
 	tmp_path = NULL;
 	new_path = NULL;
 	env_pwd = get_env("PWD", FALSE);
+	i = ft_strlen(env_pwd) -1;
+	printf("i = %d\n", i);
+	len = 0;
 	printf(">>>>>>>> path transmis = %s\n", *path);
-	if (env_pwd[ft_strlen(env_pwd) - 1] != '/')
+	if (!ft_strcmp(*path, "..") && (!last_opt || last_opt == 'L'))
+	{
+		ft_strdel(path);
+		while (env_pwd[i] != '/')
+		{
+			i--;
+			len++;
+		}
+//		printf("i = %d | len = %d\n", i, len);
+//		printf(">>>> sous chaine a supprimer %s\n", (env_pwd + i));
+//		printf(">>>> sous chaine a conserver %s\n",
+//			   ft_strsub(env_pwd, 0, (ft_strlen(env_pwd) - len - 1)));
+		*path = ft_strsub(env_pwd, 0, (ft_strlen(env_pwd) - len - 1));
+	}
+	else if (env_pwd[ft_strlen(env_pwd) - 1] != '/')
 	{
 		tmp_path = ft_strjoin(env_pwd, "/");
 		ft_strdel(&env_pwd);
 		env_pwd = ft_strdup(tmp_path);
 		ft_strdel(&tmp_path);
-		printf(">>>>>>>> env_pwd = %s\n", env_pwd);
-	}
-	if (**path != '/')
-	{
 		new_path = ft_strjoin(env_pwd, *path);
 		ft_strdel(&env_pwd);
 		ft_strdel(path);
 		*path = ft_strdup(new_path);
 		ft_strdel(&new_path);
-		printf(">>>>>>>>>>>>>>>>> new path = %s\n", *path);
 	}
+	printf(">>>>>>>>>>>>>>>>> new path = %s\n", *path);
 	if (!access(*path, F_OK))
 		return (TRUE);
-	else
-		return (ERROR);
-	return (FALSE);
+	return (ERROR);
 }
 
-static int			switch_env_pwd(char *path)
+static int			switch_env_pwd(char *path, int is_symlink)
 {
-	printf("[ switch_env_pwd ]\n");
+	printf("[ switch_env_pwd ], path = %s, is_symlink = %d\n", path, is_symlink);
 	char				*old_pwd;
+	char				*new_path;
 
+	(void)path;
 	old_pwd = get_env("PWD", FALSE);
+	new_path = NULL;
+	if (!is_symlink)
+	{
+		new_path = getcwd(NULL, 0);
+		printf("new_path = %s\n", new_path);
+	}
+	else
+		new_path = path;
 	printf(">> future old_pwd (actuel pwd dans env) = %s\n", old_pwd);
-	printf("---> path = %s\n", path);
+	printf("---> new_path = %s\n", new_path);
 	change_env("OLDPWD", old_pwd, FALSE);
-	change_env("PWD", path, FALSE);
+	change_env("PWD", new_path, FALSE);
+	ft_strdel(&new_path);
 	ft_strdel(&old_pwd);
 	return (0);
 }
@@ -91,20 +115,24 @@ static int			logical_change_dir(char **path, char last_opt, int *ret)
 	if (!stat_ret && S_ISLNK(stat_buf.st_mode))
 	{
 		printf("link | last_opt = %c, path : %s\n", last_opt, *path);
-		getcwd_link_path(path, TRUE);
-		switch_env_pwd(*path);
+		getcwd_link_path(path, TRUE, last_opt);
+		printf("path apres getcwd_link_path et avant chdir(path) : %s\n", *path);
 		if (chdir(*path) == -1)
 			manage_cd_errors(*path, stat_buf, stat_ret);
+		switch_env_pwd(*path, TRUE);
 	}
-	else
+	else if (!stat_ret && !S_ISLNK(stat_buf.st_mode))
 	{
 		printf("non_link | last_opt = %c, path : %s\n", last_opt, *path);
+		if (**path != '/')
+		{
+			getcwd_link_path(path, FALSE, last_opt);
+			printf("path apres getcwd_link_path = %s\n", *path);
+		}
 		if (chdir(*path) == -1)
 			manage_cd_errors(*path, stat_buf, stat_ret);
-		//	switch_env_pwd(*path);
-		getcwd_link_path(path, FALSE);
-		printf("path apres getcwd_link_path = %s\n", *path);
-		switch_env_pwd(*path);
+		switch_env_pwd(*path, FALSE);
+		printf("fin logical change dir\n");
 	}
 	*ret = TRUE;
 	return (TRUE);
@@ -117,7 +145,7 @@ static int			physical_change_dir(char **path, char last_opt, int *ret)
 
 	printf("[ physical change dir ] last_opt = %c, path : %s\n", last_opt, *path);
 	stat_ret = stat(*path, &stat_buf);
-	switch_env_pwd(*path);
+	switch_env_pwd(*path, TRUE);
 	if (!stat_ret && chdir(*path) == -1)
 		manage_cd_errors(*path, stat_buf, stat_ret);
 	*ret = TRUE;
@@ -126,11 +154,12 @@ static int			physical_change_dir(char **path, char last_opt, int *ret)
 
 static int			exec_change_dir(char *path, char lopt, int *ret)
 {
+	printf("[ exec_change_dir ]\n");
 	if (lopt == 'L' || !lopt)
 		logical_change_dir(&path, lopt, ret);
 	else if (lopt == 'P')
 		physical_change_dir(&path, lopt, ret);
-	ft_strdel(&path);
+//	ft_strdel(&path);
 	return (TRUE);
 }
 
@@ -156,13 +185,13 @@ static int			handle_cd_arg(int *ret, char **arg, const char *opt, char *old_pwd)
 	char				last_opt;
 	char				*path;
 
-	printf("[ handle cd arg ]\n");
 	path = NULL;
 	if (check_opt(arg, &i, opt, &last_opt) == ERROR)
 		return (FALSE);
+	printf("[ handle_cd arg ] last_opt : %c\n", last_opt);
 	if (!arg[1] || (arg[1] && last_opt && !arg[2]))
 		*ret = cd_home(last_opt);
-	else if (arg[1] && !ft_strcmp(arg[1], "-") && old_pwd)
+	else if (arg[1] && !ft_strcmp(arg[1], "-"))
 	{
 		printf("++++++++++++++ case1 old_pwd si tiret : %s\n", old_pwd);
 		path = ft_strdup(old_pwd);
@@ -171,7 +200,7 @@ static int			handle_cd_arg(int *ret, char **arg, const char *opt, char *old_pwd)
 		else
 			return (sh_error(TRUE, 11, NULL, NULL));
 	}
-	else if (arg[1] && !arg[2])
+	else if (arg[1] && arg[1][0] != '-' && !last_opt && !arg[2])
 	{
 		printf("++++++++++++++ case2 arg[1] = %s, arg[2] = %s\n", arg[1], arg[2]);
 		path = ft_strdup(arg[1]);
