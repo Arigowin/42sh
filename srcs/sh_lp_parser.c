@@ -116,6 +116,21 @@ int					parser(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 
 	if (*l_expr == NULL)
 		return (FALSE);
+
+	// ANTIBUG
+	if (ANTIBUG)
+	{
+		t_e_list *tmp = *l_expr;
+		while (tmp)
+		{
+			printf("{[%s][%d]} ", tmp->data, tmp->type);
+
+			tmp = tmp->next;
+		}
+		printf("\n");
+	}
+	// ANTIBUG
+
 	ret = check_expr(nb_hrd, l_expr, tree);
 	return (ret);
 }

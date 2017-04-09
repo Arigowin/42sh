@@ -64,7 +64,8 @@ int					bi_echo(char **arg, t_duo **env, char opt[3][2])
 	i = 0;
 	ret = -1;
 	(void)env;
-	check_opt(arg, &i, opt);
+	if (check_opt(arg, &i, opt) == TRUE)
+		return (TRUE);
 	if (tbl_len(arg) > 1)
 	{
 		while (arg && arg[++i])

@@ -1,6 +1,14 @@
 #ifndef SHELL_H
 # define SHELL_H
 
+#include <stdio.h>
+#define DEBUG_COMPL 0
+# define ANTIBUG_LOCAL 0
+# define DEBUG_BI 0
+# define DEBUG 0
+# define ANTIBUG 0
+
+
 # define HISTORY_FILE_NAME "/.42sh_history"
 
 # define REV 5
@@ -92,6 +100,7 @@
 */
 #  define HOME 4741915
 #  define END 4610843
+
 # endif
 
 # define PRT_LEN 2
@@ -101,15 +110,6 @@
 
 # include <sys/ioctl.h>
 # include "libft.h"
-
-
-
-//A VIRER !!!!!!!!!
-#include <stdio.h>
-# define ANTIBUG_LOCAL 0
-# define DEBUG_BI 0
-# define DEBUG 0
-
 
 typedef enum			e_types
 {
@@ -324,7 +324,7 @@ int						export_p(char **arg, int i);
 */
 int						change_env(char *name, char *value, int local);
 char					*get_env(char *name, int local);
-int						modif_env(char **arg, t_duo *env, int len, int i);
+int						modif_env(char **arg, int len, int i);
 
 /*
 ** sh_bi_cd
@@ -339,13 +339,10 @@ int						bi_echo(char **arg, t_duo **env, char opt[3][2]);
 /*
 ** sh_bi_env
 */
-int						print_env(t_duo *env, int eol);
-int						format_env(char *arg, int *nb);
+int						print_env(int eol);
+int						format_env(char *arg);
 int						exec_cmd_env(int i, int len, char **arg);
 int						bi_env(char **arg, t_duo **env, char opt[3][2]);
-int						exec_cmd_env(int i, int len, char **arg);
-int						format_env(char *arg, int *nb);
-int						env_i(char **arg, char curr_opt, char *bi);
 
 /*
 ** sh_bi_exit
@@ -408,7 +405,7 @@ int						tokenizer(int *hrd, char *read_buff, t_e_list **l_expr);
 */
 int						token_backslash(t_states state, char **read_buff,
 							char **data_tmp);
-int						token_dollar(char **read_buff, char **data_tmp);
+int						token_dollar(char **read_buff, char **data_tmp, int rm);
 int						token_tilde(char **buff, char **data_tmp, int *bln);
 
 /*
@@ -431,6 +428,7 @@ t_node					*create_node(t_types type);
 */
 int						tree_traversal_verif(t_node *tree);
 int						check_after_read(t_line *stline, t_history **history);
+int						ctrl_c_hrd(t_line *stline, int prt);
 int						fct_read(int hrd, t_line *line, t_history **history);
 
 /*
@@ -442,6 +440,7 @@ int						handle_fork(int pipefd_tab[2][2], t_node *tree,
 /*
 ** sh_cmd_line_assemble
 */
+int						ft_is_dir(char *path);
 int						null_input(int fd);
 int						check_fct(int fd, char **cmd);
 
@@ -633,5 +632,42 @@ int						pfd_handler(int pipefd_tab[2][2]);
 int						pfd_close(int pipefd_tab[2][2]);
 int						pipe_function(int pipefd_tab[2][2], t_node *tree,
 							t_lst_fd **lstfd);
+
+/*
+** sh_tc_completion
+*/
+char					*launch_select(t_basic_list *lst, char **str);
+int						fct_tab(char **str, int *pos, t_line *stline,
+							t_history **history);
+
+/*
+** sh_tc_completion_func
+*/
+int						parse_tilde(char **path);
+int						split_path(char **word, char **path);
+char					*compl_word(int file, char **word);
+
+/*
+** sh_tc_completion_func2
+*/
+int						complet_var(t_basic_list **lst, char **path, char **word);
+int						init_getdircontent(t_basic_list **lst, char **path,
+							char **word, int file);
+int						display_or_not(int nb);
+
+/*
+** sh_tc_completion_get
+*/
+int						get_dircontent(int file, char *path, t_basic_list **l,
+							char *word);
+int						get_dircontent(int file, char *path, t_basic_list **l,
+							char *word);
+int						get_execinpath(int file, char *word, t_basic_list **l);
+int						get_varlist(t_basic_list **lst, char **word);
+
+/*
+** sh_tc_completion_sort
+*/
+void					sort_push(t_basic_list **lst, char *name, int type);
 
 #endif

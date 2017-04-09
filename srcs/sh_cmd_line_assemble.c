@@ -2,7 +2,7 @@
 #include "shell.h"
 #include "libft.h"
 
-static int			ft_is_dir(char *path)
+int					ft_is_dir(char *path)
 {
 	struct stat			file_stat;
 

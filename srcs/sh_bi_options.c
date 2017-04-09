@@ -79,7 +79,8 @@ int					set_opt(char *bi, char opt[3][2], char curr_opt)
 	j = 0;
 	while (i < 3)
 	{
-		if (opt[i][0] == curr_opt && opt[i][0] != 'n' && (ft_strcmp("echo", bi) == 0 || ft_strcmp("cd", bi) == 0))
+		if (opt[i][0] == curr_opt && opt[i][0] != 'n'
+		&& (ft_strcmp("echo", bi) == 0 || ft_strcmp("cd", bi) == 0))
 		{
 			j = (ft_strcmp("echo", bi) == 0 ? 1 : 0);
 			keep_last_opt(opt, curr_opt, j);
@@ -109,7 +110,8 @@ static int			bi_opt(char **arg, int i, char handled_opt[3][2])
 	{
 		while (arg[i][j])
 		{
-			if (ft_strcmp("echo", arg[0]) && (ret = set_opt(arg[0], handled_opt, arg[i][j])) == ERROR)
+			if (ft_strcmp("echo", arg[0]) && (ret = set_opt(arg[0], handled_opt,
+			arg[i][j])) == ERROR)
 				return (bi_usage(arg[0], arg[i][j], handled_opt));
 			j++;
 		}

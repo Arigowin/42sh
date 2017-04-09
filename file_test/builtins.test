@@ -112,12 +112,12 @@ echo CMD:'echo "abc'\''abc"'
 echo "abc'abc"
 echo CMD:"echo 'abc\"abc'"
 echo 'abc"abc'
-echo CMD:'echo "\a\b\c"'
-echo "\a\b\c"
-echo CMD:"echo '\\a\\b\\c'"
-echo '\a\b\c'
-echo CMD:'echo \a\b\c'
-echo \a\b\c
+echo CMD:'echo "\a\b\c\\"'
+echo "\a\b\c\\"
+echo CMD:"echo '\\a\\b\\c\\\\'"
+echo '\a\b\c\\'
+echo CMD:'echo \a\b\c\\'
+echo \a\b\c\\
 echo CMD:'echo \$PATH'
 echo \$PATH
 echo CMD:'echo $PATH'
@@ -181,3 +181,6 @@ echo "CMD:echo '\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"'"
 echo '""""""""""""""""""""'
 echo "CMD:echo \"''''''''''''''''''''\""
 echo "''''''''''''''''''''"
+
+echo 'CMD: echo -n "\a\b\f\n\r\t\v\\ \042\042\042\042 bonjour les amis \042\042 \042 \042\042x\042\c \21" "abc"'
+echo -n "\a\b\f\n\r\t\v\\ \042\042\042\042 bonjour les amis \042\042 \042 \042\042x\042\c \21" "abc"

@@ -88,18 +88,15 @@ char				*get_env(char *name, int local)
 	return (tmp);
 }
 
-int					modif_env(char **arg, t_duo *env, int len, int i)
+int					modif_env(char **arg, int len, int i)
 {
 	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- MODIF ENV ------------------", 2);
 
-	int					nb;
-
-	nb = 0;
 	while (arg[i])
 	{
 		if (ft_strchr(arg[i], '=') != NULL)
-			format_env(arg[i], &nb);
+			format_env(arg[i]);
 		else
 			break ;
 		i++;
@@ -107,7 +104,6 @@ int					modif_env(char **arg, t_duo *env, int len, int i)
 	if (i < len)
 		exec_cmd_env(i, len, arg);
 	else
-		print_env(env, '\n');
-	duo_del(&env);
+		print_env('\n');
 	return (TRUE);
 }

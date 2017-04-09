@@ -2,18 +2,14 @@
 #include "libft.h"
 #include "shell.h"
 
-
-int					env_i(char **arg, char curr_opt, char *bi)
+int					print_env(int eol)
 {
-	(void)arg;
-	(void)curr_opt;
-	(void)bi;
-	savior_env(NULL, TRUE);
-	return (TRUE);
-}
+	if (DEBUG_BI == 1)
+		ft_putendl_fd("----------------------- PRINT ENV ------------------", 2);
 
-int					print_env(t_duo *env, int eol)
-{
+	t_duo *env;
+
+	env = savior_env(NULL, FALSE);
 	while (env)
 	{
 		ft_putstr(env->name);
@@ -25,25 +21,27 @@ int					print_env(t_duo *env, int eol)
 	return (TRUE);
 }
 
-int					format_env(char *arg, int *nb)
+int					format_env(char *arg)
 {
+	if (DEBUG_BI == 1)
+		ft_putendl_fd("----------------------- FORMAT ENV ------------------", 2);
+
 	int					j;
-	char				*key;
+	char				*name;
 	char				*value;
 
 	j = 0;
 	while (arg[j] != '=')
 		j++;
-	key = ft_strsub(arg, 0, j);
-	if (valid_env_name(key, "env") != FALSE)
+	name = ft_strsub(arg, 0, j);
+	if (valid_env_name(name, "env") != FALSE)
 	{
 		j++;
 		value = ft_strsub(arg, j, ft_strlen(arg) - j);
-		change_env(key, value, BOTH);
+		change_env(name, value, FALSE);
 		ft_strdel(&value);
-		(*nb)++;
 	}
-	ft_strdel(&key);
+	ft_strdel(&name);
 	return (TRUE);
 }
 
@@ -85,17 +83,17 @@ int					bi_env(char **arg, t_duo **env, char opt[3][2])
 	env_tmp = cpy_duo(*env);
 	if (check_opt(arg, &i, opt) == ERROR)
 		return (FALSE);
-	len = (tbl_len(arg) - i);
-	opt_i = (opt[0][1] == 1 ? TRUE : FALSE);
+	len = (tbl_len(arg));
+	savior_env(NULL, opt[0][1]);
 	if (len > 1 && opt[1][1] == 0)
 	{
-		if (modif_env(arg, savior_env(NULL, opt_i), len, i) == ERROR)
+		if (modif_env(arg, len, i) == ERROR)
 			return (ERROR);
 	}
 	else if (i == 1 || (i == 2 && opt[1][1] == 1 && !arg[2]))
 	{
 		opt_i = (opt[1][1] == 1 ? '\0' : '\n');
-		print_env(env_tmp, opt_i);
+		print_env(opt_i);
 	}
 	else if (opt[1][1] && arg[2])
 		return (sh_error(FALSE, 35, NULL, NULL));

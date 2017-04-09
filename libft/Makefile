@@ -100,6 +100,11 @@ SRC = ft_memset.c \
 	  ft_int_lst_new.c \
 	  ft_int_lst_add.c \
 \
+	  ft_basiclstnew.c \
+	  ft_basiclstpushback.c \
+	  ft_basiclstfree.c \
+	  ft_basiclstcount.c \
+\
 	  ft_putnbrendl.c \
 	  ft_strnlen.c \
 	  ft_lstpushback.c \
