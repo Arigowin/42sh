@@ -80,7 +80,6 @@ int					manage_local_var(char **cmd, int *i)
 		ft_putendl_fd("----------------------- MANAGE LOCAL VAR --------------------", 2);
 
 	char				**local_var;
-	t_duo				*local_env;
 
 	while (cmd && cmd[*i] && cmd[*i] && ft_strchr(cmd[*i], '='))
 		(*i)++;
@@ -92,7 +91,6 @@ int					manage_local_var(char **cmd, int *i)
 		local_var = ft_strsplit(cmd[*i], '=');
 		if (!valid_env_name(local_var[0], "local") || cmd[*i][0] == '=')
 			return (FALSE);
-		local_env = savior_local(NULL, FALSE);
 		change_env(local_var[0], local_var[1], REV);
 		(*i)++;
 	}
