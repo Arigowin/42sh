@@ -23,23 +23,21 @@ static int			add_var_name_in_env(char *str, t_duo **tmp_local)
 	return (TRUE);
 }
 
-int					export_p(char **arg, char curr_opt, char *bi)
+int					export_p(char **arg, int i)
 {
 	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- EXPORT P --------------------", 2);
 
-	int					i;
 	int					ret;
 	t_duo				*env;
 
-	(void)curr_opt;
-	(void)bi;
 	i = 1;
 	ret = TRUE;
 	while (arg && arg[i] && arg[i][0] && arg[i][0] == '-')
 		i++;
-	if (arg[i] && arg[i][0] && arg[i][0] != '-')
-		return (FALSE);
+	printf("1er elt ds export -p ((%s))\n", arg[i]);
+	if (arg[i])
+		return (sh_error(FALSE, 36, arg[i], NULL));
 	env = savior_env(NULL, FALSE);
 	while (env)
 	{
@@ -69,6 +67,8 @@ int					bi_export(char **arg, t_duo **env, char opt[3][2])
 	if (!(arg && *arg && ft_strcmp(arg[0], "export") == 0))
 		return (FALSE);
 	if (check_opt(arg, &i, opt) == ERROR)
+		return (FALSE);
+	if (opt[0][1] == 1 && export_p(arg, i))
 		return (FALSE);
 	local = savior_local(NULL, FALSE);
 	tmp_local = local;

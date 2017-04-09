@@ -17,7 +17,8 @@ const char			*tbl_error1(int index)
    	/*15*/"42sh: setenv", /*16*/"42sh: cd", /*17*/"42sh", /*18*/"42sh: parse error near", /*19*/"42sh: exit",
 	/*20*/"42sh: warning: here-document was delimited by",
 	/*21*/"42sh: cannot performe stat function",
-	/*22*/"42sh: env: cannot specify '-0' with command"};
+	/*22*/"42sh: env: cannot specify '-0' with command",
+	/*23*/"42sh: export: no such variable"};
 	int					ret_index;
 
 	ret_index = index;
@@ -29,6 +30,7 @@ const char			*tbl_error1(int index)
 	ret_index = (index == 31 ? 20 : ret_index);
 	ret_index = (index == 32 ? 21 : ret_index);
 	ret_index = (index == 35 ? 22 : ret_index);
+	ret_index = (index == 36 ? 23 : ret_index);
 	return (err_tbl1[ret_index]);
 }
 
@@ -42,7 +44,8 @@ const char			*tbl_error2(int index)
 	": no such file or directory", ": permission denied", ": invalid option",
 	": command not found", ": value not set", ": too many arguments",
 	": numeric argument required", ": bad file descriptor",
-	": ambiguous redirect", ": is a directory", ": too few arguments", ": bad environement variable type"};
+	": ambiguous redirect", ": is a directory", ": too few arguments",
+	": bad environement variable type"};
 	int					ret_index;
 
 	ret_index = 0;

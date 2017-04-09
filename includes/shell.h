@@ -317,7 +317,7 @@ int						check_opt(char **arg, int *i, char opt[3][2]);
 int						cd_L(char **arg, char curr_opt, char bi[3][2]);
 int						cd_P(char **arg, char curr_opt, char bi[3][2]);
 int						env_i(char **arg, char curr_opt, char *bi);
-int						export_p(char **arg, char curr_opt, char *bi);
+int						export_p(char **arg, int i);
 
 /*
 ** sh_bi_handle_env_modif
