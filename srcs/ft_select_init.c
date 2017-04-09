@@ -16,6 +16,7 @@
 #include <fcntl.h>
 #include "ft_select.h"
 #include "libft.h"
+#include "shell.h"
 
 int				enable_keyboard(void)
 {
@@ -53,7 +54,7 @@ int				termcap_init(void)
 	manage_signal();
 	if ((get_stuff()->fd = open(ttyname(0), O_WRONLY | O_NOCTTY)) == -1)
 		return (-1);
-	if ((name_term = getenv("TERM")) == NULL)
+	if ((name_term = get_env("TERM", FALSE)) == NULL)
 		return (-1);
 	if (tgetent(NULL, name_term) == -1)
 		return (-1);
