@@ -66,7 +66,7 @@ int					checktty(t_line *stline)
 			if (checktty_tool2(stline, cmd) == ERROR)
 				exit_clear_stline(EXIT_FAILURE, &stline);
 			free_tab(&cmd);
-			exit_clear_stline(EXIT_SUCCESS, &stline);
+			exit_clear_stline(savior_pid(0, FALSE), &stline);
 		}
 		ft_strdel(&tmp);
 		exit_clear_stline(EXIT_FAILURE, &stline);
