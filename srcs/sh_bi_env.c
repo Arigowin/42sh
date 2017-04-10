@@ -2,7 +2,7 @@
 #include "libft.h"
 #include "shell.h"
 
-int					print_env(int eol)
+static int			print_env(int eol)
 {
 	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- PRINT ENV ------------------", 2);
@@ -21,7 +21,7 @@ int					print_env(int eol)
 	return (TRUE);
 }
 
-int					format_env(char *arg)
+static int			format_env(char *arg)
 {
 	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- FORMAT ENV ------------------", 2);
@@ -45,7 +45,7 @@ int					format_env(char *arg)
 	return (TRUE);
 }
 
-int					exec_cmd_env(int i, int len, char **arg)
+static int			exec_cmd_env(int i, int len, char **arg)
 {
 	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- EXEC CMD ENV ------------------", 2);
@@ -72,6 +72,33 @@ int					exec_cmd_env(int i, int len, char **arg)
 	return (TRUE);
 }
 
+int					modif_env(char **arg, int len, int *i, char opt[3][2])
+{
+	if (DEBUG_BI == 1)
+		ft_putendl_fd("----------------------- MODIF ENV ------------------", 2);
+
+	char				eol;
+
+	eol = (opt[1][1] == 1 ? '\0' : '\n');
+	while (arg[*i])
+	{
+		if (ft_strchr(arg[*i], '=') != NULL)
+			format_env(arg[*i]);
+		else
+			break ;
+		(*i)++;
+	}
+	if (*i < len)
+	{
+	   	if (opt[1][1] == 1)
+			return (FALSE);
+		exec_cmd_env(*i, len, arg);
+	}
+	else
+		print_env(eol);
+	return (TRUE);
+}
+
 int					bi_env(char **arg, t_duo **env, char opt[3][2])
 {
 	t_duo				*env_tmp;
@@ -85,17 +112,17 @@ int					bi_env(char **arg, t_duo **env, char opt[3][2])
 		return (FALSE);
 	len = (tbl_len(arg));
 	savior_env(NULL, opt[0][1]);
-	if (len > 1 && opt[1][1] == 0)
+	if (len > 1)
 	{
-		if (modif_env(arg, len, i) == ERROR)
+		if (modif_env(arg, len, &i, opt) == ERROR)
 			return (ERROR);
 	}
-	else if (i == 1 || (i == 2 && opt[1][1] == 1 && !arg[2]))
+	if (i == 1 || (i == 2 && opt[1][1] == 1 && !arg[2]))
 	{
 		opt_i = (opt[1][1] == 1 ? '\0' : '\n');
 		print_env(opt_i);
 	}
-	else if (opt[1][1] && arg[2])
+	else if (opt[1][1] && arg[i])
 		return (sh_error(FALSE, 35, NULL, NULL));
 	savior_env(env_tmp, TRUE);
 	return (TRUE);

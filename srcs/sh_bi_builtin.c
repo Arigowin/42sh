@@ -89,9 +89,10 @@ int					manage_local_var(char **cmd, int *i)
 	while (cmd && cmd[*i] && cmd[*i] && ft_strchr(cmd[*i], '='))
 	{
 		local_var = ft_strsplit(cmd[*i], '=');
-		if (!valid_env_name(local_var[0], "local") || cmd[*i][0] == '=')
+		if (!valid_env_name(local_var[0], "local") && cmd[*i][0] == '=')
 			return (FALSE);
-		change_env(local_var[0], local_var[1], REV);
+		if (cmd[(*i) + 1] == NULL)
+			change_env(local_var[0], local_var[1], REV);
 		(*i)++;
 	}
 	return (TRUE);

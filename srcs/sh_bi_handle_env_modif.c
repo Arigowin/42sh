@@ -86,23 +86,3 @@ char				*get_env(char *name, int local)
 		tmp = get_env(name, FALSE);
 	return (tmp);
 }
-
-int					modif_env(char **arg, int len, int i)
-{
-	if (DEBUG_BI == 1)
-		ft_putendl_fd("----------------------- MODIF ENV ------------------", 2);
-
-	while (arg[i])
-	{
-		if (ft_strchr(arg[i], '=') != NULL)
-			format_env(arg[i]);
-		else
-			break ;
-		i++;
-	}
-	if (i < len)
-		exec_cmd_env(i, len, arg);
-	else
-		print_env('\n');
-	return (TRUE);
-}

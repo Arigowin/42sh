@@ -20,17 +20,16 @@ int						manage_local_var(char **cmd, int *i);
 ** sh_bi_options
 */
 int						check_opt(char **arg, int *i, char opt[3][2]);
-int						cd_L(char **arg, char curr_opt, char bi[3][2]);
-int						cd_P(char **arg, char curr_opt, char bi[3][2]);
+int						cd_L(char **arg, char curr_opt, char opt[3][2]);
+int						cd_P(char **arg, char curr_opt, char opt[3][2]);
 int						env_i(char **arg, char curr_opt, char *bi);
 int						export_p(char **arg, int i);
 
 /*
 ** sh_bi_handle_env_modif
 */
-int						change_env(char *name, char *value, int local);
 char					*get_env(char *name, int local);
-int						modif_env(char **arg, int len, int i);
+int						modif_env(char **arg, int len, int *i, char opt[3][2]);
 
 /*
 ** sh_bi_cd
@@ -45,9 +44,7 @@ int						bi_echo(char **arg, t_duo **env, char opt[3][2]);
 /*
 ** sh_bi_env
 */
-int						print_env(int eol);
-int						format_env(char *arg);
-int						exec_cmd_env(int i, int len, char **arg);
+int						change_env(char *name, char *value, int local);
 int						bi_env(char **arg, t_duo **env, char opt[3][2]);
 
 /*
