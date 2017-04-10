@@ -129,8 +129,8 @@ static int			handle_cd_arg(int *ret, char **arg, char *last_opt, int i)
 
 	path = NULL;
 	old_pwd = get_env("OLDPWD", FALSE);
-	if (i == 1 || (i > 1 && arg[i] && arg[i][0] == '-'
-		&& ft_strcmp(arg[i - 1], "-")))
+	if (i == 1 || (i > 1 && *last_opt && arg[i - 1] && arg[i - 1][0] == '-'
+	&& ft_strcmp(arg[i - 1], "-")))
 		*ret = cd_home(*last_opt);
 	else if (i > 1 && ft_strcmp(arg[i - 1], "-"))
 	{
