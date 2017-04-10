@@ -67,7 +67,8 @@ static int			exec_cmd_env(int i, int len, char **arg)
 	}
 	cmd[j] = NULL;
 	init_pipefd(pipefd_tab);
-	handle_fork(pipefd_tab, savior_tree(NULL, FALSE), NULL, cmd);
+	if (ft_strcmp(arg[0], "env") && check_builtin(0, cmd, NULL, NULL) != TRUE)
+		handle_fork(pipefd_tab, savior_tree(NULL, FALSE), NULL, cmd);
 	free_tab(&cmd);
 	return (TRUE);
 }

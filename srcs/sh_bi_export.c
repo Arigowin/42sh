@@ -17,13 +17,20 @@ static int			add_var_name_in_env(char *str, t_duo **tmp_local)
 		new_arg = ft_strsplit(str, '=');
 	name = (new_arg ? new_arg[0] : str);
 	val = (new_arg ? new_arg[1] : get_env(name, TRUE));
+	if (!valid_env_name(name, "export"))
+		return (FALSE);
+	if (!val)
+	{
+		free_tab(&new_arg);
+		return (sh_error(FALSE, 14, name, "export"));
+	}
 	change_env(name, val, FALSE);
 	free_tab(&new_arg);
 	del_env(tmp_local, name, TRUE);
 	return (TRUE);
 }
 
-int					export_p(char **arg, int i)
+static int			export_p(char **arg, int i, char *curr_opt)
 {
 	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- EXPORT P --------------------", 2);
@@ -40,7 +47,8 @@ int					export_p(char **arg, int i)
 	while (env)
 	{
 		ret = 2;
-		ft_putstr("export -p ");
+		ft_putstr("export ");
+		ft_putstr(curr_opt);
 		ft_putstr(env->name);
 		ft_putstr("=\"");
 		ft_putstr(env->value);
@@ -57,6 +65,7 @@ int					bi_export(char **arg, t_duo **env, char opt[3][2])
 		ft_putendl_fd("----------------------- BI EXPORT --------------------", 2);
 
 	int					i;
+	char 				*curr_opt;
 	t_duo				*local;
 	t_duo				*tmp_local;
 
@@ -66,7 +75,8 @@ int					bi_export(char **arg, t_duo **env, char opt[3][2])
 		return (FALSE);
 	if (check_opt(arg, &i, opt) == ERROR)
 		return (FALSE);
-	if (opt[0][1] == 1 && export_p(arg, i) != TRUE)
+	curr_opt = (arg[1] ? ft_strdup("-p ") : NULL);
+	if ((opt[0][1] == 1 || !arg[1]) && export_p(arg, i, curr_opt) != TRUE)
 		return (FALSE);
 	local = savior_local(NULL, FALSE);
 	tmp_local = local;
