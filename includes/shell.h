@@ -636,7 +636,7 @@ int						pipe_function(int pipefd_tab[2][2], t_node *tree,
 /*
 ** sh_tc_completion
 */
-char					*launch_select(t_basic_list *lst, char **str);
+char					*launch_select(t_basic_list *lst, char **str, char *w);
 int						fct_tab(char **str, int *pos, t_line *stline,
 							t_history **history);
 

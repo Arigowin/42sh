@@ -20,6 +20,7 @@ RANLIB = /usr/bin/ranlib
 
 SRC = ft_memset.c \
 	  ft_bzero.c \
+	  str_charset.c \
 	  ft_memcpy.c \
 	  ft_memccpy.c \
 	  ft_memmove.c \
