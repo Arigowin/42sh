@@ -110,7 +110,6 @@ int					bi_env(char **arg, t_duo **env, char opt[3][2])
 	savior_env(NULL, opt[0][1]);
 	if (len > 1)
 	{
-		printf("LOLILOL\n");
 		if (modif_env(arg, len, &i, opt) == ERROR)
 			return (ERROR);
 	}
