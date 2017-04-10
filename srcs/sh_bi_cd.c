@@ -15,40 +15,45 @@ static int			manage_cd_errors(char *pth, struct stat stat_bf, int stat_r)
 		return (sh_error(FALSE, 18, pth, NULL));
 }
 
+int					absolute_link_path_builder(char **path, char *env_pwd)
+{
+	char				*new_path;
+	char				*tmp_path;
+
+	new_path = NULL;
+	tmp_path = ft_strjoin(env_pwd, "/");
+	ft_strdel(&env_pwd);
+	if ((env_pwd = ft_strdup(tmp_path)) == NULL)
+		return (sh_error(FALSE, 6, NULL, NULL));
+	ft_strdel(&tmp_path);
+	new_path = ft_strjoin(env_pwd, *path);
+	ft_strdel(&env_pwd);
+	ft_strdel(path);
+	if ((*path = ft_strdup(new_path)) == NULL)
+		return (sh_error(FALSE, 6, NULL, NULL));
+	ft_strdel(&new_path);
+	return (TRUE);
+}
+
 static int			getcwd_link_path(char **path, char last_opt)
 {
-	char				*tmp_path;
-	char				*new_path;
 	char				*env_pwd;
 	int					i;
 	int					len;
 
-	tmp_path = NULL;
-	new_path = NULL;
-	env_pwd = get_env("PWD", FALSE);
+	if ((env_pwd = get_env("PWD", FALSE)) == NULL)
+		env_pwd = getcwd(NULL, 0);
 	i = ft_strlen(env_pwd) - 1;
 	len = 0;
-	if (!ft_strcmp(*path, "..") && (!last_opt || last_opt == 'L'))
+	if (!ft_strcmp(*path, "..") && (!last_opt || last_opt == 'L') && i)
 	{
 		ft_strdel(path);
 		while (env_pwd[i--] != '/')
 			len++;
 		*path = ft_strsub(env_pwd, 0, (ft_strlen(env_pwd) - len - 1));
 	}
-	else if (env_pwd[ft_strlen(env_pwd) - 1] != '/')
-	{
-		tmp_path = ft_strjoin(env_pwd, "/");
-		ft_strdel(&env_pwd);
-		if ((env_pwd = ft_strdup(tmp_path)) == NULL)
-			return (sh_error(FALSE, 6, NULL, NULL));
-		ft_strdel(&tmp_path);
-		new_path = ft_strjoin(env_pwd, *path);
-		ft_strdel(&env_pwd);
-		ft_strdel(path);
-		if ((*path = ft_strdup(new_path)) == NULL)
-			return (sh_error(FALSE, 6, NULL, NULL));
-		ft_strdel(&new_path);
-	}
+	else if (env_pwd[i] != '/')
+		absolute_link_path_builder(path, env_pwd);
 	return (TRUE);
 }
 
@@ -130,7 +135,7 @@ static int			handle_cd_arg(int *ret, char **arg, char *last_opt, int i)
 	path = NULL;
 	old_pwd = get_env("OLDPWD", FALSE);
 	if (i == 1 || (i > 1 && *last_opt && arg[i - 1] && arg[i - 1][0] == '-'
-	&& ft_strcmp(arg[i - 1], "-")))
+				   && ft_strcmp(arg[i - 1], "-")))
 		*ret = cd_home(*last_opt);
 	else if (i > 1 && ft_strcmp(arg[i - 1], "-"))
 	{
@@ -141,12 +146,9 @@ static int			handle_cd_arg(int *ret, char **arg, char *last_opt, int i)
 	else if (i > 1 && !ft_strcmp(arg[i - 1], "-"))
 	{
 		if ((path = ft_strdup(old_pwd)) == NULL)
-			return (sh_error(FALSE, 6, NULL, NULL));
-		ft_putendl(path);
-		if (old_pwd)
-			exec_change_dir(path, *last_opt, ret);
-		else
 			return (sh_error(TRUE, 11, NULL, NULL));
+		ft_putendl(path);
+		exec_change_dir(path, *last_opt, ret);
 	}
 	return (TRUE);
 }
