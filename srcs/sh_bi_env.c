@@ -88,13 +88,9 @@ int					modif_env(char **arg, int len, int *i, char opt[3][2])
 			break ;
 		(*i)++;
 	}
-	if (*i < len)
-	{
-	   	if (opt[1][1] == 1)
-			return (FALSE);
+	if (*i < len && opt[1][1] == 0)
 		exec_cmd_env(*i, len, arg);
-	}
-	else
+	else if (opt[1][1] == 0 || (opt[1][1] == 1 && !arg[*i]))
 		print_env(eol);
 	return (TRUE);
 }
@@ -114,6 +110,7 @@ int					bi_env(char **arg, t_duo **env, char opt[3][2])
 	savior_env(NULL, opt[0][1]);
 	if (len > 1)
 	{
+		printf("LOLILOL\n");
 		if (modif_env(arg, len, &i, opt) == ERROR)
 			return (ERROR);
 	}
@@ -123,7 +120,7 @@ int					bi_env(char **arg, t_duo **env, char opt[3][2])
 		print_env(opt_i);
 	}
 	else if (opt[1][1] && arg[i])
-		return (sh_error(FALSE, 35, NULL, NULL));
+		sh_error(FALSE, 35, NULL, NULL);
 	savior_env(env_tmp, TRUE);
 	return (TRUE);
 }
