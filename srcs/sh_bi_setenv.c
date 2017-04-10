@@ -21,16 +21,14 @@ int					valid_env_name(char *str, char *bi)
 	return (TRUE);
 }
 
-int					bi_setenv(char **arg, t_duo **env, char opt[3][2])
+int					bi_setenv(char **arg, char opt[3][2])
 {
 	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- BI SETENV --------------------", 2);
 
 	int					i;
-	t_duo				*env_tmp;
 
 	i = 0;
-	(void)opt;
 	while (arg[i])
 	{
 		if (i == 1 && valid_env_name(arg[i], arg[0]) == FALSE)
@@ -38,12 +36,11 @@ int					bi_setenv(char **arg, t_duo **env, char opt[3][2])
 		i++;
 	}
 	if (i < 2)
-		return (bi_env(arg, env, opt));
+		return (bi_env(arg, opt));
 	if (i == 2 || i == 3)
 	{
-		env_tmp = savior_local(NULL, FALSE);
-		change_env(arg[1], arg[2], FALSE);
-		del_env(&env_tmp, arg[1], TRUE);
+		del_env(arg[1]);
+		change_env(arg[1], arg[2], ENV);
 		return (TRUE);
 	}
 	if (i > 3)

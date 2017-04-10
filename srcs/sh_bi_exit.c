@@ -37,12 +37,11 @@ int					exit_pgm(int exit_code)
 	return (0);
 }
 
-int					bi_exit(char **arg, t_duo **env, char opt[3][2])
+int					bi_exit(char **arg, char opt[3][2])
 {
 	int					i;
 
 	i = 0;
-	(void)env;
 	(void)opt;
 	if (arg && arg[1] && arg[2])
 		return (sh_error(FALSE, 27, NULL, NULL));

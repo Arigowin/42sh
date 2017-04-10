@@ -12,10 +12,13 @@ static int			print_env(int eol)
 	env = savior_env(NULL, FALSE);
 	while (env)
 	{
-		ft_putstr(env->name);
-		ft_putchar('=');
-		ft_putstr_print(env->value);
-		ft_putchar(eol);
+		if (env->type != LOCAL)
+		{
+			ft_putstr(env->name);
+			ft_putchar('=');
+			ft_putstr_print(env->value);
+			ft_putchar(eol);
+		}
 		env = env->next;
 	}
 	return (TRUE);
@@ -31,14 +34,13 @@ static int			format_env(char *arg)
 	char				*value;
 
 	j = 0;
-	while (arg[j] != '=')
-		j++;
-	name = ft_strsub(arg, 0, j);
+	if ((name = srch_begining(arg, '=')) == NULL)
+		return (sh_error(FALSE, 6, NULL, NULL));
 	if (valid_env_name(name, "env") != FALSE)
 	{
 		j++;
-		value = ft_strsub(arg, j, ft_strlen(arg) - j);
-		change_env(name, value, FALSE);
+		value = ft_strdup(srch_value(arg, '='));
+		change_env(name, value, TMP);
 		ft_strdel(&value);
 	}
 	ft_strdel(&name);
@@ -67,7 +69,7 @@ static int			exec_cmd_env(int i, int len, char **arg)
 	}
 	cmd[j] = NULL;
 	init_pipefd(pipefd_tab);
-	if (ft_strcmp(arg[0], "env") && check_builtin(0, cmd, NULL, NULL) != TRUE)
+	if (ft_strcmp(arg[0], "env") && check_builtin(0, cmd, NULL) != TRUE)
 		handle_fork(pipefd_tab, savior_tree(NULL, FALSE), NULL, cmd);
 	free_tab(&cmd);
 	return (TRUE);
@@ -96,7 +98,7 @@ int					modif_env(char **arg, int len, int *i, char opt[3][2])
 	return (TRUE);
 }
 
-int					bi_env(char **arg, t_duo **env, char opt[3][2])
+int					bi_env(char **arg, char opt[3][2])
 {
 	t_duo				*env_tmp;
 	int					opt_i;
@@ -104,7 +106,7 @@ int					bi_env(char **arg, t_duo **env, char opt[3][2])
 	int					i;
 
 	i = (ft_strchr(arg[0], '=') ? 0 : 1);
-	env_tmp = cpy_duo(*env);
+	env_tmp = savior_env(NULL, FALSE);
 	if (check_opt(arg, &i, opt) == ERROR)
 		return (FALSE);
 	len = (tbl_len(arg));

@@ -5,11 +5,8 @@
 int					fct_ctrl_d(char **str, int *pos, t_line *stline,
 		t_history **history)
 {
-	t_duo				*env;
-
-	env = savior_env(NULL, FALSE);
 	if (*str[0] == '\0' && stline->hrd.nb == 0)
-		bi_exit(NULL, &env, NULL);
+		bi_exit(NULL, NULL);
 	else if (stline->hrd.nb != 0 && (*str[0] == '\0'
 	|| (*str)[ft_strlen(*str) - 1] == '\n'))
 	{

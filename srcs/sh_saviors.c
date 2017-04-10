@@ -19,15 +19,6 @@ t_duo				*savior_env(t_duo *env, int code_env)
 	return (save_env);
 }
 
-t_duo				*savior_local(t_duo *env, int code)
-{
-	static t_duo		*save = NULL;
-
-		if ((save == NULL && env) || code == TRUE)
-			save = env;
-		return (save);
-}
-
 t_line				*savior_stline(t_line *stline, int code)
 {
 	static t_line		*save = NULL;

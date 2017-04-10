@@ -46,18 +46,15 @@ int					handle_builtin(char **cmd, char options[8][3][2])
 {
 	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- HANDLE BI --------------------", 2);
-	//attention a modifier aussi les bornes du i qd on rajoute un bi
 
 	int					i;
 	int					ret;
-	t_duo				*env;
 	static const char	*bi[] = {"echo", "cd", "setenv", "unsetenv", "env",
 						"exit", "export", "unset"};
-	static int			(*tbl_bi[])(char **cmd, t_duo **env, char opt[3][2]) = {&bi_echo,
+	static int			(*tbl_bi[])(char **cmd, char opt[3][2]) = {&bi_echo,
 						&bi_cd, &bi_setenv, &bi_unsetenv, &bi_env, &bi_exit,
 						&bi_export, &bi_unset};
 
-	env = savior_env(NULL, FALSE);
 	i = 0;
 	while (i < 8 && ft_strcmp(cmd[0], bi[i]) != 0)
 		i++;
@@ -65,7 +62,7 @@ int					handle_builtin(char **cmd, char options[8][3][2])
 		i = 4;
 	if ((i < 8 && ft_strcmp(cmd[0], bi[i]) == 0) || ft_strchr(cmd[0], '='))
 	{
-		if ((ret = tbl_bi[i](cmd, &env, options[i])) == ERROR)
+		if ((ret = tbl_bi[i](cmd, options[i])) == ERROR)
 			return (ERROR);
 		return (ret);
 	}
@@ -92,14 +89,13 @@ int					manage_local_var(char **cmd, int *i)
 		if (!valid_env_name(local_var[0], "local") && cmd[*i][0] == '=')
 			return (FALSE);
 		if (ft_strcmp(cmd[0], "env") && cmd[(*i) + 1] == NULL)
-			change_env(local_var[0], local_var[1], REV);
+			change_env(local_var[0], local_var[1], LOCAL);
 		(*i)++;
 	}
 	return (TRUE);
 }
 
-int					check_builtin(int fd, char **cmd, int pipefd_tab[2][2],
-					t_lst_fd **lstfd)
+int					check_builtin(int fd, char **cmd, t_lst_fd **lstfd)
 {
 	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- CHECK BI --------------------", 2);
@@ -114,7 +110,6 @@ int					check_builtin(int fd, char **cmd, int pipefd_tab[2][2],
 	if (fd == -1)
 		return (FALSE);
 	i = 0;
-	(void)*pipefd_tab;
 	init_opt_tbl(options);
 	ret = -1;
 	if ((ret = manage_local_var(cmd, &i)) == TRUE && cmd[i] == NULL)

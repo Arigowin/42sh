@@ -1,7 +1,7 @@
 #include "shell.h"
 #include "libft.h"
 
-static int			add_var_name_in_env(char *str, t_duo **tmp_local)
+static int			add_var_name_in_env(char *str)
 {
 	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- ADD VAR NAME +++ --------------------", 2);
@@ -16,7 +16,7 @@ static int			add_var_name_in_env(char *str, t_duo **tmp_local)
 	if ((ret = ft_strchr(str, '=')) != NULL)
 		new_arg = ft_strsplit(str, '=');
 	name = (new_arg ? new_arg[0] : str);
-	val = (new_arg ? new_arg[1] : get_env(name, TRUE));
+	val = (new_arg ? new_arg[1] : get_env(name, LOCAL, FALSE));
 	if (!valid_env_name(name, "export"))
 		return (FALSE);
 	if (!val)
@@ -24,9 +24,9 @@ static int			add_var_name_in_env(char *str, t_duo **tmp_local)
 		free_tab(&new_arg);
 		return (sh_error(FALSE, 14, name, "export"));
 	}
-	change_env(name, val, FALSE);
+	del_env(name);
+	change_env(name, val, ENV);
 	free_tab(&new_arg);
-	del_env(tmp_local, name, TRUE);
 	return (TRUE);
 }
 
@@ -59,18 +59,15 @@ static int			export_p(char **arg, int i, char *curr_opt)
 }
 
 
-int					bi_export(char **arg, t_duo **env, char opt[3][2])
+int					bi_export(char **arg, char opt[3][2])
 {
 	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- BI EXPORT --------------------", 2);
 
 	int					i;
 	char 				*curr_opt;
-	t_duo				*local;
-	t_duo				*tmp_local;
 
 	i = 1;
-	(void)env;
 	if (!(arg && *arg && ft_strcmp(arg[0], "export") == 0))
 		return (FALSE);
 	if (check_opt(arg, &i, opt) == ERROR)
@@ -78,13 +75,10 @@ int					bi_export(char **arg, t_duo **env, char opt[3][2])
 	curr_opt = (arg[1] ? ft_strdup("-p ") : NULL);
 	if ((opt[0][1] == 1 || !arg[1]) && export_p(arg, i, curr_opt) != TRUE)
 		return (FALSE);
-	local = savior_local(NULL, FALSE);
-	tmp_local = local;
 	while (arg[i])
 	{
 		if (arg[i][0] != '-')
-			add_var_name_in_env(arg[i], &tmp_local);
-		tmp_local = local;
+			add_var_name_in_env(arg[i]);
 		i++;
 	}
 	return (TRUE);

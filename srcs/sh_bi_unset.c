@@ -30,47 +30,39 @@ int					check_env_fct(char *value)
 	return (FALSE);
 }
 
-int					unset_check_env(char *name, char opt[3][2], int local)
+static int			unset_check_env(char *name, char opt[3][2])
 {
 	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- UNSET CHECK ENV ------------------", 2);
 
-	t_duo				*env_tmp;
 	char				*value;
 	int					fct;
 
-	value = get_env(name, local);
-	if (local == TRUE)
-		env_tmp = savior_local(NULL, FALSE);
-	else
-		env_tmp = savior_env(NULL, FALSE);
+	value = get_env(name, ENV, TRUE);
 	fct = check_env_fct(value);
 	if ((opt[0][1] == 1 && fct == FALSE) || (opt[1][1] == 1 && fct == TRUE) ||
 	opt[0][1] == opt[1][1])
-		return (del_env(&env_tmp, name, local));
+		return (del_env(name));
 	else if ((opt[0][1] == 1 && fct == TRUE) || (opt[1][1] == 1 && fct == FALSE))
 		return (sh_error(ERROR, 34, NULL, NULL));
 	return (FALSE);
 }
 
-int					bi_unset(char **arg, t_duo **env, char opt[3][2])
+int					bi_unset(char **arg, char opt[3][2])
 {
 	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- BI UNSET ------------------", 2);
 
-	int					local;
 	int					ret;
 	int					i;
 
-	(void)env;
 	i = 1;
 	ret = check_opt(arg, &i, opt);
 	if (!arg[i])
 		sh_error(FALSE, 9, NULL, arg[0]);
-	local = (get_env(arg[i], TRUE) ? TRUE : FALSE);
 	while (ret != ERROR && arg[i])
 	{
-		if ((ret = unset_check_env(arg[i], opt, local)) == ERROR)
+		if ((ret = unset_check_env(arg[i], opt)) == ERROR)
 			break ;
 		else if (ret == FALSE)
 			sh_error(TRUE, 14, arg[i], arg[0]);

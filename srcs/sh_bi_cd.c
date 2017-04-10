@@ -24,7 +24,7 @@ static int			cd_home(void)
 	char				*path;
 	int					ret;
 
-	if ((path = get_env("HOME", BOTH)) == NULL)
+	if ((path = get_env("HOME", ENV, TRUE)) == NULL)
 		return (sh_error(FALSE, 13, NULL, NULL));
 	ret = change_dir(path);
 	ft_strdel(&path);
@@ -35,7 +35,7 @@ static int			handle_cd_arg(int *i, int *ret, char **arg, char opt[3][2])
 {
 	char				*tmp;
 
-	tmp = get_env("OLDPWD", BOTH);
+	tmp = get_env("OLDPWD", ENV, TRUE);
 	if (check_opt(arg, i, opt) == ERROR)
 	{
 		ft_strdel(&tmp);
@@ -56,14 +56,13 @@ static int			handle_cd_arg(int *i, int *ret, char **arg, char opt[3][2])
 	return (TRUE);
 }
 
-int					bi_cd(char **arg, t_duo **env, char opt[3][2])
+int					bi_cd(char **arg, char opt[3][2])
 {
 	char				*tmp;
 	char				*path;
 	int					i;
 	int					ret;
 
-	(void)env;
 	i = 1;
 	ret = 0;
 	tmp = NULL;
@@ -72,10 +71,10 @@ int					bi_cd(char **arg, t_duo **env, char opt[3][2])
 		return (FALSE);
 	if (ret == TRUE)
 	{
-		tmp = get_env("PWD", BOTH);
-		change_env("OLDPWD", tmp, BOTH);
+		tmp = get_env("PWD", ENV, TRUE);
+		change_env("OLDPWD", tmp, ENV);
 		path = getcwd(path, MAX_PATH);
-		change_env("PWD", path, BOTH);
+		change_env("PWD", path, ENV);
 	}
 	ft_strdel(&tmp);
 	ft_strdel(&path);

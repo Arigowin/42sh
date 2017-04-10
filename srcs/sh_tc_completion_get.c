@@ -60,7 +60,7 @@ int					get_execinpath(int file, char *word, t_basic_list **lst)
 	int					i;
 
 	path = NULL;
-	tmp = get_env("PATH", BOTH);
+	tmp = get_env("PATH", ENV, TRUE);
 	if (tmp)
 		path = ft_strsplit(tmp, ':');
 	fill_list_compl(word, lst);
@@ -76,25 +76,23 @@ int					get_execinpath(int file, char *word, t_basic_list **lst)
 	return (TRUE);
 }
 
-int					browse_and_add_var(t_basic_list **lst, t_duo *var,
+int					browse_and_add_env(t_basic_list **lst, t_duo *env,
 		char *word)
 {
-	while (var)
+	while (env)
 	{
-		if (ft_strlen(word) == 0 ||
-				ft_strncmp(word, var->name, ft_strlen(word)) == 0)
-		{
-			sort_push(lst, var->name, 0);
-		}
-		var = var->next;
+		if ((env->type == ENV || env->type == LOCAL) && (word == NULL
+		|| ft_strncmp(word, env->name, ft_strlen(word)) == 0))
+			sort_push(lst, env->name, 0);
+		env = env->next;
 	}
 	return (TRUE);
 }
 
-int					get_varlist(t_basic_list **lst, char **word)
+int					get_envlist(t_basic_list **lst, char **word)
 {
 	if (DEBUG_COMPL == 1)
-		ft_putendl("---------- GET VARLIST ----------");
+		ft_putendl("---------- GET ENVLIST ----------");
 
 	char				*tmp;
 
@@ -104,7 +102,6 @@ int					get_varlist(t_basic_list **lst, char **word)
 	if ((*word = ft_strdup(tmp)) == NULL)
 		return (sh_error(FALSE, 6, NULL, NULL));
 	ft_strdel(&tmp);
-	browse_and_add_var(lst, savior_env(NULL, FALSE), *word);
-	browse_and_add_var(lst, savior_local(NULL, FALSE), *word);
+	browse_and_add_env(lst, savior_env(NULL, FALSE), *word);
 	return (TRUE);
 }

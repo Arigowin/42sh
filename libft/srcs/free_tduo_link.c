@@ -10,6 +10,7 @@ int 				free_tduo_link(t_duo **lst)
 	tmp = *lst;
 	ft_strdel(&(tmp->name));
 	ft_strdel(&(tmp->value));
+	ft_strdel(&(tmp->tmp_val));
 	*lst = tmp->next;
 	free(tmp);
 	tmp = NULL;

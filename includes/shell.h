@@ -34,7 +34,6 @@ int						save_history(void);
 ** sh_savior
 */
 t_duo					*savior_env(t_duo *env, int code);
-t_duo					*savior_local(t_duo *env, int code);
 t_line					*savior_stline(t_line *stline, int code);
 char					*savior_tty(char *tty, int code);
 t_node					*savior_tree(t_node *tree, int code);
