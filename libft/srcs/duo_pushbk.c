@@ -25,7 +25,9 @@ static t_duo		*duo_new(char *name, char *val, t_env type)
 	new->next = NULL;
 	if (name && (new->name = ft_strdup(name)) == NULL)
 		return (NULL);
-	if (val && (new->value = ft_strdup(val)) == NULL)
+	if (val && type != TMP && (new->value = ft_strdup(val)) == NULL)
+		return (NULL);
+	else if (val && type == TMP && (new->tmp_val = ft_strdup(val)) == NULL)
 		return (NULL);
 	return (new);
 }

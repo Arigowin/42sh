@@ -26,7 +26,6 @@ int					change_env(char *name, char *val, t_env type)
 		ft_putendl_fd("----------------------- CHANGE ENV ------------------", 2);
 
 	t_duo				*tmp;
-	char				**toto;
 	int					ret;
 
 	ret = FALSE;
@@ -35,12 +34,20 @@ int					change_env(char *name, char *val, t_env type)
 	{
 		if (tmp && name && ft_strcmp(tmp->name, name) == 0)
 		{
-			toto = (type == TMP ? &(tmp->tmp_val) : &(tmp->value));
-			ft_strdel(toto);
-			if (val && val[0] != 26 && !(*toto = ft_strdup(val)))
-				return (sh_error(FALSE, 6, NULL, NULL));
-			tmp->type += (type == TMP && (tmp->type == ENV
-						|| tmp->type == LOCAL) ? TMP : 0);
+		//	toto = (type == TMP ? &(tmp->tmp_val) : &(tmp->value)); //a retester demain
+			if (type == TMP)
+			{
+				ft_strdel(&(tmp->tmp_val));
+				if (val && val[0] != 26 && !(tmp->tmp_val = ft_strdup(val)))
+					return (sh_error(FALSE, 6, NULL, NULL));
+				tmp->type += (type == TMP && (tmp->type == ENV || tmp->type == LOCAL) ? TMP : 0);
+			}
+			else
+			{
+				ft_strdel(&(tmp->value));
+				if (val && val[0] != 26 && !(tmp->value = ft_strdup(val)))
+					return (sh_error(FALSE, 6, NULL, NULL));
+			}
 			return (TRUE);
 		}
 		tmp = tmp->next;

@@ -7,12 +7,12 @@ int 				free_tduo_link(t_duo **lst)
 	tmp = NULL;
 	if (lst == NULL)
 		return (-1);
-	tmp = *lst;
-	ft_strdel(&(tmp->name));
-	ft_strdel(&(tmp->value));
-	ft_strdel(&(tmp->tmp_val));
-	*lst = tmp->next;
-	free(tmp);
+	tmp = (*lst)->next;
+	ft_strdel(&((*lst)->name));
+	ft_strdel(&((*lst)->value));
+	ft_strdel(&((*lst)->tmp_val));
+	free(*lst);
+	*lst = tmp;
 	tmp = NULL;
 	return (0);
 }
