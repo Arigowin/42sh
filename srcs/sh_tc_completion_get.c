@@ -60,7 +60,7 @@ int					get_execinpath(int file, char *word, t_basic_list **lst)
 	int					i;
 
 	path = NULL;
-	tmp = get_env("PATH", FALSE);
+	tmp = get_env("PATH", BOTH);
 	if (tmp)
 		path = ft_strsplit(tmp, ':');
 	fill_list_compl(word, lst);
@@ -76,12 +76,26 @@ int					get_execinpath(int file, char *word, t_basic_list **lst)
 	return (TRUE);
 }
 
+int					browse_and_add_var(t_basic_list **lst, t_duo *var,
+		char *word)
+{
+	while (var)
+	{
+		if (ft_strlen(word) == 0 ||
+				ft_strncmp(word, var->name, ft_strlen(word)) == 0)
+		{
+			sort_push(lst, var->name, 0);
+		}
+		var = var->next;
+	}
+	return (TRUE);
+}
+
 int					get_varlist(t_basic_list **lst, char **word)
 {
 	if (DEBUG_COMPL == 1)
 		ft_putendl("---------- GET VARLIST ----------");
 
-	t_duo				*env;
 	char				*tmp;
 
 	if ((tmp = ft_strdup(srch_value(*word, '$'))) == NULL)
@@ -90,15 +104,7 @@ int					get_varlist(t_basic_list **lst, char **word)
 	if ((*word = ft_strdup(tmp)) == NULL)
 		return (sh_error(FALSE, 6, NULL, NULL));
 	ft_strdel(&tmp);
-	env = savior_env(NULL, FALSE);
-	while (env)
-	{
-		if (ft_strlen(*word) == 0 ||
-				ft_strncmp(*word, env->name, ft_strlen(*word)) == 0)
-		{
-			sort_push(lst, env->name, 0);
-		}
-		env = env->next;
-	}
+	browse_and_add_var(lst, savior_env(NULL, FALSE), *word);
+	browse_and_add_var(lst, savior_local(NULL, FALSE), *word);
 	return (TRUE);
 }
