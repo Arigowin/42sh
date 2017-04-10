@@ -135,16 +135,17 @@ int					check_opt(char **arg, int *i, char opt[3][2])
 	{
 		if (no_more == TRUE)
 			return (FALSE);
-		if (ft_strcmp("echo", arg[0]) && arg[*i] && arg[*i][0]
-		&& arg[*i][0] == '-' && arg[*i][1] && arg[*i][1] == '-')
-			no_more = TRUE;
-		if ((ret = bi_opt(arg, *i, opt)) != TRUE)
+		if (arg[*i] && arg[*i][0] && arg[*i][0] == '-' && arg[*i][1]
+		&& arg[*i][1] == '-')
+		{
+			if (ft_strcmp("echo", arg[0]))
+				no_more = TRUE;
+		}
+		else if ((ret = bi_opt(arg, *i, opt)) != TRUE)
 			break ;
 		(*i)++;
 	}
-	if (ft_strcmp(arg[0], "echo") == 0 && ret == ERROR)
+	if (ft_strcmp(arg[0], "echo") == 0 && ret == FALSE)
 		arg = tmp;
-	if (ret == -2)
-		return (ERROR);
 	return (ret);
 }

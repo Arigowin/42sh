@@ -9,11 +9,11 @@
 			# define ANTIBUG 0
 
 # include "libft.h"
+# include "sh_define.h"
+# include "sh_key.h"
 # include "sh_struct.h"
 # include "sh_builtins.h"
-# include "sh_define.h"
 # include "sh_read.h"
-# include "sh_key.h"
 # include "sh_lexer_parser.h"
 # include "sh_redirect.h"
 # include "sh_termcaps.h"
