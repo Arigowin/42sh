@@ -47,6 +47,7 @@ typedef struct			s_basic_list
 
 void					*ft_memset(void *b, int c, int len);
 void					ft_bzero(void *s, int n);
+int						str_charset(char **str, char c, int start, int end);
 void					*ft_memcpy(void *dst, const void *src, int n);
 void					*ft_memccpy(void *dst, const void *src, int i, int n);
 void					*ft_memmove(void *dst, const void *src, int len);

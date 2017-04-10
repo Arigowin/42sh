@@ -11,7 +11,7 @@ int					parse_tilde(char **path)
 
 	tmp = NULL;
 	home = NULL;
-	if (*path && (*path)[0] == '~' && (home = get_env("HOME", FALSE)) != NULL)
+	if (*path && (*path)[0] == '~' && (home = get_env("HOME", BOTH)) != NULL)
 	{
 		if ((tmp = ft_strdup(srch_value(*path, '~'))) == NULL)
 			return (sh_error(FALSE, 6, NULL, NULL));
@@ -89,7 +89,7 @@ char				*compl_word(int file, char **word)
 	ft_strdel(&path);
 	reset_term();
 	if (lst)
-		launch_select(lst, &ret);
+		launch_select(lst, &ret, *word);
 	init_term(FALSE);
 	ft_basiclstfree(&lst);
 	return (ret);

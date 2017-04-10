@@ -73,7 +73,33 @@ static char			*get_line(char *str, int pos)
 	return (ft_strsub(str, pos, i - pos));
 }
 
-char				*launch_select(t_basic_list *lst, char **str)
+char				*compl_start(char *word, t_basic_list *lst)
+{
+	if (DEBUG_COMPL == 1)
+		ft_putendl("---------- COMP START ----------");
+
+	char				*start;
+	int					i;
+
+	if ((start = ft_strdup(lst->data)) == NULL)
+		sh_error(FALSE, 6, NULL, NULL);
+	while (lst)
+	{
+		i = ft_strlen(word);
+		while ((lst->data)[i])
+		{
+			if ((lst->data)[i] != start[i])
+				str_charset(&start, '\0', i, ft_strlen(start));
+			i++;
+		}
+		lst = lst->next;
+	}
+	if (ft_strcmp(word, start) == 0)
+		return (NULL);
+	return (start);
+}
+
+char				*launch_select(t_basic_list *lst, char **str, char *word)
 {
 	if (DEBUG_COMPL == 1)
 		ft_putendl("---------- LAUNCH SELECT ----------");
@@ -84,24 +110,19 @@ char				*launch_select(t_basic_list *lst, char **str)
 	nb = ft_basiclstcount(lst);
 	if (nb == 0)
 		return (NULL);
-	else if (nb == 1)
+	if (nb == 1)
 	{
 		if (lst->nb == 4)
 			return (*str = ft_strjoin(lst->data, "/"));
 		return (*str = ft_strdup(lst->data));
 	}
-	else if (nb > 50)
-	{
-		if (display_or_not(nb) != TRUE)
-		{
-			return (NULL);
-		}
-	}
-	reset_term();
+	if (word && (*str = compl_start(word, lst)) != NULL)
+		return (*str);
+	if (nb > 50 && display_or_not(nb) != TRUE)
+		return (NULL);
 	if (pipe(pfd) == ERROR)
 		sh_error(FALSE, 4, NULL, NULL);
 	fork_select(pfd, str, lst);
-	init_term(FALSE);
 	check_signal(1);
 	return (*str);
 }
