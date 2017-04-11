@@ -2,6 +2,10 @@
 #include "libft.h"
 #include "ft_select.h"
 
+/*
+** compare 2 chaines
+** en quoi il insert ?
+*/
 static int				insert_cmp(char *s1, char *s2)
 {
 	if (DEBUG_COMPL == 1)
@@ -20,6 +24,7 @@ static int				insert_cmp(char *s1, char *s2)
 	if (*tmp_s1 && *tmp_s1 != *tmp_s2 && ft_isalnum(*tmp_s1) == 0
 			&& ft_isalnum(*tmp_s2) == 1)
 		return (-1);
+	// t'as pas voulu dire plutot *tmp_s2 && .. isalnum s1 == 1 ?
 	else if (*tmp_s1 && *tmp_s1 != *tmp_s2 && ft_isalnum(*tmp_s1) != 0
 			&& ft_isalnum(*tmp_s2) == 0)
 		return (1);
@@ -49,8 +54,10 @@ static int				cmp_dupli(char *s1, char *s2)
 	if (cmp == 0)
 	{
 		cmp = (dot1 != TRUE && dot2 != TRUE ? insert_cmp(s1, s2) : cmp);
-		cmp = (cmp == 0 && dot2 ? -1 : cmp);
-		cmp = (cmp == 0 && dot1 ? 1 : cmp);
+//		cmp = (cmp == 0 && dot2 ? -1 : cmp);
+//		cmp = (cmp == 0 && dot1 ? 1 : cmp);
+		cmp = (dot2 ? -1 : cmp);
+		cmp = (dot1 ? 1 : cmp); // ya pas un risque que cmp soit ecrase par 1er test ?
 	}
 	return (cmp);
 }
@@ -66,7 +73,7 @@ static int			sort_first(t_basic_list **lst, char *name, int type)
 	cmp = cmp_dupli((*lst)->data, name);
 	if (cmp == 0)
 		return (0);
-	if (cmp > 0)
+	if (cmp > 0) // pkoi > 0 et pas juste different de 0 c est se priver d un cas non ?
 	{
 		tmp = (*lst);
 		(*lst) = ft_basiclstnew(name, type);
@@ -94,11 +101,12 @@ static int			insert_sort(t_basic_list **ite, char *name, int type)
 	t_basic_list		*tmp;
 	int					cmp;
 
-	cmp = cmp_dupli((*ite)->next->data, name);
+	cmp = cmp_dupli((*ite)->next->data, name); // pkoi comparer name avec le next->data ?
 	if (cmp == 0)
 		return (0);
 	else if (cmp > 0)
 	{
+		// insert le nouveau maillon construit avec name entre l'avant dernier et le dernier
 		tmp = (*ite)->next;
 		(*ite)->next = ft_basiclstnew(name, type);
 		(*ite)->next->next = tmp;
@@ -107,6 +115,7 @@ static int			insert_sort(t_basic_list **ite, char *name, int type)
 	else if (cmp < 0 && ((*ite)->next->next
 				&& cmp_dupli((*ite)->next->next->data, name) > 0))
 	{
+		// insert le nouveau maillon construit avec name en dernier
 		tmp = ft_basiclstnew(name, type);
 		tmp->next = (*ite)->next->next;
 		(*ite)->next->next = tmp;
@@ -128,7 +137,7 @@ void				sort_push(t_basic_list **lst, char *name, int type)
 		if (sort_first(lst, name, type) == 0)
 			return ;
 	}
-	while (ite && ite->next)
+	while (ite && ite->next) // tu t'arrete a l'avant dernier
 	{
 		if (insert_sort(&ite, name, type) == 0)
 			return ;
