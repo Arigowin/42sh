@@ -27,6 +27,7 @@ int					change_env(char *name, char *val, t_env type)
 
 	t_duo				*tmp;
 	int					ret;
+//	char				*toto;
 
 	ret = FALSE;
 	tmp = savior_env(NULL, FALSE);
@@ -34,7 +35,11 @@ int					change_env(char *name, char *val, t_env type)
 	{
 		if (tmp && name && ft_strcmp(tmp->name, name) == 0)
 		{
-		//	toto = (type == TMP ? &(tmp->tmp_val) : &(tmp->value)); //a retester demain
+			//toto = (type == TMP ? tmp->tmp_val : tmp->value);
+			//ft_strdel(&(toto));
+			//if (val && val[0] != 26 && !(toto = ft_strdup(val)))
+			//	return (sh_error(FALSE, 6, NULL, NULL));
+			//tmp->type += (type == TMP && (tmp->type == ENV || tmp->type == LOCAL) ? TMP : 0);
 			if (type == TMP)
 			{
 				ft_strdel(&(tmp->tmp_val));
@@ -47,6 +52,7 @@ int					change_env(char *name, char *val, t_env type)
 				ft_strdel(&(tmp->value));
 				if (val && val[0] != 26 && !(tmp->value = ft_strdup(val)))
 					return (sh_error(FALSE, 6, NULL, NULL));
+				tmp->type = type;
 			}
 			return (TRUE);
 		}
@@ -54,6 +60,22 @@ int					change_env(char *name, char *val, t_env type)
 	}
 	if (ret == FALSE)
 		ret = add_env(name, val, type);
+
+
+
+		/*ANTIBUG*/
+	if (ANTIBUG == 1)
+	{
+		t_duo *toto = savior_env(NULL, FALSE);
+		ft_putendl("-----------------change env-------------\n");
+		while (toto)
+		{printf("[[type (%d) name (%s) value (%s) tmp val (%s)]]\n", toto->type, toto->name, toto->value, toto->tmp_val);
+			toto=toto->next;
+		}
+		printf("\n-----------------------------------\n");
+	}
+
+
 	return (ret);
 }
 

@@ -92,6 +92,23 @@ int					manage_local_var(char **cmd, int *i)
 			change_env(local_var[0], local_var[1], LOCAL);
 		(*i)++;
 	}
+
+
+
+
+		/*ANTIBUG*/
+	if (ANTIBUG == 1)
+	{
+		t_duo *toto = savior_env(NULL, FALSE);
+		ft_putendl("manage local var\n");
+		while (toto)
+		{printf("[[type (%d) name (%s) value (%s) tmp val (%s)]]\n", toto->type, toto->name, toto->value, toto->tmp_val);
+			toto=toto->next;
+		}
+		printf("\n-----------------------------------\n");
+	}
+
+
 	return (TRUE);
 }
 
@@ -114,6 +131,24 @@ int					check_builtin(int fd, char **cmd, t_lst_fd **lstfd)
 	ret = -1;
 	if ((ret = manage_local_var(cmd, &i)) == TRUE && cmd[i] == NULL)
 		return (TRUE);
+
+
+
+
+		/*ANTIBUG*/
+	if (ANTIBUG == 1)
+	{
+		t_duo *toto = savior_env(NULL, FALSE);
+		ft_putendl("check bi \n");
+		while (toto)
+		{printf("[[type (%d) name (%s) value (%s) tmp val (%s)]]\n", toto->type, toto->name, toto->value, toto->tmp_val);
+			toto=toto->next;
+		}
+		printf("\n-----------------------------------\n");
+	}
+
+
+
 	if (is_builtin(cmd) != -1)
 	{
 		if (handle_builtin(cmd, options) == ERROR)

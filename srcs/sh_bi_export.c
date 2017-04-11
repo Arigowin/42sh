@@ -16,7 +16,7 @@ static int			add_var_name_in_env(char *str)
 	if ((ret = ft_strchr(str, '=')) != NULL)
 		new_arg = ft_strsplit(str, '=');
 	name = (new_arg ? new_arg[0] : str);
-	val = (new_arg ? new_arg[1] : get_env(name, LOCAL, FALSE));
+	val = (new_arg ? new_arg[1] : get_env(name, LOCAL, TRUE));
 	if (!valid_env_name(name, "export"))
 		return (FALSE);
 	if (!val)
@@ -35,8 +35,9 @@ static int			export_p(char **arg, int i, char *curr_opt)
 	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- EXPORT P --------------------", 2);
 
-	int					ret;
 	t_duo				*env;
+	char				*val;
+	int					ret;
 
 	ret = TRUE;
 	while (arg && arg[i] && arg[i][0] && arg[i][0] == '-')
@@ -46,12 +47,13 @@ static int			export_p(char **arg, int i, char *curr_opt)
 	env = savior_env(NULL, FALSE);
 	while (env)
 	{
+		val = (env->tmp_val ? env->tmp_val : env->value);
 		ret = 2;
 		ft_putstr("export ");
 		ft_putstr(curr_opt);
 		ft_putstr(env->name);
 		ft_putstr("=\"");
-		ft_putstr(env->value);
+		ft_putstr(val);
 		ft_putendl("\"");
 		env = env->next;
 	}
