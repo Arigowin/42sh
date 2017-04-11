@@ -186,7 +186,7 @@ int					bi_cd(char **arg, char opt[3][2])
 	path = NULL;
 	if (check_opt(arg, &i, opt) == ERROR)
 		return (FALSE);
-	printf("OPTION : i [[%d]] arg [[%s]] -L [[%d]] -P [[%d]] last opt? [[%d]]\n", i, arg[i], opt[0][1], opt[1][1], opt[2][1]);
+//	printf("OPTION : i [[%d]] arg [[%s]] -L [[%d]] -P [[%d]] last opt? [[%d]]\n", i, arg[i], opt[0][1], opt[1][1], opt[2][1]);
 	i = 1;
 	if (!arg[i])
 		ret = cd_home(opt);
