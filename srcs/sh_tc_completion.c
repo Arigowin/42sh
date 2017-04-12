@@ -88,46 +88,51 @@ char				*compl_start(char *word, t_basic_list *lst)
 		i = ft_strlen(word);
 		while ((lst->data)[i])
 		{
-			if ((lst->data)[i] != start[i])
+			if (i < ft_strlen(start) && (lst->data)[i] != start[i])
 				str_charset(&start, '\0', i, ft_strlen(start));
 			i++;
 		}
 		lst = lst->next;
 	}
 	if (ft_strcmp(word, start) == 0)
+	{
+		ft_strdel(&start);
 		return (NULL);
+	}
 	return (start);
 }
 
-char				*launch_select(t_basic_list *lst, char **str, char *word)
+char				*launch_select(t_basic_list *lst, char *word)
 {
 	if (DEBUG_COMPL == 1)
 		ft_putendl("---------- LAUNCH SELECT ----------");
 
 	int					pfd[2];
 	int					nb;
+	char				*str;
 
+	str = NULL;
 	nb = ft_basiclstcount(lst);
 	if (nb == 0)
 		return (NULL);
 	if (nb == 1)
 	{
 		if (lst->nb == 4)
-			return (*str = ft_strjoin(lst->data, "/"));
-		return (*str = ft_strdup(lst->data));
+			return (str = ft_strjoin(lst->data, "/"));
+		return (str = ft_strdup(lst->data));
 	}
-	if (word && (*str = compl_start(word, lst)) != NULL)
-		return (*str);
+	if (word && (str = compl_start(word, lst)) != NULL)
+		return (str);
 	if (nb > 50 && display_or_not(nb) != TRUE)
 		return (NULL);
 	if (pipe(pfd) == ERROR)
 		sh_error(FALSE, 4, NULL, NULL);
-	fork_select(pfd, str, lst);
+	fork_select(pfd, &str, lst);
 	check_signal(1);
-	return (*str);
+	return (str);
 }
 
-int					fct_tab(char **str, int *pos, t_line *stline,
+int					fct_tab(char **line, int *pos, t_line *stline,
 		t_history **history)
 {
 	if (DEBUG_COMPL == 1)
@@ -139,10 +144,10 @@ int					fct_tab(char **str, int *pos, t_line *stline,
 
 	(void)history;
 	word = NULL;
-	word = get_line(*str, *pos);
+	word = get_line(*line, *pos);
 	if (word && word[0] == '~' && word[1] != '/')
-		fct_insert(str, pos, '/', stline);
-	if ((ret = compl_word(is_file(*str, *pos, word), &word)) == NULL)
+		fct_insert(line, pos, '/', stline);
+	if ((ret = compl_word(is_file(*line, *pos, word), &word)) == NULL)
 	{
 		ft_strdel(&word);
 		return (FALSE);
@@ -150,7 +155,7 @@ int					fct_tab(char **str, int *pos, t_line *stline,
 	i = ft_strlen(word);
 	while (ret[i])
 	{
-		fct_insert(str, pos, ret[i], stline);
+		fct_insert(line, pos, ret[i], stline);
 		i++;
 	}
 	ft_strdel(&word);

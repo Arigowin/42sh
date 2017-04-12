@@ -1,6 +1,7 @@
 #ifndef SH_BUILTINS_H
 # define SH_BUILTINS_H
 
+# include <sys/stat.h>
 # include "shell.h"
 
 /*

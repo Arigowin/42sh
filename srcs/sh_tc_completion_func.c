@@ -89,7 +89,7 @@ char				*compl_word(int file, char **word)
 	ft_strdel(&path);
 	reset_term();
 	if (lst)
-		launch_select(lst, &ret, *word);
+		ret = launch_select(lst, *word);
 	init_term(FALSE);
 	ft_basiclstfree(&lst);
 	return (ret);

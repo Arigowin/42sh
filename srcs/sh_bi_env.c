@@ -58,7 +58,7 @@ static int			format_env(char *arg)
 	if (valid_env_name(name, "env") != FALSE)
 	{
 		j++;
-		value = ft_strdup(srch_value(arg, '='));
+		value = srch_value(arg, '=');
 		change_env(name, value, TMP);
 		ft_strdel(&value);
 	}
@@ -155,13 +155,13 @@ int					bi_env(char **arg, char opt[3][2])
 	i = (ft_strchr(arg[0], '=') ? 0 : 1);
 	if (check_opt(arg, &i, opt) == ERROR)
 		return (FALSE);
-	len = (tbl_len(arg));
+	len = tbl_len(arg);
 	save = cpy_duo(savior_env(NULL, FALSE));
 	savior_env(NULL, opt[0][1]);
 	if (len > 1)
 	{
 		if (modif_env(arg, len, &i, opt) == ERROR)
-			return (ERROR);
+			return (dblstr_duo_ret(ERROR, NULL, NULL, &save));
 	}
 	else if (i == 1 || (i == 2 && opt[1][1] == 1 && !arg[2]))
 	{
@@ -170,5 +170,5 @@ int					bi_env(char **arg, char opt[3][2])
 	}
 	if (opt[0][1] == 1)
 		savior_env(save, TRUE);
-	return (TRUE);
+	return (dblstr_duo_ret(TRUE, NULL, NULL, &save));
 }

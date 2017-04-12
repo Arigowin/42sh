@@ -6,7 +6,7 @@
 /*   By: avacher <avacher@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/12 18:37:29 by avacher           #+#    #+#             */
-/*   Updated: 2016/04/12 18:37:29 by avacher          ###   ########.fr       */
+/*   Updated: 2017/04/12 16:54:38 by dolewski         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,19 +53,19 @@ void			termcap_reset(void)
 	t_winsize		*win_size;
 	t_glst			*stuff;
 
+	stuff = get_stuff();
+	termios = get_term();
+	win_size = fct_size();
 	clr_screen();
 	tputs(tgetstr("te", NULL), 1, ft_putchr);
 	display_cursor();
 	disable_keyboard();
-	tcgetattr(get_stuff()->fd, get_term());
-	get_term()->c_lflag |= (ICANON | ECHO);
-	tcsetattr(get_stuff()->fd, 0, get_term());
-	close(get_stuff()->fd);
-	termios = get_term();
+	tcgetattr(stuff->fd, termios);
+	termios->c_lflag |= (ICANON | ECHO);
+	tcsetattr(stuff->fd, 0, termios);
+	close(stuff->fd);
 	free(termios);
-	win_size = fct_size();
 	free(win_size);
 	free_lst_param();
-	stuff = get_stuff();
 	free(stuff);
 }
