@@ -45,11 +45,18 @@ int					init_env(char **env, t_duo **env_cpy)
 	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- INIT ENV ------------------", 2);
 
+	char				*term;
+	char				*path;
+	char				*pwd;
+
 	*env_cpy = tbl_to_duo(env, '=');
 	savior_env(*env_cpy, TRUE);
-	if (!get_env("TERM", FALSE)  || !get_env("PATH", FALSE)
-	|| !get_env("PWD", FALSE))
+	if (!(term = get_env("TERM", FALSE))  || !(path = get_env("PATH", FALSE))
+	|| !(pwd = get_env("PWD", FALSE)))
 		fill_path(env_cpy);
+	ft_strdel(&term);
+	ft_strdel(&path);
+	ft_strdel(&pwd);
 	if (env_cpy == NULL && *env_cpy == NULL)
 		return (sh_error(FALSE, 6, NULL, NULL));
 	del_env(env_cpy, "OLDPWD", FALSE);
