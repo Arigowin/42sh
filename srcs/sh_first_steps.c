@@ -82,7 +82,7 @@ int					fill_path(t_duo **env)
 
 	tmp = NULL;
 	if (!get_env("PATH", BOTH) && duo_pushback(env, "PATH", "/usr/local/bin:\
-			/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:.") == ERROR)
+/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:.") == ERROR)
 		return (sh_error(FALSE, 6, NULL, NULL));
 	if (get_env("PWD", BOTH) == NULL)
 	{

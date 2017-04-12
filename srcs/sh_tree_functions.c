@@ -34,7 +34,6 @@ int					del_tree(t_node **tree)
 {
 	if (tree && *tree)
 	{
-		printf("[%s]\n", (*tree)->data);
 		if ((*tree) && (*tree)->left)
 			del_tree(&((*tree)->left));
 		if ((*tree) && (*tree)->right)
