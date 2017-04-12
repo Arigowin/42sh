@@ -48,11 +48,12 @@ int					parse_str(char *str)
 			i--;
 		}
 		else if (str[i] == '\\' && str[i + 1] == 'c')
-			return (FALSE);
+			return (str_dbltbl_ret(FALSE, &buff, NULL, NULL));
 		else
 			parse_str_bis(str, &i);
 		i++;
 	}
+	ft_strdel(&buff);
 	return (TRUE);
 }
 

@@ -68,6 +68,9 @@ static int			format_env(char *arg)
 
 int					del_tmp_env(void)
 {
+	if (DEBUG_BI == 1)
+		ft_putendl_fd("----------------------- DEL TMP ENV ------------------", 2);
+
 	t_duo				*env;
 	t_duo				*tmp;
 
@@ -92,7 +95,7 @@ int					del_tmp_env(void)
 
 static int			exec_cmd_env(int i, int len, char **arg)
 {
-//	if (DEBUG_BI == 1)
+	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- EXEC CMD ENV ------------------", 2);
 
 	char				**cmd;
@@ -170,5 +173,6 @@ int					bi_env(char **arg, char opt[3][2])
 	}
 	if (opt[0][1] == 1)
 		savior_env(save, TRUE);
-	return (dblstr_duo_ret(TRUE, NULL, NULL, &save));
+	duo_del(&save);
+	return (TRUE);
 }

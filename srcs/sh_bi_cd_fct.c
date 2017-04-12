@@ -2,19 +2,19 @@
 #include "shell.h"
 #include "libft.h"
 
-static int			absolute_link_path_builder(char **path, char *env_pwd)
+static int			absolute_link_path_builder(char **path, char **env_pwd)
 {
 	char				*new_path;
 	char				*tmp_path;
 
 	new_path = NULL;
-	tmp_path = ft_strjoin(env_pwd, "/");
-	ft_strdel(&env_pwd);
-	if ((env_pwd = ft_strdup(tmp_path)) == NULL)
+	tmp_path = ft_strjoin(*env_pwd, "/");
+	ft_strdel(env_pwd);
+	if ((*env_pwd = ft_strdup(tmp_path)) == NULL)
 		return (sh_error(FALSE, 6, NULL, NULL));
 	ft_strdel(&tmp_path);
-	new_path = ft_strjoin(env_pwd, *path);
-	ft_strdel(&env_pwd);
+	new_path = ft_strjoin(*env_pwd, *path);
+	ft_strdel(env_pwd);
 	ft_strdel(path);
 	if ((*path = ft_strdup(new_path)) == NULL)
 		return (sh_error(FALSE, 6, NULL, NULL));
@@ -35,17 +35,19 @@ static int			getcwd_link_path(char **path, char last_opt)
 	if (ft_strcmp(*path, ".") == 0)
 	{
 		if ((*path = ft_strdup(env_pwd)) == NULL)
-			return (sh_error(FALSE, 6, NULL, NULL));
+			return (error_clear_str(FALSE, 6, NULL, &env_pwd));
 	}
 	else if (!ft_strcmp(*path, "..") && (!last_opt || last_opt == 'L') && i)
 	{
 		ft_strdel(path);
 		while (env_pwd[i--] != '/')
 			len++;
+		len -= ((ft_strlen(env_pwd) - len - 1) == 0 ? 1 : 0);
 		*path = ft_strsub(env_pwd, 0, (ft_strlen(env_pwd) - len - 1));
 	}
 	else if (env_pwd[i] != '/')
-		absolute_link_path_builder(path, env_pwd);
+		absolute_link_path_builder(path, &env_pwd);
+	ft_strdel(&env_pwd);
 	return (TRUE);
 }
 
@@ -68,7 +70,10 @@ int					switch_env_pwd(char *path, int is_symlink)
 	if (!is_symlink)
 		new_path = getcwd(NULL, 0);
 	else
-		new_path = path;
+	{
+		if ((new_path = ft_strdup(path)) == NULL)
+			return (error_clear_str(FALSE, 6, NULL, &old_pwd));
+	}
 	change_env("OLDPWD", old_pwd, ENV);
 	change_env("PWD", new_path, ENV);
 	ft_strdel(&new_path);

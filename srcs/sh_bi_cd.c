@@ -8,21 +8,21 @@ static int			physical_change_dir(char **path, int *ret)
 	int					stat_ret;
 
 	stat_ret = stat(*path, &stat_buf);
-	if (!stat_ret && chdir(*path) == -1)
+	if (stat_ret == ERROR || chdir(*path) == -1)
 		manage_cd_errors(*path, stat_buf, stat_ret);
 	ft_strdel(path);
-	if ((*path = ft_strdup(getcwd(NULL, 0))) == NULL)
+	if ((*path = getcwd(NULL, 0)) == NULL)
 		return (sh_error(FALSE, 6, NULL, NULL));
 	switch_env_pwd(*path, TRUE);
 	return (*ret = TRUE);
 }
 
-static int			exec_change_dir(char *path, char lopt, int *ret)
+static int			exec_change_dir(char **path, char lopt, int *ret)
 {
 	if (lopt == 'L' || !lopt)
-		logical_change_dir(&path, lopt, ret);
+		logical_change_dir(path, lopt, ret);
 	else if (lopt == 'P')
-		physical_change_dir(&path, ret);
+		physical_change_dir(path, ret);
 	return (TRUE);
 }
 
@@ -34,7 +34,8 @@ static int			cd_home(char last_opt)
 	ret = TRUE;
 	if ((path = get_env("HOME", ENV, TRUE)) == NULL)
 		return (sh_error(FALSE, 13, NULL, NULL));
-	exec_change_dir(path, last_opt, &ret);
+	exec_change_dir(&path, last_opt, &ret);
+	ft_strdel(&path);
 	return (ret);
 }
 
@@ -44,7 +45,6 @@ static int			handle_cd_arg(int *ret, char **arg, char *last_opt, int i)
 	char				*old_pwd;
 
 	path = NULL;
-	old_pwd = get_env("OLDPWD", ENV, TRUE);
 	if (i == 1 || (i > 1 && *last_opt && arg[i - 1] && arg[i - 1][0] == '-'
 	&& ft_strcmp(arg[i - 1], "-")))
 		*ret = cd_home(*last_opt);
@@ -52,14 +52,18 @@ static int			handle_cd_arg(int *ret, char **arg, char *last_opt, int i)
 	{
 		if ((path = ft_strdup(arg[i - 1])) == NULL)
 			return (sh_error(FALSE, 6, NULL, NULL));
-		exec_change_dir(path, *last_opt, ret);
+		exec_change_dir(&path, *last_opt, ret);
+		ft_strdel(&path);
 	}
 	else if (i > 1 && !ft_strcmp(arg[i - 1], "-"))
 	{
+		old_pwd = get_env("OLDPWD", ENV, TRUE);
 		if ((path = ft_strdup(old_pwd)) == NULL)
 			return (sh_error(TRUE, 11, NULL, NULL));
 		ft_putendl(path);
-		exec_change_dir(path, *last_opt, ret);
+		exec_change_dir(&path, *last_opt, ret);
+		ft_strdel(&old_pwd);
+		ft_strdel(&path);
 	}
 	return (TRUE);
 }

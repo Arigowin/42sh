@@ -17,16 +17,17 @@ int					check_env_fct(char *value)
 		i = 0;
 		while (tmp[++i] != ')')
 			if (!ft_isprint(tmp[i]))
-				return (FALSE);
+				return (str_dbltbl_ret(FALSE, &tmp, NULL, NULL));
 		if (tmp[i + 1] == '{')
 		{
 			while (tmp[++i] != '}')
 				if (!ft_isprint(tmp[i]))
-					return (FALSE);
+					return (str_dbltbl_ret(FALSE, &tmp, NULL, NULL));
 			if (tmp[i - 1] == ';' && !tmp[i + 1])
-				return (TRUE);
+				return (str_dbltbl_ret(TRUE, &tmp, NULL, NULL));
 		}
 	}
+	ft_strdel(&tmp);
 	return (FALSE);
 }
 
