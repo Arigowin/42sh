@@ -91,6 +91,7 @@ int					manage_local_var(char **cmd, int *i)
 		if (ft_strcmp(cmd[0], "env") && cmd[(*i) + 1] == NULL)
 			change_env(local_var[0], local_var[1], LOCAL);
 		(*i)++;
+		free_tab(&local_var);
 	}
 
 
