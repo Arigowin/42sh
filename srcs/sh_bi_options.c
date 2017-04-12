@@ -45,11 +45,11 @@ static int			bi_usage(char *bi, char curr_opt, char handled_opt[3][2])
 	if (ft_strcmp(bi, "env") == 0)
 		ft_putstr_fd("exec", 2);
 	if (ft_strcmp(bi, "export") == 0)
-		ft_putstr_fd("name[=value]", 2);
+		ft_putstr_fd("name[=value] or export -p", 2);
 	if (ft_strcmp(bi, "unset") == 0)
 		ft_putstr_fd("name", 2);
 	ft_putendl_fd("]", 2);
-	return(ERROR);
+	return(str_dbltbl_ret(ERROR, &str, NULL, NULL));
 }
 
 int					keep_last_opt(char opt[3][2], char curr_opt, int i)
