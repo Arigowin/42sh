@@ -47,7 +47,7 @@ int					complet_var(t_basic_list **lst, char **path, char **word)
 	split_path(word, path);
 	if (ft_strchr(*word, '$'))
 	{
-		get_varlist(lst, word);
+		get_envlist(lst, word);
 		return (TRUE);
 	}
 	return (FALSE);

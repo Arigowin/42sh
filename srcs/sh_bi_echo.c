@@ -56,13 +56,12 @@ int					parse_str(char *str)
 	return (TRUE);
 }
 
-int					bi_echo(char **arg, t_duo **env, char opt[3][2])
+int					bi_echo(char **arg, char opt[3][2])
 {
 	int					i;
 	int					ret;
 
 	i = 1;
-	(void)env;
 	if ((ret = check_opt(arg, &i, opt)) == ERROR)
 		return (FALSE);
 	i = (ret == TRUE ? i : 1);

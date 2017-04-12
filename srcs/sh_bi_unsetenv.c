@@ -2,7 +2,7 @@
 #include "shell.h"
 #include "libft.h"
 
-static int			del_first(t_duo **env, char *name, int local)
+static int			del_first(t_duo **env, char *name)
 {
 	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- DEL FIRST ------------------", 2);
@@ -15,28 +15,28 @@ static int			del_first(t_duo **env, char *name, int local)
 		*env =(*env)->next;
 		ft_strdel(&(tmp->name));
 		ft_strdel(&(tmp->value));
+		ft_strdel(&(tmp->tmp_val));
 		free(tmp);
 		tmp = NULL;
-		if (local == TRUE)
-			savior_local(*env, TRUE);
-		else if (local == FALSE)
-			savior_env(*env, TRUE);
+		savior_env(*env, TRUE);
 		return (TRUE);
 	}
 	return (FALSE);
 }
 
-int					del_env(t_duo **env, char *name, int local)
+int					del_env(char *name)
 {
 	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- DEL ENV ------------------", 2);
 
+	t_duo				*env;
 	t_duo				*cpy;
 	t_duo				*tmp;
 
-	if (del_first(env, name, local) == TRUE)
+	env = savior_env(NULL, FALSE);
+	cpy = env;
+	if (del_first(&env, name) == TRUE)
 		return (TRUE);
-	cpy = *env;
 	tmp = NULL;
 	while (cpy && cpy->next)
 	{
@@ -45,12 +45,10 @@ int					del_env(t_duo **env, char *name, int local)
 			tmp = cpy->next->next;
 			ft_strdel(&(cpy->next->name));
 			ft_strdel(&(cpy->next->value));
+			ft_strdel(&(cpy->next->tmp_val));
 			free(cpy->next);
 			cpy->next = tmp;
-			if (local == TRUE)
-				savior_local(*env, TRUE);
-			else if (local == FALSE)
-				savior_env(*env, TRUE);
+			savior_env(env, TRUE);
 			return (TRUE);
 		}
 		cpy = cpy->next;
@@ -58,7 +56,7 @@ int					del_env(t_duo **env, char *name, int local)
 	return (FALSE);
 }
 
-int					bi_unsetenv(char **arg, t_duo **env, char opt[3][2])
+int					bi_unsetenv(char **arg, char opt[3][2])
 {
 	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- UNSETENV ------------------", 2);
@@ -71,7 +69,7 @@ int					bi_unsetenv(char **arg, t_duo **env, char opt[3][2])
 		sh_error(FALSE, 9, NULL, arg[0]);
 	while (arg[i])
 	{
-		if (del_env(env, arg[i], FALSE) == FALSE)
+		if (get_env(arg[i], ENV, FALSE) == NULL || del_env(arg[i]) == FALSE)
 			sh_error(TRUE, 14, arg[i], arg[0]);
 		i++;
 	}

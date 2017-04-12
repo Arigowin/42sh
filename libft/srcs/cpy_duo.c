@@ -19,7 +19,7 @@ t_duo				*cpy_duo(t_duo *duo)
 	duo_cpy = NULL;
 	while (duo)
 	{
-		if (duo_pushback(&duo_cpy, duo->name, duo->value) == -1)
+		if (duo_pushback(&duo_cpy, duo->name, duo->value, duo->type) == -1)
 			return (NULL);
 		duo = duo->next;
 	}

@@ -23,6 +23,7 @@ int					last_duol_del(t_duo **lst)
 	{
 		ft_strdel(&(tmp->next->name));
 		ft_strdel(&(tmp->next->value));
+		ft_strdel(&(tmp->next->tmp_val));
 		free(tmp->next);
 		tmp->next = NULL;
 	}

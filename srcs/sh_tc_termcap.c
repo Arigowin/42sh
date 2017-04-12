@@ -13,7 +13,7 @@ static int			start_init_term(void)
 	char				*term_name;
 
 	term_name = NULL;
-	if ((term_name = get_env("TERM", BOTH)) == NULL)
+	if ((term_name = get_env("TERM", ENV, TRUE)) == NULL)
 		term_name = "xterm";
 	tgetent(NULL, term_name);
 	ft_strdel(&term_name);

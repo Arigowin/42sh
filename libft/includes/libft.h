@@ -19,10 +19,21 @@
 # include <stdlib.h>
 # include <string.h>
 
+typedef enum			e_env
+{
+	TMP = 1,
+	ENV,
+	TMP_ENV,
+	LOCAL,
+	TMP_LOCAL
+}						t_env;
+
 typedef struct			s_duo
 {
 	char				*name;
 	char				*value;
+	char				*tmp_val;
+	t_env				type;
 	struct s_duo		*next;
 }						t_duo;
 
@@ -146,7 +157,8 @@ char					*fill_tbl(char *str, char c);
 char					**duo_to_tbl(t_duo *lst, char *sep);
 char					*srch_begining(const char *str, int c);
 char					*srch_value(const char *str, int c);
-int						duo_pushback(t_duo **lst, char *name, char *value);
+int						duo_pushback(t_duo **lst, char *name, char *value,
+							t_env type);
 int						duo_del(t_duo **lst);
 int		 				free_tduo_link(t_duo **lst);
 int						last_duol_del(t_duo **lst);

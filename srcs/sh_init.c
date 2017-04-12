@@ -10,7 +10,7 @@ static int			sh_lvl(void)
 	char				*new_lvl;
 
 	lvl = NULL;
-	if ((lvl = get_env("SHLVL", FALSE)) == NULL || ft_strcmp(lvl, "-") == 0
+	if ((lvl = get_env("SHLVL", ENV, TRUE)) == NULL || ft_strcmp(lvl, "-") == 0
 	|| ft_isstrnum(lvl) == 0 || ft_strlen(lvl) > 10)
 	{
 		if ((lvl = ft_strdup("0")) == NULL)
@@ -22,7 +22,7 @@ static int			sh_lvl(void)
 		if ((new_lvl = ft_strdup("-")) == NULL)
 			return (error_clear_str(FALSE, 6, NULL, &lvl));
 	}
-	change_env("SHLVL", new_lvl, FALSE);
+	change_env("SHLVL", new_lvl, ENV);
 	ft_strdel(&lvl);
 	ft_strdel(&new_lvl);
 	return (TRUE);
@@ -51,18 +51,17 @@ int					init_env(char **env, t_duo **env_cpy)
 
 	*env_cpy = tbl_to_duo(env, '=');
 	savior_env(*env_cpy, TRUE);
-	if (!(term = get_env("TERM", FALSE))  || !(path = get_env("PATH", FALSE))
-	|| !(pwd = get_env("PWD", FALSE)))
+	if (!(term = get_env("TERM", ENV, TRUE))  || !(path = get_env("PATH", ENV, TRUE))
+	|| !(pwd = get_env("PWD", ENV, TRUE)))
 		fill_path(env_cpy);
 	ft_strdel(&term);
 	ft_strdel(&path);
 	ft_strdel(&pwd);
 	if (env_cpy == NULL && *env_cpy == NULL)
 		return (sh_error(FALSE, 6, NULL, NULL));
-	del_env(env_cpy, "OLDPWD", FALSE);
+	del_env("OLDPWD");
 	savior_env(*env_cpy, TRUE);
 	sh_lvl();
-	savior_env(*env_cpy, TRUE);
 	return (TRUE);
 }
 

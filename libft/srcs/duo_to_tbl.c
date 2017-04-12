@@ -39,7 +39,10 @@ char		**duo_to_tbl(t_duo *lst, char *sep)
 	while (lst != NULL)
 	{
 		tmp1 = ft_properjoin(lst->name, sep);
-		tmp2 = ft_properjoin(tmp1, lst->value);
+		if (lst->type == ENV || lst->type == LOCAL)
+			tmp2 = ft_properjoin(tmp1, lst->value);
+		else
+			tmp2 = ft_properjoin(tmp1, lst->tmp_val);
 		if ((tbl[i] = ft_strdup(tmp2)) == NULL)
 			return (NULL);
 		free(tmp1);

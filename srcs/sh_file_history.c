@@ -88,7 +88,7 @@ int					load_history(t_history **history)
 
 	path = NULL;
 	fd = -1;
-	home = get_env("HOME", BOTH);
+	home = get_env("HOME", ENV, TRUE);
 	if (home)
 		path = ft_strjoin(home, HISTORY_FILE_NAME);
 	if (path && (fd = open(path, O_RDONLY | O_CREAT, S_IRUSR | S_IWUSR))
@@ -112,7 +112,7 @@ int					save_history(void)
 	path = NULL;
 	if ((history = *(savior_history(NULL, FALSE))) == NULL)
 		return (FALSE);
-	home = get_env("HOME", BOTH);
+	home = get_env("HOME", ENV, TRUE);
 	path = (home != NULL ? ft_strjoin(home, HISTORY_FILE_NAME) : NULL);
 	if ((fd = open(path, O_WRONLY | O_TRUNC | O_CREAT, S_IRUSR | S_IWUSR))
 	== ERROR && path)

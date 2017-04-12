@@ -31,17 +31,6 @@ int						load_history(t_history **history);
 int						save_history(void);
 
 /*
-** sh_savior
-*/
-t_duo					*savior_env(t_duo *env, int code);
-t_duo					*savior_local(t_duo *env, int code);
-t_line					*savior_stline(t_line *stline, int code);
-char					*savior_tty(char *tty, int code);
-t_node					*savior_tree(t_node *tree, int code);
-t_history				**savior_history(t_history **history, int code);
-int						savior_pid(int fct_pid, int code);
-
-/*
 ** sh_init
 */
 int						init_env(char **env, t_duo **env_cpy);

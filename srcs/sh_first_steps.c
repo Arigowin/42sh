@@ -7,8 +7,8 @@ static char			*get_path(void)
 	char				*tmp;
 	char				*home;
 
-	home = get_env("HOME", BOTH);
-	if ((path = get_env("PWD", BOTH)) == NULL)
+	home = get_env("HOME", ENV, TRUE);
+	if ((path = get_env("PWD", ENV, TRUE)) == NULL)
 		return (NULL);
 	tmp = ft_strsub(path, 0, ft_strlen(home));
 	if (home && ft_strcmp(home, tmp) == 0)
@@ -51,10 +51,10 @@ int					display_prompt(void)
 	char				*shlvl;
 
 	path = get_path();
-	name = get_env("LOGNAME", BOTH);
+	name = get_env("LOGNAME", ENV, TRUE);
 	if (name)
 		ft_putstr_color("\033[34;1m", name);
-	if ((shlvl = get_env("SHLVL", BOTH)))
+	if ((shlvl = get_env("SHLVL", ENV, TRUE)))
 	{
 		ft_putchar_color("\033[31m", '[');
 		ft_putstr_color("\033[31m", shlvl);
@@ -81,18 +81,20 @@ int					fill_path(t_duo **env)
 	char				*tmp;
 
 	tmp = NULL;
-	if (!get_env("PATH", BOTH) && duo_pushback(env, "PATH", "/usr/local/bin:\
-/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:.") == ERROR)
+	if (!get_env("PATH", ENV, TRUE) && duo_pushback(env, "PATH",
+	"/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:.",
+	ENV) == ERROR)
 		return (sh_error(FALSE, 6, NULL, NULL));
-	if (get_env("PWD", BOTH) == NULL)
+	if (get_env("PWD", ENV, TRUE) == NULL)
 	{
 		if ((tmp = getcwd(tmp, MAX_PATH)) == NULL)
 			return (sh_error(FALSE, 6, NULL, NULL));
-		if (duo_pushback(env, "PWD", tmp) == ERROR)
+		if (duo_pushback(env, "PWD", tmp, ENV) == ERROR)
 			return (sh_error(FALSE, 6, NULL, NULL));
 		ft_strdel(&tmp);
 	}
-	if (!get_env("TERM", BOTH) && duo_pushback(env, "TERM", "xterm") == ERROR)
+	if (!get_env("TERM", ENV, TRUE)
+	&& duo_pushback(env, "TERM", "xterm", ENV) == ERROR)
 		return (sh_error(FALSE, 6, NULL, NULL));
 	return (TRUE);
 }

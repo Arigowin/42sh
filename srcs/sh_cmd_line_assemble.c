@@ -98,7 +98,7 @@ int					check_fct(int fd, char **cmd)
 	env = savior_env(NULL, FALSE);
 	if ((tbl_env = duo_to_tbl(env, "=")) == NULL)
 		return (sh_error(FALSE, 6, NULL, NULL));
-	tmp = get_env("PATH", BOTH);
+	tmp = get_env("PATH", ENV, TRUE);
 	if (tmp && (path = ft_strsplit(tmp, ':')) == NULL)
 		return (str_dbltbl_ret(ERROR, NULL, &tbl_env, NULL));
 	ft_strdel(&tmp);

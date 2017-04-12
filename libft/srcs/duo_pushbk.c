@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-static t_duo		*duo_new(char *name, char *value)
+static t_duo		*duo_new(char *name, char *val, t_env type)
 {
 	t_duo				*new;
 
@@ -20,28 +20,32 @@ static t_duo		*duo_new(char *name, char *value)
 		return (NULL);
 	new->name = NULL;
 	new->value = NULL;
+	new->tmp_val = NULL;
+	new->type = type;
 	new->next = NULL;
 	if (name && (new->name = ft_strdup(name)) == NULL)
 		return (NULL);
-	if (value && (new->value = ft_strdup(value)) == NULL)
+	if (val && type != TMP && (new->value = ft_strdup(val)) == NULL)
+		return (NULL);
+	else if (val && type == TMP && (new->tmp_val = ft_strdup(val)) == NULL)
 		return (NULL);
 	return (new);
 }
 
-int					duo_pushback(t_duo **lst, char *name, char *value)
+int					duo_pushback(t_duo **lst, char *name, char *val, t_env type)
 {
 	t_duo				*tmp;
 
 	tmp = *lst;
 	if (tmp == NULL)
 	{
-		if ((*lst = duo_new(name, value)) == NULL)
+		if ((*lst = duo_new(name, val, type)) == NULL)
 			return (-1);
 		return (0);
 	}
 	while (tmp && tmp->next)
 		tmp = tmp->next;
-	if ((tmp->next = duo_new(name, value)) == NULL)
+	if ((tmp->next = duo_new(name, val, type)) == NULL)
 		return (-1);
 	return (0);
 }

@@ -52,8 +52,7 @@ static char			**format_cmd(t_node *tree)
 	return (ret);
 }
 
-static int			nopipe_cmd(int pipefd_tab[2][2], t_node *tree,
-		t_lst_fd **lstfd, char **cmd)
+static int			nopipe_cmd(t_node *tree, t_lst_fd **lstfd, char **cmd)
 {
 	if (DEBUG == 1)
 		ft_putendl_fd("----------------------- NOPIPE CMD ------------------", 2);
@@ -76,18 +75,7 @@ static int			nopipe_cmd(int pipefd_tab[2][2], t_node *tree,
 		else if (ret == ERROR || ret == FALSE)
 			return (ret);
 	}
-	ret = check_builtin(fd, cmd, pipefd_tab, NULL);
-	/*ANTIBUG!!!!!!!!*/
-	if (ANTIBUG_LOCAL == 1)
-	{
-		t_duo *tmp = savior_local(NULL, FALSE);
-		while (tmp)
-		{
-			tmp=tmp->next;
-		}
-	}
-	/* FIN ANTIBUG!!!!!!!!*/
-
+	ret = check_builtin(fd, cmd, NULL);
 	if (ret != FALSE)
 		free_tab(&cmd);
 	return (ret);
@@ -106,7 +94,7 @@ int					manage_cmd(int pipefd_tab[2][2], t_node *tree,
 		return (ERROR);
 	if (pipefd_tab[0][0] < 0 && pipefd_tab[1][0] < 0)
 	{
-		ret = nopipe_cmd(pipefd_tab, tree, lstfd, cmd);
+		ret = nopipe_cmd(tree, lstfd, cmd);
 		if (ret != FALSE)
 			return (ret);
 	}

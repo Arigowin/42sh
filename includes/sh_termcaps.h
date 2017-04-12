@@ -115,7 +115,7 @@ int						get_dircontent(int file, char *path, t_basic_list **l,
 int						get_dircontent(int file, char *path, t_basic_list **l,
 							char *word);
 int						get_execinpath(int file, char *word, t_basic_list **l);
-int						get_varlist(t_basic_list **lst, char **word);
+int						get_envlist(t_basic_list **lst, char **word);
 
 /*
 ** sh_tc_completion_sort

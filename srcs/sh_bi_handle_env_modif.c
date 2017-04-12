@@ -2,63 +2,84 @@
 #include "shell.h"
 #include "libft.h"
 
-static int			add_env(char *name, char *value, int local)
+static int			add_env(char *name, char *value, t_env type)
 {
 	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- ADD ENV ------------------", 2);
 
 	t_duo 				*env;
 
-	if (local == TRUE)
-		env = savior_local(NULL, FALSE);
-	else if (local == FALSE)
-		env = savior_env(NULL, FALSE);
+	env = savior_env(NULL, FALSE);
 	if (name == NULL)
 		return (sh_error(TRUE, 26, "setenv", NULL));
 	if (value && value[0] == 26)
-		duo_pushback(&env, name, "");
+		duo_pushback(&env, name, "", type);
 	else
-		duo_pushback(&env, name, value);
-	if (local == TRUE)
-		savior_local(env, TRUE);
-	else if (local == FALSE)
-		 savior_env(env, TRUE);
+		duo_pushback(&env, name, value, type);
+	savior_env(env, TRUE);
 	return (TRUE);
 }
 
-int					change_env(char *name, char *value, int local)
+int					change_env(char *name, char *val, t_env type)
 {
 	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- CHANGE ENV ------------------", 2);
 
 	t_duo				*tmp;
 	int					ret;
-	int					local_tmp;
+//	char				*toto;
 
 	ret = FALSE;
-	tmp = NULL;
-	tmp = (local == TRUE || local == BOTH ? savior_local(NULL, FALSE)
-											: savior_env(NULL, FALSE));
+	tmp = savior_env(NULL, FALSE);
 	while (tmp)
 	{
 		if (tmp && name && ft_strcmp(tmp->name, name) == 0)
 		{
-			ft_strdel(&(tmp->value));
-			if (value && value[0] != 26 && !(tmp->value = ft_strdup(value)))
-				return (sh_error(FALSE, 6, NULL, NULL));
+			//toto = (type == TMP ? tmp->tmp_val : tmp->value);
+			//ft_strdel(&(toto));
+			//if (val && val[0] != 26 && !(toto = ft_strdup(val)))
+			//	return (sh_error(FALSE, 6, NULL, NULL));
+			//tmp->type += (type == TMP && (tmp->type == ENV || tmp->type == LOCAL) ? TMP : 0);
+			if (type == TMP)
+			{
+				ft_strdel(&(tmp->tmp_val));
+				if (val && val[0] != 26 && !(tmp->tmp_val = ft_strdup(val)))
+					return (sh_error(FALSE, 6, NULL, NULL));
+				tmp->type += (type == TMP && (tmp->type == ENV || tmp->type == LOCAL) ? TMP : 0);
+			}
+			else
+			{
+				ft_strdel(&(tmp->value));
+				if (val && val[0] != 26 && !(tmp->value = ft_strdup(val)))
+					return (sh_error(FALSE, 6, NULL, NULL));
+				tmp->type = type;
+			}
 			return (TRUE);
 		}
 		tmp = tmp->next;
 	}
-	local_tmp = (local == BOTH ? FALSE : TRUE);
-	if (local == BOTH || local == REV)
-		ret = change_env(name, value, local_tmp);
 	if (ret == FALSE)
-		ret = add_env(name, value, local);
+		ret = add_env(name, val, type);
+
+
+
+		/*ANTIBUG*/
+	if (ANTIBUG == 1)
+	{
+		t_duo *toto = savior_env(NULL, FALSE);
+		ft_putendl("-----------------change env-------------\n");
+		while (toto)
+		{printf("[[type (%d) name (%s) value (%s) tmp val (%s)]]\n", toto->type, toto->name, toto->value, toto->tmp_val);
+			toto=toto->next;
+		}
+		printf("\n-----------------------------------\n");
+	}
+
+
 	return (ret);
 }
 
-char				*get_env(char *name, int local)
+char				*get_env(char *name, t_env type, int all_env)
 {
 	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- GET ENV ------------------", 2);
@@ -67,22 +88,20 @@ char				*get_env(char *name, int local)
 	char				*tmp;
 
 	tmp = NULL;
-	env = NULL;
-	if (local == TRUE || local == BOTH)
-		env = savior_local(NULL, FALSE);
-	else if (local == FALSE)
-		env = savior_env(NULL, FALSE);
+	env = savior_env(NULL, FALSE);
 	while (env)
 	{
-		if (ft_strcmp(name, env->name) == 0)
+		if (ft_strcmp(name, env->name) == 0 &&
+		(env->type == type || all_env == TRUE))
 		{
-			if (env->value != NULL && ((tmp = ft_strdup(env->value)) == NULL))
+			if ((type == ENV || type == LOCAL) && env->value != NULL
+			&& ((tmp = ft_strdup(env->value)) == NULL))
+				sh_error(FALSE, 6, NULL, NULL);
+			else if (env->tmp_val != NULL && !(tmp = ft_strdup(env->tmp_val)))
 				sh_error(FALSE, 6, NULL, NULL);
 			return (tmp);
 		}
 		env = env->next;
 	}
-	if (local == BOTH)
-		tmp = get_env(name, FALSE);
 	return (tmp);
 }

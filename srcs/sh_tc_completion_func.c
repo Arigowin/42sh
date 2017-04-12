@@ -11,7 +11,7 @@ int					parse_tilde(char **path)
 
 	tmp = NULL;
 	home = NULL;
-	if (*path && (*path)[0] == '~' && (home = get_env("HOME", BOTH)) != NULL)
+	if (*path && (*path)[0] == '~' && (home = get_env("HOME", ENV, TRUE)) != NULL)
 	{
 		if ((tmp = srch_value(*path, '~')) == NULL)
 			return (sh_error(FALSE, 6, NULL, NULL));
