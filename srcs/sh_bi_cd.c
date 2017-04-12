@@ -104,7 +104,7 @@ static int			get_symlink(char **path)
 /*fin naima*/
 static int			change_dir(char *path, char opt[3][2])
 {
-	if (DEBUG_BI == 0)
+	if (DEBUG_BI == 1)
 		printf("-----------------------------------CHANGE DIR --------------------------\n");
 
 	struct stat			stat_buf;
@@ -126,7 +126,7 @@ static int			change_dir(char *path, char opt[3][2])
 
 static int			cd_home(char opt[3][2])
 {
-	if (DEBUG_BI == 0)
+	if (DEBUG_BI == 1)
 		printf("-----------------------------------CD HOME --------------------------\n");
 
 	char				*path;
@@ -141,7 +141,7 @@ static int			cd_home(char opt[3][2])
 
 static int			handle_cd_arg(int *i, int *ret, char **arg, char opt[3][2])
 {
-	if (DEBUG_BI == 0)
+	if (DEBUG_BI == 1)
 		printf("----------------------------------- HANDLE CD ARG --------------------------\n");
 
 	char				*tmp;
@@ -172,7 +172,7 @@ static int			handle_cd_arg(int *i, int *ret, char **arg, char opt[3][2])
 
 int					bi_cd(char **arg, char opt[3][2])
 {
-	if (DEBUG_BI == 0)
+	if (DEBUG_BI == 1)
 		printf("----------------------------------- BI CD --------------------------\n");
 
 	char				*tmp;

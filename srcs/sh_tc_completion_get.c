@@ -1,6 +1,16 @@
 #include <dirent.h>
 #include "shell.h"
 #include "libft.h"
+#include <stdio.h>
+
+void				print_basic_lst(t_basic_list *lst)
+{
+	while (lst)
+	{
+		printf("lst->data = %s\n", lst->data);
+		lst = lst->next;
+	}
+}
 
 static int			fill_list_compl(char *word, t_basic_list **lst)
 {
@@ -45,6 +55,7 @@ int					get_dircontent(int file, char *path, t_basic_list **list,
 				sort_push(list, dp->d_name, dp->d_type);
 		}
 	}
+	print_basic_lst(*list);
 	if (dir)
 		closedir(dir);
 	return (TRUE);
@@ -73,6 +84,7 @@ int					get_execinpath(int file, char *word, t_basic_list **lst)
 		i++;
 	}
 	free_tab(&path);
+	//
 	return (TRUE);
 }
 

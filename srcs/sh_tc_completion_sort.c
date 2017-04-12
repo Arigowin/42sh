@@ -6,6 +6,7 @@
 ** compare 2 chaines
 ** en quoi il insert ?
 */
+/*
 static int				insert_cmp(char *s1, char *s2)
 {
 	if (DEBUG_COMPL == 1)
@@ -54,10 +55,8 @@ static int				cmp_dupli(char *s1, char *s2)
 	if (cmp == 0)
 	{
 		cmp = (dot1 != TRUE && dot2 != TRUE ? insert_cmp(s1, s2) : cmp);
-//		cmp = (cmp == 0 && dot2 ? -1 : cmp);
-//		cmp = (cmp == 0 && dot1 ? 1 : cmp);
-		cmp = (dot2 ? -1 : cmp);
-		cmp = (dot1 ? 1 : cmp); // ya pas un risque que cmp soit ecrase par 1er test ?
+		cmp = (cmp == 0 && dot2 ? -1 : cmp);
+		cmp = (cmp == 0 && dot1 ? 1 : cmp);
 	}
 	return (cmp);
 }
@@ -123,9 +122,11 @@ static int			insert_sort(t_basic_list **ite, char *name, int type)
 	}
 	return (1);
 }
+*/
 
 void				sort_push(t_basic_list **lst, char *name, int type)
 {
+	/*
 	if (DEBUG_COMPL == 1)
 		ft_putendl("---------- SORT PUSH ----------");
 
@@ -143,5 +144,6 @@ void				sort_push(t_basic_list **lst, char *name, int type)
 			return ;
 		ite = ite->next;
 	}
+	*/
 	ft_basiclstpushbck(lst, name, type);
 }
