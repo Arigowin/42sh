@@ -8,7 +8,10 @@ int					del_stline(t_line **stline)
 	ft_strdel(&((*stline)->curr_hist));
 	ft_strdel(&((*stline)->copy.cpy));
 	ft_strdel(&((*stline)->copy.bkup));
+	printf("1[%s]\n", (*stline)->hrd.line);
+	printf("1[%p]\n", (*stline)->hrd.line);
 	ft_strdel(&((*stline)->hrd.line));
+	printf("2[%p]\n", (*stline)->hrd.line);
 	return (TRUE);
 }
 
