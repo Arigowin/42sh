@@ -6,7 +6,7 @@
 #    By: avacher <avacher@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/25 17:44:48 by avacher           #+#    #+#              #
-#    Updated: 2016/01/20 14:45:40 by avacher          ###   ########.fr        #
+#    Updated: 2017/04/13 18:49:16 by dolewski         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME = libft.a
@@ -141,7 +141,7 @@ SRC = ft_memset.c \
 
 OBJ = $(patsubst %.c, $(OPATH)/%.o, $(SRC))
 
-CFLAGS = -g -Wall -Wextra -Werror -I $(HPATH)
+CFLAGS = -Wall -Wextra -Werror -I $(HPATH)
 
 ROOT =		$(shell /bin/pwd)
 OPATH =		$(ROOT)/objs
