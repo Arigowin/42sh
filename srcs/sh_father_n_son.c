@@ -44,7 +44,7 @@ static int			son(char **cmd, int pipefd_tab[2][2], t_node *tree,
 			exit_pgm(EXIT_SUCCESS);
 	}
 	if (lstfd && check_builtin(fd, cmd, lstfd) == TRUE)
-		exit_pgm(EXIT_SUCCESS);
+		exit(EXIT_SUCCESS);
 	check_signal(2);
 	if (check_fct(fd, cmd) == -2)
 		exit_pgm(EXIT_FAILURE);
