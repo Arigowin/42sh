@@ -82,10 +82,10 @@ int					switch_env_pwd(char *path, int is_symlink)
 	change_env("PWD", new_path, ENV);
 	ft_strdel(&new_path);
 	ft_strdel(&old_pwd);
-	return (0);
+	return (TRUE);
 }
 
-int					logical_change_dir(char **path, char last_opt, int *ret)
+int					logical_change_dir(char **path, char last_opt)
 {
 	struct stat			stat_buf;
 	int					stat_ret;
@@ -99,5 +99,5 @@ int					logical_change_dir(char **path, char last_opt, int *ret)
 		switch_env_pwd(*path, TRUE);
 	else if (!stat_ret && !S_ISLNK(stat_buf.st_mode))
 		switch_env_pwd(*path, FALSE);
-	return (*ret = TRUE);
+	return (TRUE);
 }
