@@ -58,7 +58,8 @@ int					bi_unset(char **arg, char opt[3][2])
 	int					i;
 
 	i = 1;
-	ret = check_opt(arg, &i, opt);
+	if ((ret = check_opt(arg, &i, opt)) == ERROR)
+		return (FALSE);
 	if (!arg[i])
 		sh_error(FALSE, 9, NULL, arg[0]);
 	while (ret != ERROR && arg[i])
@@ -66,7 +67,7 @@ int					bi_unset(char **arg, char opt[3][2])
 		if ((ret = unset_check_env(arg[i], opt)) == ERROR)
 			break ;
 		else if (ret == FALSE)
-			sh_error(TRUE, 14, arg[i], arg[0]);
+			sh_error(FALSE, 14, arg[i], arg[0]);
 		i++;
 	}
 	return (TRUE);
