@@ -5,7 +5,7 @@
 
 t_node				*create_node(t_types type)
 {
-	if (DEBUG_LP == 0)
+	if (DEBUG_LP == 1)
 		ft_putendl_fd("---------------- CREATE  NODE-----------------", 2);
 
 	t_node				*new_node;
@@ -21,7 +21,7 @@ t_node				*create_node(t_types type)
 
 int					clear_node(t_node **node)
 {
-	if (DEBUG_LP == 0)
+	if (DEBUG_LP == 1)
 		ft_putendl_fd("---------------- CLEAR NODE -----------------", 2);
 	if (node && *node)
 	{

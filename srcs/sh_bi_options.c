@@ -49,7 +49,7 @@ static int			bi_usage(char *bi, char curr_opt, char handled_opt[3][2])
 	if (ft_strcmp(bi, "unset") == 0)
 		ft_putstr_fd("name", 2);
 	ft_putendl_fd("]", 2);
-	return(str_dbltbl_ret(ERROR, &str, NULL, NULL));
+	return(str_dbltbl_ret(savior_pid(38, TRUE), &str, NULL, NULL));
 }
 
 int					keep_last_opt(char opt[3][2], char curr_opt, int i)
@@ -112,7 +112,10 @@ static int			bi_opt(char **arg, int i, char handled_opt[3][2])
 		{
 			ret = set_opt(arg[0], handled_opt, arg[i][j]);
 			if (ft_strcmp("echo", arg[0]) && ret == ERROR)
-				return (bi_usage(arg[0], arg[i][j], handled_opt));
+			{
+				bi_usage(arg[0], arg[i][j], handled_opt);
+				return (FALSE);
+			}
 			j++;
 		}
 	}
