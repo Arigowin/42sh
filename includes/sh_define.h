@@ -3,8 +3,6 @@
 
 # define HISTORY_FILE_NAME "/.42sh_history"
 
-//# define REV 5
-//# define BOTH 4
 # define CONTINUE 3
 # define BREAK 2
 # define TRUE 1
