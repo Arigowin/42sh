@@ -13,7 +13,7 @@
 #ifndef SH_UTILITIES_H
 # define SH_UTILITIES_H
 
-# include "shell.h"
+# include "libft.h"
 
 /*
 ** sh_signal

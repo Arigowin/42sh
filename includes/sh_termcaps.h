@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   sh_termcaps.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dolewski <dolewski@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nkhaldi <nkhaldi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/13 18:18:43 by dolewski          #+#    #+#             */
-/*   Updated: 2017/04/13 18:18:43 by dolewski         ###   ########.fr       */
+/*   Created: 2017/04/13 17:42:40 by nkhaldi           #+#    #+#             */
+/*   Updated: 2017/04/13 18:20:10 by dolewski         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TERMCAPS_H
-# define TERMCAPS_H
+#ifndef SH_TERMCAPS_H
+# define SH_TERMCAPS_H
 
 # include "shell.h"
 
