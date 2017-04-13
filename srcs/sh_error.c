@@ -18,7 +18,8 @@ const char			*tbl_error1(int index)
 	/*20*/"42sh: warning: here-document was delimited by",
 	/*21*/"42sh: cannot performe stat function",
 	/*22*/"42sh: env: cannot specify '-0' with command",
-	/*23*/"42sh: export: no such variable"};
+	/*23*/"42sh: export: no such variable",
+	/*24*/"42sh: line contains undefined character"};
 	int					ret_index;
 
 	ret_index = index;
@@ -31,6 +32,7 @@ const char			*tbl_error1(int index)
 	ret_index = (index == 32 ? 21 : ret_index);
 	ret_index = (index == 35 ? 22 : ret_index);
 	ret_index = (index == 36 ? 23 : ret_index);
+	ret_index = (index == 37 ? 24 : ret_index);
 	return (err_tbl1[ret_index]);
 }
 
@@ -90,8 +92,8 @@ int					sh_error(int ret, int index, char *err, char *bi)
 	&& index != 31))
 		ft_putstr_fd(tbl_error2(index), 2);
 	ft_putendl_fd("", 2);
-	if (index <= 7 || index == 23 || index == 24 || index == 32)
-		exit_pgm(EXIT_FAILURE);
+	if (index <= 7 || index == 23 || index == 24 || index == 32 || index == 37)
+		exit_pgm(index);
 	if (index == 26 || index == 34)
 		return (NO_PRINT);
 	return (ret);

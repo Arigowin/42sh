@@ -1,75 +1,63 @@
 #include <unistd.h>
 #include "libft.h"
 #include "shell.h"
+#include "get_next_line.h"
 
-static int			checktty_tool(char **tmp)
+static int			checktty_tool2(t_line *stline, char *line)
 {
-	char				buff[BUFF_SIZE + 1];
-	int					ret;
-	char				*tmp2;
+	int					std_fd[3];
+	int					std;
 
-	while ((ret = read(0, &buff, BUFF_SIZE)) > 0)
+	std_fd[0] = dup(STDIN_FILENO);
+	std_fd[1] = dup(STDOUT_FILENO);
+	std_fd[2] = dup(STDERR_FILENO);
+	ft_strdel(&(stline->line));
+	if ((stline->line = ft_strdup(line)) == NULL)
+		return (sh_error(FALSE, 6, NULL, NULL));
+	if (check_after_read(stline, NULL) == ERROR)
+		return (ERROR);
+	std = -1;
+	while (++std <= STDERR_FILENO)
 	{
-		buff[ret] = '\0';
-		if (*tmp != NULL)
-		{
-			if ((tmp2 = ft_strjoin(*tmp, buff)) == NULL)
-				return (sh_error(FALSE, 6, NULL, NULL));
-			ft_strdel(tmp);
-			if ((*tmp = ft_strdup(tmp2)) == NULL)
-			{
-				ft_strdel(&tmp2);
-				return (sh_error(FALSE, 6, NULL, NULL));
-			}
-			ft_strdel(&tmp2);
-		}
-		else if ((*tmp = ft_strdup(buff)) == NULL)
-			return (sh_error(FALSE, 6, NULL, NULL));
+		dup2(std_fd[std], std);
+		close(std_fd[std]);
 	}
+	return (TRUE);
+}
+
+static int			checktty_tool(t_line *stline)
+{
+	char				*line;
+	int					ret;
+
+	ret = 0;
+	while ((ret = get_next_line(0, &line)) > 0)
+	{
+		if (ft_isstrascii(line) == 0)
+			return (error_clear_dblstr(ERROR, 37, &line, NULL));
+		if (checktty_tool2(stline, line) == ERROR)
+			return (ERROR);
+		ft_strdel(&line);
+	}
+	if (line)
+	{
+		if (ft_isstrascii(line) == 0)
+			return (error_clear_dblstr(ERROR, 37, &line, NULL));
+		if (checktty_tool2(stline, line) == ERROR)
+			return (ERROR);
+	}
+	ft_strdel(&line);
 	if (ret == ERROR)
 		return (ERROR);
 	return (TRUE);
 }
 
-static int			checktty_tool2(t_line *stline, char **cmd)
-{
-	int					i;
-
-	i = 0;
-	while (cmd[i])
-	{
-		ft_strdel(&(stline->line));
-		if ((stline->line = ft_strdup(cmd[i])) == NULL)
-			return (sh_error(FALSE, 6, NULL, NULL));
-		if (check_after_read(stline, NULL) == ERROR)
-			return (ERROR);
-		i++;
-	}
-	return (TRUE);
-}
-
 int					checktty(t_line *stline)
 {
-	char				*tmp;
-	char				**cmd;
-
-	tmp = NULL;
 	if (!isatty(0))
 	{
-		if (checktty_tool(&tmp) == ERROR)
-			exit_clear_stline(EXIT_FAILURE, &stline);
-		if (tmp)
-		{
-			if ((cmd = ft_strsplit(tmp, '\n')) == NULL)
-				exit_clear_stline(EXIT_FAILURE, &stline);
-			ft_strdel(&tmp);
-			if (checktty_tool2(stline, cmd) == ERROR)
-				exit_clear_stline(EXIT_FAILURE, &stline);
-			free_tab(&cmd);
-			exit_clear_stline(savior_pid(0, FALSE), &stline);
-		}
-		ft_strdel(&tmp);
-		exit_clear_stline(EXIT_FAILURE, &stline);
+		checktty_tool(stline);
+		exit_clear_stline(savior_pid(0, FALSE), &stline);
 	}
 	return (TRUE);
 }

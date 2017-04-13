@@ -85,6 +85,7 @@ long					ft_atoi_long(const char *str);
 int						ft_isalpha(int i);
 int						ft_isdigit(int i);
 int						ft_isstrnum(char *str);
+int						ft_isstrascii(char *str);
 int						ft_isalnum(int i);
 int						ft_isascii(int i);
 int						ft_isprint(int i);

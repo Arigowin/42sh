@@ -61,9 +61,12 @@ static int			fill_hrd_content(t_line *stline, t_node **tree)
 	if (tree && (*tree) && (*tree)->right && ((*tree)->right->type == HRD_QUOTE
 	|| (*tree)->right->type == RED_ARG))
 	{
-		if ((*tree)->right->type == HRD_QUOTE && ((*tree)->right->right->data =
-		ft_strsub(stline->hrd.line, 0, len + 1)) == NULL)
-			return (sh_error(FALSE, 6, NULL, NULL));
+		if ((*tree)->right->type == HRD_QUOTE)
+		{
+			if (((*tree)->right->right->data =
+			ft_strsub(stline->hrd.line, 0, len + 1)) == NULL)
+				return (sh_error(FALSE, 6, NULL, NULL));
+		}
 		else if (((*tree)->right->right->data = hrd_quote_dup(stline->hrd.line,
 		len_deli, (*tree)->right->type)) == NULL)
 			return (sh_error(FALSE, 6, NULL, NULL));
@@ -75,10 +78,10 @@ static int			fill_hrd_content(t_line *stline, t_node **tree)
 }
 
 int					manage_hrd_document(int bln, t_line *stline, t_node **tree,
-					t_history **history)
+		t_history **history)
 {
 	stline->hrd.deli = (((*tree)->right->type == RA || (*tree)->right->type
-				== HRD_QUOTE) ? (*tree)->right : (*tree)->right->right);
+						== HRD_QUOTE) ? (*tree)->right : (*tree)->right->right);
 	stline->hrd.ptr = stline->hrd.line;
 	if (bln)
 		mini_prt_handler(&(stline->hrd.line), &(stline->hrd.pos), stline);

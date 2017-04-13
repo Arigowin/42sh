@@ -69,7 +69,7 @@ int					bi_unsetenv(char **arg, char opt[3][2])
 		sh_error(FALSE, 9, NULL, arg[0]);
 	while (arg[i])
 	{
-		if (get_env(arg[i], ENV, FALSE) == NULL || del_env(arg[i]) == FALSE)
+		if (del_env(arg[i]) == FALSE)
 			sh_error(TRUE, 14, arg[i], arg[0]);
 		i++;
 	}

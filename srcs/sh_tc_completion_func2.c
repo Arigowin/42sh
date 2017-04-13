@@ -44,6 +44,7 @@ int					complet_var(t_basic_list **lst, char **path, char **word)
 	ft_strdel(word);
 	if ((*word = ft_strdup(tmp)) == NULL)
 		return (sh_error(FALSE, 6, NULL, NULL));
+	ft_strdel(&tmp);
 	split_path(word, path);
 	if (ft_strchr(*word, '$'))
 	{
@@ -101,6 +102,7 @@ int					display_or_not(int nb)
 	ft_putnbr(nb);
 	ft_putstr(" possibilities? (y or n) ");
 	stline = savior_stline(NULL, FALSE);
+	key = 0;
 	while ((ret = read(STDIN_FILENO, &key, sizeof(int))) > 0)
 	{
 		if (key == 'y' || key == 'Y' || key == 'n' || key == 'N'

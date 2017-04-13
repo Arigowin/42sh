@@ -1,34 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tbl_to_duo.c                                       :+:      :+:    :+:   */
+/*   ft_isstrascii.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avacher <avacher@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/01/10 10:47:52 by avacher           #+#    #+#             */
-/*   Updated: 2016/01/10 12:01:07 by avacher          ###   ########.fr       */
+/*   Created: 2015/12/08 21:03:57 by avacher           #+#    #+#             */
+/*   Updated: 2015/12/12 12:10:52 by avacher          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_duo				*tbl_to_duo(char **tbl, char c)
+int					ft_isstrascii(char *str)
 {
 	int					i;
-	char				*tmp_name;
-	char				*tmp_value;
-	t_duo				*lst;
 
-	lst = NULL;
 	i = 0;
-	while (tbl && tbl[i])
+	if (str == NULL)
+		return (0);
+	while (str[i])
 	{
-		tmp_name = srch_begining(tbl[i], c);
-		tmp_value = srch_value(tbl[i], c);
-		duo_pushback(&lst, tmp_name, tmp_value, ENV);
-		ft_strdel(&tmp_name);
-		ft_strdel(&tmp_value);
+		if (ft_isascii(str[i]) == 0)
+			return (0);
 		i++;
 	}
-	return (lst);
+	return (1);
 }

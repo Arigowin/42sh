@@ -18,5 +18,5 @@ char			*srch_value(const char *str, int c)
 		str++;
 	if (!str || *str != c)
 		return (NULL);
-	return ((char*)(str + 1));
+	return (ft_strdup((char*)(str + 1)));
 }

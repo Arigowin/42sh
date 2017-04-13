@@ -6,7 +6,7 @@
 /*   By: avacher <avacher@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/12 18:37:29 by avacher           #+#    #+#             */
-/*   Updated: 2016/04/12 18:37:29 by avacher          ###   ########.fr       */
+/*   Updated: 2017/04/12 16:50:15 by dolewski         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int				termcap_init(void)
 		return (-1);
 	if (tgetent(NULL, name_term) == -1)
 		return (-1);
+	ft_strdel(&name_term);
 	if (tcgetattr(get_stuff()->fd, get_term()) == -1)
 		return (-1);
 	get_term()->c_lflag &= ~(ICANON | ECHO);

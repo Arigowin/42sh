@@ -108,7 +108,7 @@ int					get_envlist(t_basic_list **lst, char **word)
 
 	char				*tmp;
 
-	if ((tmp = ft_strdup(srch_value(*word, '$'))) == NULL)
+	if ((tmp = srch_value(*word, '$')) == NULL)
 		return (sh_error(FALSE, 6, NULL, NULL));
 	ft_strdel(word);
 	if ((*word = ft_strdup(tmp)) == NULL)

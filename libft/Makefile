@@ -47,6 +47,7 @@ SRC = ft_memset.c \
 	  ft_isalpha.c \
 	  ft_isdigit.c \
 	  ft_isstrnum.c \
+	  ft_isstrascii.c \
 	  ft_isalnum.c \
 	  ft_isascii.c \
 	  ft_isprint.c \

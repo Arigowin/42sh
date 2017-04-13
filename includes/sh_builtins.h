@@ -1,6 +1,7 @@
 #ifndef SH_BUILTINS_H
 # define SH_BUILTINS_H
 
+# include <sys/stat.h>
 # include "shell.h"
 
 /*
@@ -30,6 +31,13 @@ char					*get_env(char *name, t_env type, int all_env);
 ** sh_bi_cd
 */
 int						bi_cd(char **arg, char opt[3][2]);
+
+/*
+** sh_bi_cd_fct
+*/
+int						manage_cd_errors(char *p, struct stat s, int stat_r);
+int						switch_env_pwd(char *path, int is_symlink);
+int						logical_change_dir(char **path, char l_opt, int *ret);
 
 /*
 ** sh_bi_echo
