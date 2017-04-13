@@ -59,7 +59,7 @@ void				del_history(t_history **history)
 		free(save);
 		save = NULL;
 	}
-	free(history);
+	free(*history);
 	history = NULL;
 }
 
