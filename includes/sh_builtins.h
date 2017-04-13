@@ -25,6 +25,7 @@ int						check_opt(char **arg, int *i, char opt[3][2]);
 ** sh_bi_handle_env_modif
 */
 int						change_env(char *name, char *value, t_env type);
+int						modif_env(char **arg, int len, int *i, char opt[3][2]);
 char					*get_env(char *name, t_env type, int all_env);
 
 /*
@@ -47,7 +48,9 @@ int						bi_echo(char **arg, char opt[3][2]);
 /*
 ** sh_bi_env
 */
-int						modif_env(char **arg, int len, int *i, char opt[3][2]);
+int						print_env(int eol);
+int						format_env(char *arg);
+int						del_tmp_env(int opt_i);
 int						bi_env(char **arg, char opt[3][2]);
 
 /*

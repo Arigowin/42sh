@@ -5,6 +5,7 @@
 			#define DEBUG_COMPL 0
 			# define ANTIBUG_LOCAL 0
 			# define DEBUG_BI 0
+			# define DEBUG_LP 0
 			# define DEBUG 0
 			# define ANTIBUG 0
 
