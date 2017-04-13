@@ -15,7 +15,6 @@
 
 # include "libft.h"
 # include "shell.h"
-# include <stdio.h>
 # include <sys/ioctl.h>
 # include <termios.h>
 
@@ -125,8 +124,3 @@ void					sig_continue(int sig);
 void					manage_signal();
 
 #endif
-
-/*
-**# define RIGHT_ARROW 4414235
-**# define LEFT_ARROW 4479771
-*/
