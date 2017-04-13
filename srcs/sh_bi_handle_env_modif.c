@@ -28,21 +28,13 @@ int					change_env(char *name, char *val, t_env type)
 	{
 		if (tmp && name && ft_strcmp(tmp->name, name) == 0)
 		{
-			if (type == TMP)
-			{
-				ft_strdel(&(tmp->tmp_val));
-				if (val && val[0] != 26 && !(tmp->tmp_val = ft_strdup(val)))
-					return (sh_error(FALSE, 6, NULL, NULL));
-				tmp->type += (type == TMP
-					&& (tmp->type == ENV || tmp->type == LOCAL) ? TMP : 0);
-			}
-			else
-			{
-				ft_strdel(&(tmp->value));
-				if (val && val[0] != 26 && !(tmp->value = ft_strdup(val)))
-					return (sh_error(FALSE, 6, NULL, NULL));
-				tmp->type = type;
-			}
+			ft_strdel((type == TMP ? &(tmp->tmp_val) : &(tmp->value)));
+			if (val && val[0] != 26 && ((type == TMP
+			&& !(tmp->tmp_val = ft_strdup(val)))
+			|| (type != TMP && !(tmp->value = ft_strdup(val)))))
+				return (sh_error(FALSE, 6, NULL, NULL));
+			tmp->type = (type == TMP && (tmp->type == ENV || tmp->type == LOCAL)
+													? tmp->type + TMP : type);
 			return (TRUE);
 		}
 		tmp = tmp->next;
