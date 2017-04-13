@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sh_tree_traversal.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dolewski <dolewski@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/13 17:44:10 by dolewski          #+#    #+#             */
+/*   Updated: 2017/04/13 18:14:09 by dolewski         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 #include "libft.h"
 
@@ -11,7 +23,7 @@ static int			tree_trav_semi(t_node *tree, t_lst_fd **lstfd,
 		if ((tree_traversal(tree->left, lstfd, pipefd_tab)) == ERROR)
 			return (ERROR);
 	init_pipefd(pipefd_tab);
-	fct_ret = savior_pid(0, FALSE);
+	fct_ret = savior_fct_ret(0, FALSE);
 	if (tree && tree->right
 	&& (tree->type == SEMI
 	|| (tree->type == LOGIC_AND && fct_ret == 0)

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   shell.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dolewski <dolewski@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/13 18:18:45 by dolewski          #+#    #+#             */
+/*   Updated: 2017/04/13 18:18:49 by dolewski         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SHELL_H
 # define SHELL_H
 
@@ -11,6 +23,11 @@
 # include "sh_lexer_parser.h"
 # include "sh_redirect.h"
 # include "sh_utilities.h"
+
+/*
+** sh_main.c
+*/
+t_duo					*savior_env(t_duo *env, int code);
 
 /*
 ** sh_check_tty

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sh_termcaps.h                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dolewski <dolewski@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/13 18:18:43 by dolewski          #+#    #+#             */
+/*   Updated: 2017/04/13 18:18:43 by dolewski         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef TERMCAPS_H
 # define TERMCAPS_H
 
@@ -95,6 +107,7 @@ int						fct_tab(char **line, int *pos, t_line *stline,
 /*
 ** sh_tc_completion_func
 */
+char					*get_line(char *str, int pos);
 int						parse_tilde(char **path);
 int						split_path(char **word, char **path);
 char					*compl_word(int file, char **word);

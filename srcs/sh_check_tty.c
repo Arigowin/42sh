@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sh_check_tty.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dolewski <dolewski@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/13 17:26:55 by dolewski          #+#    #+#             */
+/*   Updated: 2017/04/13 18:13:40 by dolewski         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <unistd.h>
 #include "libft.h"
 #include "shell.h"
@@ -57,7 +69,7 @@ int					checktty(t_line *stline)
 	if (!isatty(0))
 	{
 		checktty_tool(stline);
-		exit_clear_stline(savior_pid(0, FALSE), &stline);
+		exit_clear_stline(savior_fct_ret(0, FALSE), &stline);
 	}
 	return (TRUE);
 }

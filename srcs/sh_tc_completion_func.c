@@ -1,5 +1,32 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sh_tc_completion_func.c                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dolewski <dolewski@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/13 17:49:11 by dolewski          #+#    #+#             */
+/*   Updated: 2017/04/13 18:16:06 by dolewski         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 #include "libft.h"
+#define SEP2 "|&;><\"' \t\n\0"
+
+char				*get_line(char *str, int pos)
+{
+	int					i;
+
+	i = pos;
+	pos--;
+	while (pos > -1 && ft_strchr(SEP2, str[pos]) == NULL)
+		pos--;
+	if (pos == i - 1)
+		return (NULL);
+	pos++;
+	return (ft_strsub(str, pos, i - pos));
+}
 
 int					parse_tilde(char **path)
 {

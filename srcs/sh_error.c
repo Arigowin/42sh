@@ -1,8 +1,66 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sh_error.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dolewski <dolewski@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/13 17:26:56 by dolewski          #+#    #+#             */
+/*   Updated: 2017/04/13 18:15:23 by dolewski         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <string.h>
 #include "shell.h"
 #include "libft.h"
 
-const char			*tbl_error1(int index)
+static char			*concat_to_str(char opt[3][2])
+{
+	char				*str;
+	int					i;
+
+	i = 0;
+	if ((str = ft_strnew(4)) == NULL)
+		sh_error(FALSE, 6, NULL, NULL);
+	while (i < 3)
+	{
+		str[i] = opt[i][0];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
+}
+
+int					bi_usage(char *bi, char curr_opt, char handled_opt[3][2])
+{
+	char				*str;
+
+	str = concat_to_str(handled_opt);
+	ft_putstr_fd("42sh: ", 2);
+	ft_putstr_fd(bi, 2);
+	ft_putstr_fd(": '", 2);
+	ft_putchar_fd(curr_opt, 2);
+	ft_putendl_fd("': invalid option", 2);
+	ft_putstr_fd(bi, 2);
+	ft_putstr_fd(": usage: ", 2);
+	ft_putstr_fd(bi, 2);
+	ft_putstr_fd(" [-", 2);
+	ft_putstr_fd(str, 2);
+	ft_strdel(&str);
+	ft_putstr_fd("] [", 2);
+	if (ft_strcmp(bi, "cd") == 0)
+		ft_putstr_fd("dir", 2);
+	if (ft_strcmp(bi, "env") == 0)
+		ft_putstr_fd("exec", 2);
+	if (ft_strcmp(bi, "export") == 0)
+		ft_putstr_fd("name[=value] or export -p", 2);
+	if (ft_strcmp(bi, "unset") == 0)
+		ft_putstr_fd("name", 2);
+	ft_putendl_fd("]", 2);
+	return (str_dbltbl_ret(savior_fct_ret(39, TRUE), &str, NULL, NULL));
+}
+
+const char			*tbl_error1(int i)
 {
 	static const char	*err_tbl1[] = {"42sh: cannot access termacp database",
 	"42sh: ioctl: cannot get window size", "42sh: cannot open ", "42sh: cannot \
@@ -15,20 +73,20 @@ parse error near", "42sh: exit", "42sh: warning: here-document was delimited \
 by", "42sh: cannot performe stat function", "42sh: env: cannot specify '-0' \
 with command", "42sh: export: no such variable", "42sh: line contains \
 undefined character"};
-	int					ret_index;
+	int					ret;
 
-	ret_index = index;
-	ret_index = (index >= 16 && index <= 18 ? 16 : ret_index);
-	ret_index = (index == 26 ? 18 : ret_index);
-	ret_index = (index == 9 || index == 15 || (index >= 19 && index <= 25) ||
-	index == 29 || index == 14 || index == 30 || index == 33 || index == 34 ? 17 : ret_index);
-	ret_index = (index >= 27 && index <= 28 ? 19 : ret_index);
-	ret_index = (index == 31 ? 20 : ret_index);
-	ret_index = (index == 32 ? 21 : ret_index);
-	ret_index = (index == 35 ? 22 : ret_index);
-	ret_index = (index == 36 ? 23 : ret_index);
-	ret_index = (index == 37 ? 24 : ret_index);
-	return (err_tbl1[ret_index]);
+	ret = i;
+	ret = (i >= 16 && i <= 18 ? 16 : ret);
+	ret = (i == 26 ? 18 : ret);
+	ret = (i == 9 || i == 15 || (i >= 19 && i <= 25) ||
+	i == 29 || i == 14 || i == 30 || i == 33 || i == 34 ? 17 : ret);
+	ret = (i >= 27 && i <= 28 ? 19 : ret);
+	ret = (i == 31 ? 20 : ret);
+	ret = (i == 32 ? 21 : ret);
+	ret = (i == 35 ? 22 : ret);
+	ret = (i == 36 ? 23 : ret);
+	ret = (i == 37 ? 24 : ret);
+	return (err_tbl1[ret]);
 }
 
 const char			*tbl_error2(int index)
@@ -62,7 +120,7 @@ const char			*tbl_error2(int index)
 
 int					sh_error(int ret, int index, char *err, char *bi)
 {
-	savior_pid(index + 1, TRUE);
+	savior_fct_ret(index + 1, TRUE);
 	if (ret == NO_PRINT)
 		return (NO_PRINT);
 	ft_putstr_fd(tbl_error1(index), 2);

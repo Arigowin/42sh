@@ -1,14 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sh_bi_handle_env_modif.c                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dolewski <dolewski@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/13 17:26:53 by dolewski          #+#    #+#             */
+/*   Updated: 2017/04/13 17:44:22 by dolewski         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <unistd.h>
 #include "shell.h"
 #include "libft.h"
 
 static int			add_env(char *name, char *value, t_env type)
 {
-<<<<<<< HEAD
-	t_duo			*env;
-=======
 	t_duo				*env;
->>>>>>> e9c6163a000d10ad58412a36c1b2e3c5615a578a
 
 	env = savior_env(NULL, FALSE);
 	if (name == NULL)

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sh_cmd.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dolewski <dolewski@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/13 17:26:55 by dolewski          #+#    #+#             */
+/*   Updated: 2017/04/13 18:13:49 by dolewski         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdlib.h>
 #include "shell.h"
 #include "libft.h"
@@ -13,7 +25,7 @@ static char			**tree_to_tbl(t_node *tree, int nb_elem)
 	while (tree != NULL)
 	{
 		if (ft_strcmp(tree->data, "$?") == 0)
-			tbl[i] = ft_itoa(savior_pid(0, FALSE));
+			tbl[i] = ft_itoa(savior_fct_ret(0, FALSE));
 		else if (tree->quote == QUOTE || tree->quote == DQUOTE)
 		{
 			if ((tbl[i] = ft_strdup(tree->data)) == NULL)

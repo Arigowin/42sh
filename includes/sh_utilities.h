@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sh_utilities.h                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dolewski <dolewski@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/13 18:18:44 by dolewski          #+#    #+#             */
+/*   Updated: 2017/04/13 18:18:44 by dolewski         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SH_UTILITIES_H
 # define SH_UTILITIES_H
 
@@ -11,16 +23,16 @@ int						check_signal(int loc);
 /*
 ** sh_savior
 */
-t_duo					*savior_env(t_duo *env, int code);
 t_line					*savior_stline(t_line *stline, int code);
 char					*savior_tty(char *tty, int code);
 t_node					*savior_tree(t_node *tree, int code);
 t_history				**savior_history(t_history **history, int code);
-int						savior_pid(int fct_pid, int code);
+int						savior_fct_ret(int ret, int code);
 
 /*
 ** sh_error
 */
+int						bi_usage(char *bi, char curr_opt, char handled_opt[3][2]);
 int						sh_error(int ret, int index, char *err, char *bi);
 
 /*

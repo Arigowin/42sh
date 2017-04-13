@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sh_saviors.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dolewski <dolewski@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/13 17:48:59 by dolewski          #+#    #+#             */
+/*   Updated: 2017/04/13 18:12:31 by dolewski         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 #include "libft.h"
 
@@ -8,15 +20,6 @@ char				*savior_tty(char *tty, int code)
 	if ((save_tty == NULL && tty) || code == TRUE)
 		save_tty = tty;
 	return (save_tty);
-}
-
-t_duo				*savior_env(t_duo *env, int code_env)
-{
-	static t_duo		*save_env = NULL;
-
-	if ((save_env == NULL && env) || code_env == TRUE)
-		save_env = env;
-	return (save_env);
 }
 
 t_line				*savior_stline(t_line *stline, int code)
@@ -46,11 +49,11 @@ t_history			**savior_history(t_history **history, int code)
 	return (&save);
 }
 
-int				savior_pid(int fpid, int code)
+int					savior_fct_ret(int ret, int code)
 {
 	static int		save = -1;
 
 	if (save == -1 || code == TRUE)
-		save = fpid;
+		save = ret;
 	return (save);
 }

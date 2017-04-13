@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sh_bi_builtin.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dolewski <dolewski@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/13 17:26:51 by dolewski          #+#    #+#             */
+/*   Updated: 2017/04/13 18:13:33 by dolewski         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 #include "libft.h"
 
@@ -111,7 +123,7 @@ int					check_builtin(int fd, char **cmd, t_lst_fd **lstfd)
 			return (ERROR);
 		}
 		if (ret != FALSE)
-			savior_pid(0, TRUE);
+			savior_fct_ret(0, TRUE);
 		return (TRUE);
 	}
 	return (ret);

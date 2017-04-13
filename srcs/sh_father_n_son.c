@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sh_father_n_son.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dolewski <dolewski@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/13 17:26:56 by dolewski          #+#    #+#             */
+/*   Updated: 2017/04/13 18:14:00 by dolewski         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdlib.h>
 #include <sys/wait.h>
 #include "shell.h"
@@ -60,7 +72,7 @@ int					handle_fork(int pipefd_tab[2][2], t_node *tree,
 		son(cmd, pipefd_tab, tree, lstfd);
 	else
 		fct_ret = father(pipefd_tab);
-	savior_pid(fct_ret, TRUE);
+	savior_fct_ret(fct_ret, TRUE);
 	init_term(FALSE);
 	return (TRUE);
 }

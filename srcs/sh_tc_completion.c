@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sh_tc_completion.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dolewski <dolewski@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/13 17:49:09 by dolewski          #+#    #+#             */
+/*   Updated: 2017/04/13 18:16:08 by dolewski         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <sys/types.h>
 #include <sys/wait.h>
 #include "shell.h"
@@ -5,7 +17,6 @@
 #include "ft_select.h"
 #include "get_next_line.h"
 #define BLANC "\"' \t\n\0"
-#define SEP2 "|&;><\"' \t\n\0"
 #define SEP3 "|&;\0"
 
 static void			fork_select(int pfd[2], char **str, t_basic_list *lst)
@@ -48,20 +59,6 @@ static int			is_file(char *str, int pos, char *word)
 	if (ft_strchr(SEP3, str[pos]) != NULL)
 		return (FALSE);
 	return (TRUE);
-}
-
-static char			*get_line(char *str, int pos)
-{
-	int					i;
-
-	i = pos;
-	pos--;
-	while (pos > -1 && ft_strchr(SEP2, str[pos]) == NULL)
-		pos--;
-	if (pos == i - 1)
-		return (NULL);
-	pos++;
-	return (ft_strsub(str, pos, i - pos));
 }
 
 char				*compl_start(char *word, t_basic_list *lst)

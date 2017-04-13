@@ -1,52 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sh_bi_options.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dolewski <dolewski@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/13 17:26:54 by dolewski          #+#    #+#             */
+/*   Updated: 2017/04/13 18:15:24 by dolewski         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <unistd.h>
 #include "shell.h"
 #include "libft.h"
-
-static char			*concat_to_str(char opt[3][2])
-{
-	char				*str;
-	int					i;
-
-	i = 0;
-	if ((str = ft_strnew(4)) == NULL)
-		sh_error(FALSE, 6, NULL, NULL);
-	while (i < 3)
-	{
-		str[i] = opt[i][0];
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
-}
-
-static int			bi_usage(char *bi, char curr_opt, char handled_opt[3][2])
-{
-	char				*str;
-
-	str = concat_to_str(handled_opt);
-	ft_putstr_fd("42sh: ", 2);
-	ft_putstr_fd(bi, 2);
-	ft_putstr_fd(": '", 2);
-	ft_putchar_fd(curr_opt, 2);
-	ft_putendl_fd("': invalid option", 2);
-	ft_putstr_fd(bi, 2);
-	ft_putstr_fd(": usage: ", 2);
-	ft_putstr_fd(bi, 2);
-	ft_putstr_fd(" [-", 2);
-	ft_putstr_fd(str, 2);
-	ft_strdel(&str);
-	ft_putstr_fd("] [", 2);
-	if (ft_strcmp(bi, "cd") == 0)
-		ft_putstr_fd("dir", 2);
-	if (ft_strcmp(bi, "env") == 0)
-		ft_putstr_fd("exec", 2);
-	if (ft_strcmp(bi, "export") == 0)
-		ft_putstr_fd("name[=value] or export -p", 2);
-	if (ft_strcmp(bi, "unset") == 0)
-		ft_putstr_fd("name", 2);
-	ft_putendl_fd("]", 2);
-	return (str_dbltbl_ret(savior_pid(39, TRUE), &str, NULL, NULL));
-}
 
 int					keep_last_opt(char opt[3][2], char curr_opt, int i)
 {
