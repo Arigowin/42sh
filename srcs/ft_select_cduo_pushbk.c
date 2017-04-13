@@ -15,9 +15,6 @@
 
 static t_cduo		*cduo_new(char *name)
 {
-	if (DEBUG_FT_SELECT == 1)
-		ft_putendl("---------- CDUO NEW ----------");
-
 	t_cduo			*new;
 
 	if ((new = (t_cduo *)malloc(sizeof(t_cduo))) == NULL || name == NULL)
@@ -32,9 +29,6 @@ static t_cduo		*cduo_new(char *name)
 
 int					cduo_pushback(t_cduo **lst, char *name, int no_elt)
 {
-	if (DEBUG_FT_SELECT == 1)
-		ft_putendl("---------- CDUO PUSHBACK ----------");
-
 	t_cduo			*tmp;
 
 	tmp = *lst;

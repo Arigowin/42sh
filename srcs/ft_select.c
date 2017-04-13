@@ -16,9 +16,6 @@
 
 int				manage_error(int i)
 {
-	if (DEBUG_FT_SELECT == 1)
-		ft_putendl("---------- MANAGE ERROR ----------");
-
 	if (i == 1)
 	{
 		ft_putendl("\nft_select: can't initialize termcap");
@@ -30,9 +27,6 @@ int				manage_error(int i)
 
 void			free_lst_param(void)
 {
-	if (DEBUG_FT_SELECT == 1)
-		ft_putendl("---------- FREE LST PARAM ----------");
-
 	t_cduo				*tmp;
 
 	tmp = NULL;
@@ -50,9 +44,6 @@ void			free_lst_param(void)
 
 char			*select_read(void)
 {
-	if (DEBUG_FT_SELECT == 1)
-		ft_putendl("---------- SELECT READ ----------");
-
 	int					buff;
 	int					ret_r;
 	char				*ret;
@@ -72,9 +63,6 @@ char			*select_read(void)
 
 char			*ft_select(t_basic_list *lst)
 {
-	if (DEBUG_FT_SELECT == 1)
-		ft_putendl("---------- FT SELECT ----------");
-
 	t_cduo				*lst_param;
 	char				*ret;
 

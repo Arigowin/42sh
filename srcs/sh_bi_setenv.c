@@ -4,14 +4,11 @@
 
 int					valid_env_name(char *str, char *bi)
 {
-	if (DEBUG_BI == 1)
-		ft_putendl_fd("----------------------- VALID ENV NAME --------------------", 2);
-
 	int					i;
 
 	i = -1;
 	if (str && str[++i] != '_' && ft_isalpha(str[i]) == FALSE)
-			return (sh_error(FALSE, 15, str, bi));
+		return (sh_error(FALSE, 15, str, bi));
 	while (str[i])
 	{
 		if (str[i] != '_' && str[i] != '.' && ft_isalnum(str[i]) == FALSE)
@@ -23,9 +20,6 @@ int					valid_env_name(char *str, char *bi)
 
 int					bi_setenv(char **arg, char opt[3][2])
 {
-	if (DEBUG_BI == 1)
-		ft_putendl_fd("----------------------- BI SETENV --------------------", 2);
-
 	int					i;
 
 	i = 0;

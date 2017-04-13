@@ -1,10 +1,6 @@
 #include <unistd.h>
 #include "shell.h"
 #include "libft.h"
-#define cd "LP"
-#define env "iu"
-#define echo "neE"
-#define export "p"
 
 static char			*concat_to_str(char opt[3][2])
 {
@@ -49,7 +45,7 @@ static int			bi_usage(char *bi, char curr_opt, char handled_opt[3][2])
 	if (ft_strcmp(bi, "unset") == 0)
 		ft_putstr_fd("name", 2);
 	ft_putendl_fd("]", 2);
-	return(str_dbltbl_ret(savior_pid(39, TRUE), &str, NULL, NULL));
+	return (str_dbltbl_ret(savior_pid(39, TRUE), &str, NULL, NULL));
 }
 
 int					keep_last_opt(char opt[3][2], char curr_opt, int i)
@@ -69,9 +65,6 @@ int					keep_last_opt(char opt[3][2], char curr_opt, int i)
 
 int					set_opt(char *bi, char opt[3][2], char curr_opt)
 {
-	if (DEBUG_BI == 1)
-		ft_putendl_fd("----------------------- SET OPT ------------------", 2);
-
 	int					i;
 	int					j;
 
@@ -88,7 +81,7 @@ int					set_opt(char *bi, char opt[3][2], char curr_opt)
 		}
 		else if (opt[i][0] == curr_opt)
 		{
-			opt[i][1] =  1;
+			opt[i][1] = 1;
 			return (TRUE);
 		}
 		i++;
@@ -98,9 +91,6 @@ int					set_opt(char *bi, char opt[3][2], char curr_opt)
 
 static int			bi_opt(char **arg, int i, char handled_opt[3][2])
 {
-	if (DEBUG_BI == 1)
-		ft_putendl_fd("----------------------- BI OPT ------------------", 2);
-
 	int					j;
 
 	if (arg[i] && arg[i][0] && arg[i][0] == '-' && arg[i][1])
@@ -123,9 +113,6 @@ static int			bi_opt(char **arg, int i, char handled_opt[3][2])
 
 int					check_opt(char **arg, int *i, char opt[3][2])
 {
-	if (DEBUG_BI == 1)
-		ft_putendl_fd("----------------------- CHECK OPT ------------------", 2);
-
 	int					no_more;
 	int					ret;
 	char				**tmp;

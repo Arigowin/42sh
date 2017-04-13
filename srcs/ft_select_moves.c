@@ -15,9 +15,6 @@
 
 static int		dw_first(t_cduo *tmp, int pos, int displayed_col)
 {
-	if (DEBUG_FT_SELECT == 1)
-		ft_putendl("---------- DW FIRST ----------");
-
 	if (tmp->next->no_elt >= (fct_size()->ws_row * displayed_col + pos)
 			&& tmp->next->first == FALSE)
 	{
@@ -43,9 +40,6 @@ static int		dw_first(t_cduo *tmp, int pos, int displayed_col)
 
 int				down_arrow(int space)
 {
-	if (DEBUG_FT_SELECT == 1)
-		ft_putendl("---------- DOWN ARROW ----------");
-
 	t_cduo				*tmp;
 	int					pos;
 	int					displayed_col;
@@ -70,9 +64,6 @@ int				down_arrow(int space)
 
 static int		up_first(t_cduo *tmp, int displayed_col)
 {
-	if (DEBUG_FT_SELECT == 1)
-		ft_putendl("---------- UP FIRST ----------");
-
 	int					pos;
 	int					next_pos;
 
@@ -102,9 +93,6 @@ static int		up_first(t_cduo *tmp, int displayed_col)
 
 int				up_arrow(void)
 {
-	if (DEBUG_FT_SELECT == 1)
-		ft_putendl("---------- UP ARROW ----------");
-
 	t_cduo				*tmp;
 	int					displayed_col;
 

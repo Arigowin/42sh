@@ -3,9 +3,6 @@
 
 int					main(void)
 {
-	if (DEBUG_BI == 1)
-		ft_putendl_fd("----------------------- MAIN ------------------", 2);
-
 	extern char			**environ;
 	t_duo				*env_cpy;
 	t_line				stline;

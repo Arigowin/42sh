@@ -17,9 +17,6 @@
 
 int				get_col_size(void)
 {
-	if (DEBUG_FT_SELECT == 1)
-		ft_putendl("---------- GET COL SIZE ----------");
-
 	int				col_width;
 
 	get_stuff()->nb_col = get_stuff()->nb_elt / fct_size()->ws_row;
@@ -38,9 +35,6 @@ int				get_col_size(void)
 
 int				manage_win_size(void)
 {
-	if (DEBUG_FT_SELECT == 1)
-		ft_putendl("---------- MANAGE WIN SIZE ----------");
-
 	int				nb_min_row;
 	int				nb_min_col;
 	int				win_min_widht;
@@ -60,9 +54,6 @@ int				manage_win_size(void)
 
 int				print_return(char ***ret)
 {
-	if (DEBUG_FT_SELECT == 1)
-		ft_putendl("---------- PRINT RETURN ----------");
-
 	int					i;
 
 	i = 0;

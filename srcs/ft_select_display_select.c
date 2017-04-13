@@ -16,9 +16,6 @@
 
 static int		putchr_max_len_fd(char *str, int col_size)
 {
-	if (DEBUG_FT_SELECT == 1)
-		ft_putendl("---------- PUTCHAR MAX LEN FD ----------");
-
 	int				i;
 
 	i = 0;
@@ -36,9 +33,6 @@ static int		putchr_max_len_fd(char *str, int col_size)
 
 static int		three_dots_up(int len, t_cduo *tmp)
 {
-	if (DEBUG_FT_SELECT == 1)
-		ft_putendl("---------- THREE DOTS UP ----------");
-
 	int				i;
 
 	i = len > (get_stuff()->col_size - 6) ? (get_stuff()->col_size - 10) : len;
@@ -58,9 +52,6 @@ static int		three_dots_up(int len, t_cduo *tmp)
 
 static int		three_dots_down(void)
 {
-	if (DEBUG_FT_SELECT == 1)
-		ft_putendl("---------- THREE DOTS DOWN ----------");
-
 	tputs(tgoto(tgetstr("cm", NULL), fct_size()->ws_col - 5,
 				fct_size()->ws_row), 1, ft_putchr);
 	tputs("[...]", 1, ft_putchr);
@@ -69,9 +60,6 @@ static int		three_dots_down(void)
 
 static int		manage_display(int j, int k, t_cduo *tmp)
 {
-	if (DEBUG_FT_SELECT == 1)
-		ft_putendl("---------- MANAGE DISPLAY ----------");
-
 	int				len;
 
 	tputs(tgoto(tgetstr("cm", NULL),
@@ -99,9 +87,6 @@ static int		manage_display(int j, int k, t_cduo *tmp)
 
 int				manage_columns(void)
 {
-	if (DEBUG_FT_SELECT == 1)
-		ft_putendl("---------- MANAGE COLUMNS ----------");
-
 	t_cduo			*tmp;
 	int				i[3];
 

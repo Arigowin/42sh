@@ -4,9 +4,6 @@
 
 static int			check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 {
-	if (DEBUG_LP == 1)
-		ft_putendl_fd("---------------- CHECK COMMAND -----------------", 2);
-
 	t_node				*save;
 	t_node				*node;
 	int					ret;
@@ -34,9 +31,6 @@ static int			check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 
 static int			check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 {
-	if (DEBUG_LP == 1)
-		ft_putendl_fd("---------------- CHECK C PIPE -----------------", 2);
-
 	t_node				*node;
 	t_node				**node_to_give;
 	int					ret;
@@ -56,7 +50,6 @@ static int			check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 				return (error_clear_node(ret, 26, (*l_expr)->data, &node));
 			return (ret);
 		}
-
 		return (parser_ret_fct(ret, tree, node_to_give, &node));
 	}
 	return (error_clear_node(ret, 26, (*l_expr)->data, &node));
@@ -64,9 +57,6 @@ static int			check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 
 static int			check_logic(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 {
-	if (DEBUG_LP == 1)
-		ft_putendl_fd("---------------- CHECK LOGIC -----------------", 2);
-
 	t_node				*node;
 	t_node				**node_to_give;
 	int					ret;
@@ -96,9 +86,6 @@ static int			check_logic(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 
 static int			check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 {
-	if (DEBUG_LP == 1)
-		ft_putendl_fd("---------------- CHECK EXPR -----------------", 2);
-
 	t_node				*node;
 	t_node				**node_to_give;
 	int					ret;
@@ -127,28 +114,10 @@ static int			check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 
 int					parser(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 {
-	if (DEBUG_LP == 1)
-		ft_putendl_fd("---------------- PARSER -----------------", 2);
-
 	int					ret;
 
 	if (*l_expr == NULL)
 		return (FALSE);
-
-	// ANTIBUG
-	if (ANTIBUG)
-	{
-		t_e_list *tmp = *l_expr;
-		while (tmp)
-		{
-			printf("{[%s][%d]} ", tmp->data, tmp->type);
-
-			tmp = tmp->next;
-		}
-		printf("\n");
-	}
-	// ANTIBUG
-
 	ret = check_expr(nb_hrd, l_expr, tree);
 	return (ret);
 }

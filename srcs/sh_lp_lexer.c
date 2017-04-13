@@ -84,21 +84,6 @@ int					lexer(t_e_list **l_expr)
 	boule = 0;
 	if (*l_expr == NULL)
 		return (FALSE);
-
-	// ANTIBUG
-	if (ANTIBUG)
-	{
-		t_e_list *tmp = *l_expr;
-		while (tmp)
-		{
-			printf("{[%s][%d]} ", tmp->data, tmp->type);
-
-			tmp = tmp->next;
-		}
-		printf("\n");
-	}
-	// ANTIBUG
-
 	if (t->hrd_quote < 1 && t && waka_search(t->data) == TRUE)
 	{
 		if (waka_lexer(&t) == -4)

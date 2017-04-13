@@ -5,9 +5,6 @@
 
 t_node				*create_node(t_types type)
 {
-	if (DEBUG_LP == 1)
-		ft_putendl_fd("---------------- CREATE  NODE-----------------", 2);
-
 	t_node				*new_node;
 
 	if ((new_node = (t_node *)malloc(sizeof(t_node))) == NULL)
@@ -21,8 +18,6 @@ t_node				*create_node(t_types type)
 
 int					clear_node(t_node **node)
 {
-	if (DEBUG_LP == 1)
-		ft_putendl_fd("---------------- CLEAR NODE -----------------", 2);
 	if (node && *node)
 	{
 		ft_strdel(&((*node)->data));
@@ -38,9 +33,6 @@ int					clear_node(t_node **node)
 
 int					del_tree(t_node **tree)
 {
-	if (DEBUG_LP == 1)
-		ft_putendl_fd("---------------- DEL TREE -----------------", 2);
-
 	if (tree && *tree)
 	{
 		if (tree && (*tree) && (*tree)->left)

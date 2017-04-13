@@ -4,9 +4,6 @@
 
 const char			*tbl_error1(int index)
 {
-	if (DEBUG_BI == 1)
-		ft_putendl_fd("----------------------- SH ERROR 1 ------------------", 2);
-
 	static const char	*err_tbl1[] = {/*0*/"42sh: cannot access termacp database",
 	/*1*/"42sh: ioctl: cannot get window size", /*2*/"42sh: cannot open ",
 	/*3*/"42sh: cannot open fd", /*4*/"42sh: cannot performe pipe function",
@@ -38,9 +35,6 @@ const char			*tbl_error1(int index)
 
 const char			*tbl_error2(int index)
 {
-	if (DEBUG_BI == 1)
-		ft_putendl_fd("----------------------- SH ERROR 2 ------------------", 2);
-
 	static const char	*err_tbl2[] = {": undefined variable",
 	": not a valid identifier", ": not a directory",
 	": no such file or directory", ": permission denied", ": invalid option",
@@ -70,9 +64,6 @@ const char			*tbl_error2(int index)
 
 int					sh_error(int ret, int index, char *err, char *bi)
 {
-	if (DEBUG_BI == 1)
-		ft_putendl_fd("----------------------- SH ERROR ------------------", 2);
-
 	savior_pid(index + 1, TRUE);
 	if (ret == NO_PRINT)
 		return (NO_PRINT);

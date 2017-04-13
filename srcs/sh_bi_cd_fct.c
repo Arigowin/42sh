@@ -8,7 +8,6 @@ static int			absolute_link_path_builder(char **path, char **env_pwd)
 	char				*tmp_path;
 
 	new_path = NULL;
-
 	if (ft_strcmp(*env_pwd, "/") != 0)
 	{
 		tmp_path = ft_strjoin(*env_pwd, "/");

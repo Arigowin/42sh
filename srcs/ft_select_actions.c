@@ -16,9 +16,6 @@
 
 char				*enter_key(void)
 {
-	if (DEBUG_FT_SELECT == 1)
-		ft_putendl("---------- ENTER KEY ----------");
-
 	char				*ret;
 	t_cduo				*tmp;
 
@@ -37,9 +34,6 @@ char				*enter_key(void)
 
 char				*esc_key(void)
 {
-	if (DEBUG_FT_SELECT == 1)
-		ft_putendl("---------- ESC KEY ----------");
-
 	termcap_reset();
 	return (NULL);
 }

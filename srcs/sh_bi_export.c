@@ -3,9 +3,6 @@
 
 static int			add_var_name_in_env(char *str, int opt)
 {
-	if (DEBUG_BI == 1)
-		ft_putendl_fd("----------------------- ADD VAR NAME +++ --------------------", 2);
-
 	char				**new_arg;
 	char				*name;
 	char				*val;
@@ -35,19 +32,16 @@ static int			add_var_name_in_env(char *str, int opt)
 
 static void			print_export_p(char *curr_opt, char *name, char *value)
 {
-		ft_putstr("export ");
-		ft_putstr(curr_opt);
-		ft_putstr(name);
-		ft_putstr("=\"");
-		ft_putstr(value);
-		ft_putendl("\"");
+	ft_putstr("export ");
+	ft_putstr(curr_opt);
+	ft_putstr(name);
+	ft_putstr("=\"");
+	ft_putstr(value);
+	ft_putendl("\"");
 }
 
 static int			export_p(char **arg, int i, char *curr_opt)
 {
-	//if (DEBUG_BI == 1)
-		ft_putendl_fd("----------------------- EXPORT P --------------------", 2);
-
 	t_duo				*env;
 	char				*val;
 	int					ret;
@@ -74,14 +68,10 @@ static int			export_p(char **arg, int i, char *curr_opt)
 	return (ret);
 }
 
-
 int					bi_export(char **arg, char opt[3][2])
 {
-	if (DEBUG_BI == 1)
-		ft_putendl_fd("----------------------- BI EXPORT --------------------", 2);
-
 	int					i;
-	char 				*curr_opt;
+	char				*curr_opt;
 
 	i = 1;
 	if (!(arg && *arg && ft_strcmp(arg[0], "export") == 0))

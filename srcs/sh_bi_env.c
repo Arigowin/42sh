@@ -4,9 +4,6 @@
 
 int					print_env(int eol)
 {
-	if (DEBUG_BI == 1)
-		ft_putendl_fd("----------------------- PRINT ENV ------------------", 2);
-
 	t_duo *env;
 
 	env = savior_env(NULL, FALSE);
@@ -24,30 +21,11 @@ int					print_env(int eol)
 		}
 		env = env->next;
 	}
-
-
-		/*ANTIBUG*/
-	if (ANTIBUG == 1)
-	{
-		t_duo *toto = savior_env(NULL, FALSE);
-		ft_putendl("");
-		while (toto)
-		{printf("[[type (%d) name (%s) value (%s) tmp val (%s)]]\n", toto->type, toto->name, toto->value, toto->tmp_val);
-			toto=toto->next;
-		}
-		printf("\n-----------------------------------\n");
-	}
-
-
-
 	return (TRUE);
 }
 
 int					format_env(char *arg)
 {
-	if (DEBUG_BI == 1)
-		ft_putendl_fd("----------------------- FORMAT ENV ------------------", 2);
-
 	int					j;
 	char				*name;
 	char				*value;
@@ -68,9 +46,6 @@ int					format_env(char *arg)
 
 int					del_tmp_env(int opt_i)
 {
-	if (DEBUG_BI == 1)
-		ft_putendl_fd("----------------------- DEL TMP ENV ------------------", 2);
-
 	t_duo				*env;
 	t_duo				*tmp;
 

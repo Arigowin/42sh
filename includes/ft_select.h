@@ -16,10 +16,7 @@
 # include <stdio.h>
 # include <sys/ioctl.h>
 # include <termios.h>
-#include "libft.h"
-
-// ANTIBUG
-# define DEBUG_FT_SELECT 0
+# include "libft.h"
 
 # define TRUE 1
 # define FALSE 0

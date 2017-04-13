@@ -26,9 +26,6 @@ int				ft_putchr(int c)
 
 void			clr_screen(void)
 {
-	if (DEBUG_FT_SELECT == 1)
-		ft_putendl("---------- CLR SCREEN ----------");
-
 	char				*str;
 
 	str = tgetstr("cl", NULL);
@@ -51,9 +48,6 @@ static int		fill_bis(t_basic_list *lst, t_cduo **lst_param, int i)
 
 int				fill_list(t_cduo **lst_param, t_basic_list *lst)
 {
-	if (DEBUG_FT_SELECT == 1)
-		ft_putendl("---------- FILL LIST ----------");
-
 	int					i;
 	int					len;
 	int					max_len;
@@ -79,9 +73,6 @@ int				fill_list(t_cduo **lst_param, t_basic_list *lst)
 
 char			*get_input(int buff)
 {
-	if (DEBUG_FT_SELECT == 1)
-		ft_putendl("---------- GET INPUT ----------");
-
 	char				*ret;
 
 	ret = NULL;

@@ -20,9 +20,6 @@
 
 int				enable_keyboard(void)
 {
-	if (DEBUG_FT_SELECT == 1)
-		ft_putendl("---------- ENABLE KEYBOARD ----------");
-
 	char	*str;
 
 	if ((str = tgetstr("ke", NULL)) == NULL)
@@ -33,9 +30,6 @@ int				enable_keyboard(void)
 
 int				hide_cursor(void)
 {
-	if (DEBUG_FT_SELECT == 1)
-		ft_putendl("---------- HIDE CURSOR ----------");
-
 	char	*str;
 
 	if ((str = tgetstr("vi", NULL)) == NULL)
@@ -46,9 +40,6 @@ int				hide_cursor(void)
 
 int				termcap_init(void)
 {
-	if (DEBUG_FT_SELECT == 1)
-		ft_putendl("---------- TERMCAP INIT ----------");
-
 	char				*name_term;
 
 	manage_signal();

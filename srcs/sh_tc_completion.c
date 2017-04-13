@@ -10,9 +10,6 @@
 
 static void			fork_select(int pfd[2], char **str, t_basic_list *lst)
 {
-	if (DEBUG_COMPL == 1)
-		ft_putendl("---------- FORK SELECT ----------");
-
 	pid_t				pid;
 
 	if ((pid = fork()) < 0)
@@ -39,9 +36,6 @@ static void			fork_select(int pfd[2], char **str, t_basic_list *lst)
 
 static int			is_file(char *str, int pos, char *word)
 {
-	if (DEBUG_COMPL == 1)
-		ft_putendl("---------- IS FILE ----------");
-
 	if (ft_strchr(word, '/'))
 		return (TRUE);
 	if (ft_strlen(str) == 0)
@@ -58,9 +52,6 @@ static int			is_file(char *str, int pos, char *word)
 
 static char			*get_line(char *str, int pos)
 {
-	if (DEBUG_COMPL == 1)
-		ft_putendl("---------- GET LINE ----------");
-
 	int					i;
 
 	i = pos;
@@ -75,9 +66,6 @@ static char			*get_line(char *str, int pos)
 
 char				*compl_start(char *word, t_basic_list *lst)
 {
-	if (DEBUG_COMPL == 1)
-		ft_putendl("---------- COMP START ----------");
-
 	char				*start;
 	int					i;
 
@@ -104,9 +92,6 @@ char				*compl_start(char *word, t_basic_list *lst)
 
 char				*launch_select(t_basic_list *lst, char *word)
 {
-	if (DEBUG_COMPL == 1)
-		ft_putendl("---------- LAUNCH SELECT ----------");
-
 	int					pfd[2];
 	int					nb;
 	char				*str;
@@ -135,9 +120,6 @@ char				*launch_select(t_basic_list *lst, char *word)
 int					fct_tab(char **line, int *pos, t_line *stline,
 		t_history **history)
 {
-	if (DEBUG_COMPL == 1)
-		ft_putendl("---------- FCT TAB ----------");
-
 	char				*word;
 	char				*ret;
 	int					i;

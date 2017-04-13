@@ -4,9 +4,6 @@
 
 static int			add_env(char *name, char *value, t_env type)
 {
-	if (DEBUG_BI == 1)
-		ft_putendl_fd("----------------------- ADD ENV ------------------", 2);
-
 	t_duo 				*env;
 
 	env = savior_env(NULL, FALSE);
@@ -22,12 +19,8 @@ static int			add_env(char *name, char *value, t_env type)
 
 int					change_env(char *name, char *val, t_env type)
 {
-	if (DEBUG_BI == 1)
-		ft_putendl_fd("----------------------- CHANGE ENV ------------------", 2);
-
 	t_duo				*tmp;
 	int					ret;
-//	char				*toto;
 
 	ret = FALSE;
 	tmp = savior_env(NULL, FALSE);
@@ -35,17 +28,13 @@ int					change_env(char *name, char *val, t_env type)
 	{
 		if (tmp && name && ft_strcmp(tmp->name, name) == 0)
 		{
-			//toto = (type == TMP ? tmp->tmp_val : tmp->value);
-			//ft_strdel(&(toto));
-			//if (val && val[0] != 26 && !(toto = ft_strdup(val)))
-			//	return (sh_error(FALSE, 6, NULL, NULL));
-			//tmp->type += (type == TMP && (tmp->type == ENV || tmp->type == LOCAL) ? TMP : 0);
 			if (type == TMP)
 			{
 				ft_strdel(&(tmp->tmp_val));
 				if (val && val[0] != 26 && !(tmp->tmp_val = ft_strdup(val)))
 					return (sh_error(FALSE, 6, NULL, NULL));
-				tmp->type += (type == TMP && (tmp->type == ENV || tmp->type == LOCAL) ? TMP : 0);
+				tmp->type += (type == TMP
+					&& (tmp->type == ENV || tmp->type == LOCAL) ? TMP : 0);
 			}
 			else
 			{
@@ -60,30 +49,11 @@ int					change_env(char *name, char *val, t_env type)
 	}
 	if (ret == FALSE)
 		ret = add_env(name, val, type);
-
-
-
-		/*ANTIBUG*/
-	if (ANTIBUG == 1)
-	{
-		t_duo *toto = savior_env(NULL, FALSE);
-		ft_putendl("-----------------change env-------------\n");
-		while (toto)
-		{printf("[[type (%d) name (%s) value (%s) tmp val (%s)]]\n", toto->type, toto->name, toto->value, toto->tmp_val);
-			toto=toto->next;
-		}
-		printf("\n-----------------------------------\n");
-	}
-
-
 	return (ret);
 }
 
 static int			exec_cmd_env(int i, int len, char **arg)
 {
-	if (DEBUG_BI == 1)
-		ft_putendl_fd("----------------------- EXEC CMD ENV ------------------", 2);
-
 	char				**cmd;
 	int					pipefd_tab[2][2];
 	int					j;
@@ -102,7 +72,8 @@ static int			exec_cmd_env(int i, int len, char **arg)
 	cmd[j] = NULL;
 	init_pipefd(pipefd_tab);
 	j = -5;
-	if ((i=ft_strcmp(arg[0], "env")) == 0 || (j = check_builtin(0, cmd, NULL)) != TRUE)
+	if ((i = ft_strcmp(arg[0], "env")) == 0
+	|| (j = check_builtin(0, cmd, NULL)) != TRUE)
 		handle_fork(pipefd_tab, savior_tree(NULL, FALSE), NULL, cmd);
 	free_tab(&cmd);
 	return (TRUE);
@@ -110,9 +81,6 @@ static int			exec_cmd_env(int i, int len, char **arg)
 
 int					modif_env(char **arg, int len, int *i, char opt[3][2])
 {
-	if (DEBUG_BI == 1)
-		ft_putendl_fd("----------------------- MODIF ENV ------------------", 2);
-
 	char				eol;
 
 	eol = (opt[1][1] == 1 ? '\0' : '\n');
@@ -136,9 +104,6 @@ int					modif_env(char **arg, int len, int *i, char opt[3][2])
 
 char				*get_env(char *name, t_env type, int all_env)
 {
-	if (DEBUG_BI == 1)
-		ft_putendl_fd("----------------------- GET ENV ------------------", 2);
-
 	t_duo				*env;
 	char				*tmp;
 

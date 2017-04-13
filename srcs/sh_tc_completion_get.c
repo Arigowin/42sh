@@ -4,9 +4,6 @@
 
 static int			fill_list_compl(char *word, t_basic_list **lst)
 {
-	if (DEBUG_COMPL == 1)
-		ft_putendl("---------- FILL LIST COMPL ----------");
-
 	static char			*def[11] = {".", "..", "cd", "echo", "env", "exit",
 		"export", "setenv", "unset", "unsetenv", NULL};
 	int					i;
@@ -28,9 +25,6 @@ static int			fill_list_compl(char *word, t_basic_list **lst)
 int					get_dircontent(int file, char *path, t_basic_list **list,
 		char *word)
 {
-	if (DEBUG_COMPL == 1)
-		ft_putendl("---------- GET DIRCONTENT ----------");
-
 	struct dirent		*dp;
 	DIR					*dir;
 
@@ -52,9 +46,6 @@ int					get_dircontent(int file, char *path, t_basic_list **list,
 
 int					get_execinpath(int file, char *word, t_basic_list **lst)
 {
-	if (DEBUG_COMPL == 1)
-		ft_putendl("---------- GET EXECINPATH ----------");
-
 	char				**path;
 	char				*tmp;
 	int					i;
@@ -91,9 +82,6 @@ int					browse_and_add_env(t_basic_list **lst, t_duo *env,
 
 int					get_envlist(t_basic_list **lst, char **word)
 {
-	if (DEBUG_COMPL == 1)
-		ft_putendl("---------- GET ENVLIST ----------");
-
 	char				*tmp;
 
 	if ((tmp = srch_value(*word, '$')) == NULL)

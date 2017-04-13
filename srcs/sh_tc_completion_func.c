@@ -3,15 +3,13 @@
 
 int					parse_tilde(char **path)
 {
-	if (DEBUG_COMPL == 1)
-		ft_putendl("---------- PARSE TILDE ----------");
-
 	char				*home;
 	char				*tmp;
 
 	tmp = NULL;
 	home = NULL;
-	if (*path && (*path)[0] == '~' && (home = get_env("HOME", ENV, TRUE)) != NULL)
+	if (*path && (*path)[0] == '~'
+	&& (home = get_env("HOME", ENV, TRUE)) != NULL)
 	{
 		if ((tmp = srch_value(*path, '~')) == NULL)
 			return (sh_error(FALSE, 6, NULL, NULL));
@@ -26,9 +24,6 @@ int					parse_tilde(char **path)
 
 static void			add_slash_after_path(char **word)
 {
-	if (DEBUG_COMPL == 1)
-		ft_putendl("---------- ADD SLASH AFTER PATH ----------");
-
 	char				*tmp;
 
 	tmp = NULL;
@@ -44,9 +39,6 @@ static void			add_slash_after_path(char **word)
 
 int					split_path(char **word, char **path)
 {
-	if (DEBUG_COMPL == 1)
-		ft_putendl("--------- SPLIT PATH ----------");
-
 	char				*tmp;
 	int					i;
 
@@ -66,9 +58,6 @@ int					split_path(char **word, char **path)
 
 char				*compl_word(int file, char **word)
 {
-	if (DEBUG_COMPL == 1)
-		ft_putendl("---------- COMPL WORD ----------");
-
 	t_basic_list		*lst;
 	char				*path;
 	char				*ret;

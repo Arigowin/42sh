@@ -18,9 +18,6 @@
 
 int				disable_keyboard(void)
 {
-	if (DEBUG_FT_SELECT == 1)
-		ft_putendl("---------- DISABLE KEYBOARD ----------");
-
 	char	*str;
 
 	if (tgetstr("ks", NULL) == NULL)
@@ -33,9 +30,6 @@ int				disable_keyboard(void)
 
 int				display_cursor(void)
 {
-	if (DEBUG_FT_SELECT == 1)
-		ft_putendl("---------- DISPLAY CURSOR ----------");
-
 	char	*str;
 
 	if ((str = tgetstr("ve", NULL)) == NULL)
@@ -46,9 +40,6 @@ int				display_cursor(void)
 
 void			termcap_reset(void)
 {
-	if (DEBUG_FT_SELECT == 1)
-		ft_putendl("---------- TERMCAP RESET ----------");
-
 	t_termios		*termios;
 	t_winsize		*win_size;
 	t_glst			*stuff;

@@ -4,7 +4,7 @@
 static int			tree_trav_semi(t_node *tree, t_lst_fd **lstfd,
 					int pipefd_tab[2][2])
 {
-	int 				fct_ret;
+	int					fct_ret;
 
 	fct_ret = -1;
 	if (tree && tree->left)
@@ -47,9 +47,6 @@ static int			tree_trav_pipe(t_node *tree, t_lst_fd **lstfd,
 
 static int			tree_trav_cmd(t_node *tree, t_lst_fd **lstfd)
 {
-	if (DEBUG == 1)
-		ft_putendl_fd("----------------------- TREE TRAV CMD -----------------", 2);
-
 	t_lst_fd			*tmpfd;
 
 	tmpfd = NULL;
@@ -76,9 +73,6 @@ static int			tree_trav_cmd(t_node *tree, t_lst_fd **lstfd)
 int					tree_traversal(t_node *tree, t_lst_fd **lstfd,
 					int pipefd_tab[2][2])
 {
-	if (DEBUG == 1)
-		ft_putendl_fd("----------------------- TREE TRAVERSAL ----------------", 2);
-
 	int					ret;
 
 	ret = 0;

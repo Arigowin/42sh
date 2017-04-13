@@ -3,9 +3,6 @@
 
 int					check_env_fct(char *value)
 {
-	if (DEBUG_BI == 1)
-		ft_putendl_fd("----------------------- CHECK ENV FCT ------------------", 2);
-
 	char				*tmp;
 	int					i;
 
@@ -33,9 +30,6 @@ int					check_env_fct(char *value)
 
 static int			unset_check_env(char *name, char opt[3][2])
 {
-	if (DEBUG_BI == 1)
-		ft_putendl_fd("----------------------- UNSET CHECK ENV ------------------", 2);
-
 	char				*value;
 	int					fct;
 
@@ -44,16 +38,14 @@ static int			unset_check_env(char *name, char opt[3][2])
 	if ((opt[0][1] == 1 && fct == FALSE) || (opt[1][1] == 1 && fct == TRUE) ||
 	opt[0][1] == opt[1][1])
 		return (del_env(name));
-	else if ((opt[0][1] == 1 && fct == TRUE) || (opt[1][1] == 1 && fct == FALSE))
+	else if ((opt[0][1] == 1 && fct == TRUE)
+	|| (opt[1][1] == 1 && fct == FALSE))
 		return (sh_error(ERROR, 34, NULL, NULL));
 	return (FALSE);
 }
 
 int					bi_unset(char **arg, char opt[3][2])
 {
-	if (DEBUG_BI == 1)
-		ft_putendl_fd("----------------------- BI UNSET ------------------", 2);
-
 	int					ret;
 	int					i;
 

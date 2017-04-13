@@ -20,7 +20,8 @@ int					token_backslash(t_states state, char **r_buff,
 	return (TRUE);
 }
 
-static int			add_var(int rm, char **env_name, char **data_tmp, char *read_buff)
+static int			add_var(int rm, char **env_name,
+							char **data_tmp, char *read_buff)
 {
 	int					i;
 	char				*tmp;

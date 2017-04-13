@@ -4,15 +4,12 @@
 
 static int			del_first(t_duo **env, char *name)
 {
-	if (DEBUG_BI == 1)
-		ft_putendl_fd("----------------------- DEL FIRST ------------------", 2);
-
 	t_duo				*tmp;
 
 	tmp = *env;
 	if (name && env && *env && ft_strcmp(name, (*env)->name) == 0)
 	{
-		*env =(*env)->next;
+		*env = (*env)->next;
 		ft_strdel(&(tmp->name));
 		ft_strdel(&(tmp->value));
 		ft_strdel(&(tmp->tmp_val));
@@ -26,9 +23,6 @@ static int			del_first(t_duo **env, char *name)
 
 int					del_env(char *name)
 {
-	if (DEBUG_BI == 1)
-		ft_putendl_fd("----------------------- DEL ENV ------------------", 2);
-
 	t_duo				*env;
 	t_duo				*cpy;
 	t_duo				*tmp;
@@ -58,9 +52,6 @@ int					del_env(char *name)
 
 int					bi_unsetenv(char **arg, char opt[3][2])
 {
-	if (DEBUG_BI == 1)
-		ft_putendl_fd("----------------------- UNSETENV ------------------", 2);
-
 	int					i;
 
 	i = 1;

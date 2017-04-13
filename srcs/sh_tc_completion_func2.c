@@ -5,9 +5,6 @@
 
 static char			*expander(char *word)
 {
-	if (DEBUG_COMPL == 1)
-		ft_putendl("---------- EXPANDER ----------");
-
 	char				*buff;
 
 	if (word == NULL)
@@ -33,9 +30,6 @@ static char			*expander(char *word)
 
 int					complet_var(t_basic_list **lst, char **path, char **word)
 {
-	if (DEBUG_COMPL == 1)
-		ft_putendl("---------- COMPLET VAR ----------");
-
 	char				*tmp;
 
 	if (!(*word && ft_strchr(*word, '$')))
@@ -57,9 +51,6 @@ int					complet_var(t_basic_list **lst, char **path, char **word)
 int					init_getdircontent(t_basic_list **lst, char **path,
 		char **word, int file)
 {
-	if (DEBUG_COMPL == 1)
-		ft_putendl("---------- INIT GETDIRCONTENT ----------");
-
 	if (*path == NULL)
 		split_path(word, path);
 	parse_tilde(path);
@@ -92,7 +83,6 @@ int					check_yn(int key, t_line *stline)
 
 int					display_or_not(int nb)
 {
-	t_line				*stline;
 	int					key;
 	int					ret;
 
@@ -101,20 +91,19 @@ int					display_or_not(int nb)
 	ft_putstr("\nDisplay all ");
 	ft_putnbr(nb);
 	ft_putstr(" possibilities? (y or n) ");
-	stline = savior_stline(NULL, FALSE);
 	key = 0;
 	while ((ret = read(STDIN_FILENO, &key, sizeof(int))) > 0)
 	{
 		if (key == 'y' || key == 'Y' || key == 'n' || key == 'N'
 				|| key == TAB || key == RETURN)
 		{
-			if (check_yn(key, stline) == TRUE)
+			if (check_yn(key, savior_stline(NULL, FALSE)) == TRUE)
 				break ;
 			return (FALSE);
 		}
 		key = 0;
 	}
-	ctrl_c_hrd(stline, TRUE);
+	ctrl_c_hrd(savior_stline(NULL, FALSE), TRUE);
 	if (ret < 0)
 		return (ERROR);
 	return (TRUE);
