@@ -1,7 +1,7 @@
 #include "shell.h"
 #include "libft.h"
 
-static int			add_var_name_in_env(char *str)
+static int			add_var_name_in_env(char *str, int opt)
 {
 	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- ADD VAR NAME +++ --------------------", 2);
@@ -10,6 +10,7 @@ static int			add_var_name_in_env(char *str)
 	char				*name;
 	char				*val;
 	char				*ret;
+	int					env;
 
 	ret = 0;
 	new_arg = NULL;
@@ -25,7 +26,8 @@ static int			add_var_name_in_env(char *str)
 		return (sh_error(FALSE, 14, name, "export"));
 	}
 	del_env(name);
-	change_env(name, val, ENV);
+	env = (opt == 1 ? LOCAL : ENV);
+	change_env(name, val, env);
 	free_tab(&new_arg);
 	ft_strdel(&val);
 	return (TRUE);
@@ -93,7 +95,7 @@ int					bi_export(char **arg, char opt[3][2])
 	while (arg[i])
 	{
 		if (arg[i][0] != '-')
-			add_var_name_in_env(arg[i]);
+			add_var_name_in_env(arg[i], opt[0][1]);
 		i++;
 	}
 	return (TRUE);

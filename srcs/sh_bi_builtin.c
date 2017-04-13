@@ -152,11 +152,13 @@ int					check_builtin(int fd, char **cmd, t_lst_fd **lstfd)
 
 	if (is_builtin(cmd) != -1)
 	{
-		if (handle_builtin(cmd, options) == ERROR)
+		if ((ret = handle_builtin(cmd, options)) == ERROR)
 		{
 			close_lstfd(lstfd);
 			return (ERROR);
 		}
+		if (ret != FALSE)
+			savior_pid(0, TRUE);
 		return (TRUE);
 	}
 	return (ret);

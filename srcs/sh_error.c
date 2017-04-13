@@ -73,7 +73,7 @@ int					sh_error(int ret, int index, char *err, char *bi)
 	if (DEBUG_BI == 1)
 		ft_putendl_fd("----------------------- SH ERROR ------------------", 2);
 
-	savior_pid(index, TRUE);
+	savior_pid(index + 1, TRUE);
 	if (ret == NO_PRINT)
 		return (NO_PRINT);
 	ft_putstr_fd(tbl_error1(index), 2);

@@ -63,9 +63,8 @@ int					bi_echo(char **arg, char opt[3][2])
 	int					ret;
 
 	i = 1;
-	if ((ret = check_opt(arg, &i, opt)) == ERROR)
-		return (FALSE);
-	i = (ret == TRUE ? i : 1);
+	ret = check_opt(arg, &i, opt);
+	i = (ret == FALSE ? --i : i);
 	ret = -1;
 	if (tbl_len(arg) > 1)
 	{

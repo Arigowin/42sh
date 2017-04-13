@@ -49,7 +49,7 @@ static int			bi_usage(char *bi, char curr_opt, char handled_opt[3][2])
 	if (ft_strcmp(bi, "unset") == 0)
 		ft_putstr_fd("name", 2);
 	ft_putendl_fd("]", 2);
-	return(str_dbltbl_ret(savior_pid(38, TRUE), &str, NULL, NULL));
+	return(str_dbltbl_ret(savior_pid(39, TRUE), &str, NULL, NULL));
 }
 
 int					keep_last_opt(char opt[3][2], char curr_opt, int i)
@@ -102,19 +102,18 @@ static int			bi_opt(char **arg, int i, char handled_opt[3][2])
 		ft_putendl_fd("----------------------- BI OPT ------------------", 2);
 
 	int					j;
-	int					ret;
 
-	ret = TRUE;
 	if (arg[i] && arg[i][0] && arg[i][0] == '-' && arg[i][1])
 	{
 		j = 1;
 		while (arg[i][j])
 		{
-			ret = set_opt(arg[0], handled_opt, arg[i][j]);
-			if (ft_strcmp("echo", arg[0]) && ret == ERROR)
+			if (set_opt(arg[0], handled_opt, arg[i][j]) == ERROR)
 			{
+				if (ft_strcmp("echo", arg[0]) == 0)
+					return (2);
 				bi_usage(arg[0], arg[i][j], handled_opt);
-				return (FALSE);
+				return (ERROR);
 			}
 			j++;
 		}
@@ -133,17 +132,14 @@ int					check_opt(char **arg, int *i, char opt[3][2])
 
 	no_more = FALSE;
 	tmp = arg;
-	ret = FALSE;
+	ret = TRUE;
 	while (arg && arg[*i] && arg[*i][0] && arg[*i][0] == '-' && arg[*i][1])
 	{
 		if (no_more == TRUE)
 			return (FALSE);
 		if (arg[*i] && arg[*i][0] && arg[*i][0] == '-' && arg[*i][1]
 		&& arg[*i][1] == '-')
-		{
-			if (ft_strcmp("echo", arg[0]))
-				no_more = TRUE;
-		}
+			no_more = TRUE;
 		else if ((ret = bi_opt(arg, *i, opt)) != TRUE)
 			break ;
 		(*i)++;
