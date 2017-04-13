@@ -4,6 +4,9 @@
 
 static int			check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 {
+	if (DEBUG_LP == 0)
+		ft_putendl_fd("---------------- CHECK COMMAND -----------------", 2);
+
 	t_node				*save;
 	t_node				*node;
 	int					ret;
@@ -31,6 +34,9 @@ static int			check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 
 static int			check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 {
+	if (DEBUG_LP == 0)
+		ft_putendl_fd("---------------- CHECK C PIPE -----------------", 2);
+
 	t_node				*node;
 	t_node				**node_to_give;
 	int					ret;
@@ -50,6 +56,7 @@ static int			check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 				return (error_clear_node(ret, 26, (*l_expr)->data, &node));
 			return (ret);
 		}
+
 		return (parser_ret_fct(ret, tree, node_to_give, &node));
 	}
 	return (error_clear_node(ret, 26, (*l_expr)->data, &node));
@@ -57,6 +64,9 @@ static int			check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 
 static int			check_logic(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 {
+	if (DEBUG_LP == 0)
+		ft_putendl_fd("---------------- CHECK LOGIC -----------------", 2);
+
 	t_node				*node;
 	t_node				**node_to_give;
 	int					ret;
@@ -73,17 +83,22 @@ static int			check_logic(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 			*tree = node;
 			if (!(move_in_list(l_expr)
 			&& (ret = check_logic(nb_hrd, l_expr, &(node->right)))))
-				return (error_clear_node(TRUE, 26, (*l_expr)->data, &node));
+			{
+				*tree = NULL;
+				return (error_clear_node(FALSE, 26, (*l_expr)->data, &node));
+			}
 			return (ret);
 		}
 		return (parser_ret_fct(ret, tree, node_to_give, &node));
 	}
-	del_tree(&node);
-	return (sh_error(ret, 26, (*l_expr)->data, NULL));
+	return (error_clear_node(FALSE, 26, (*l_expr)->data, &node));
 }
 
 static int			check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 {
+	if (DEBUG_LP == 0)
+		ft_putendl_fd("---------------- CHECK EXPR -----------------", 2);
+
 	t_node				*node;
 	t_node				**node_to_give;
 	int					ret;
@@ -112,6 +127,9 @@ static int			check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 
 int					parser(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 {
+	if (DEBUG_LP == 0)
+		ft_putendl_fd("---------------- PARSER -----------------", 2);
+
 	int					ret;
 
 	if (*l_expr == NULL)
