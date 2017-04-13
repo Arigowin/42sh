@@ -114,7 +114,7 @@ static int			bi_opt(char **arg, int i, char handled_opt[3][2])
 			if (ft_strcmp("echo", arg[0]) && ret == ERROR)
 			{
 				bi_usage(arg[0], arg[i][j], handled_opt);
-				return (FALSE);
+				return (ERROR);
 			}
 			j++;
 		}
