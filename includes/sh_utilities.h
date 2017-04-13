@@ -6,7 +6,7 @@
 /*   By: dolewski <dolewski@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/13 18:18:44 by dolewski          #+#    #+#             */
-/*   Updated: 2017/04/13 18:18:44 by dolewski         ###   ########.fr       */
+/*   Updated: 2017/04/13 18:21:08 by dolewski         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int						savior_fct_ret(int ret, int code);
 /*
 ** sh_error
 */
-int						bi_usage(char *bi, char curr_opt, char handled_opt[3][2]);
+int						bi_usage(char *bi, char curr_opt, char opt[3][2]);
 int						sh_error(int ret, int index, char *err, char *bi);
 
 /*
