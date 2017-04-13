@@ -4,7 +4,7 @@
 
 static int			check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 {
-	if (DEBUG_LP == 0)
+	if (DEBUG_LP == 1)
 		ft_putendl_fd("---------------- CHECK COMMAND -----------------", 2);
 
 	t_node				*save;
@@ -34,7 +34,7 @@ static int			check_command(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 
 static int			check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 {
-	if (DEBUG_LP == 0)
+	if (DEBUG_LP == 1)
 		ft_putendl_fd("---------------- CHECK C PIPE -----------------", 2);
 
 	t_node				*node;
@@ -64,7 +64,7 @@ static int			check_c_pipe(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 
 static int			check_logic(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 {
-	if (DEBUG_LP == 0)
+	if (DEBUG_LP == 1)
 		ft_putendl_fd("---------------- CHECK LOGIC -----------------", 2);
 
 	t_node				*node;
@@ -96,7 +96,7 @@ static int			check_logic(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 
 static int			check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 {
-	if (DEBUG_LP == 0)
+	if (DEBUG_LP == 1)
 		ft_putendl_fd("---------------- CHECK EXPR -----------------", 2);
 
 	t_node				*node;
@@ -127,7 +127,7 @@ static int			check_expr(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 
 int					parser(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 {
-	if (DEBUG_LP == 0)
+	if (DEBUG_LP == 1)
 		ft_putendl_fd("---------------- PARSER -----------------", 2);
 
 	int					ret;

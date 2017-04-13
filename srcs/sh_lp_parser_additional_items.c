@@ -6,7 +6,7 @@
 
 int					manage_hrd_arg(char *red, t_types *ntype, t_e_list **l_expr)
 {
-	if (DEBUG_LP == 0)
+	if (DEBUG_LP == 1)
 		ft_putendl_fd("---------------- MANAGE HRD ARG -----------------", 2);
 
 	if ((*l_expr)->hrd_quote >= 2 && (ft_strcmp(red, "<<") == 0))
@@ -20,7 +20,7 @@ int					manage_hrd_arg(char *red, t_types *ntype, t_e_list **l_expr)
 
 int					check_red_arg(t_e_list **l_expr, t_node **tree, char *red)
 {
-	if (DEBUG_LP == 0)
+	if (DEBUG_LP == 1)
 		ft_putendl_fd("---------------- CHECK RED ARG -----------------", 2);
 
 	t_node				*node;
@@ -52,7 +52,7 @@ int					check_red_arg(t_e_list **l_expr, t_node **tree, char *red)
 
 int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 {
-	if (DEBUG_LP == 0)
+	if (DEBUG_LP == 1)
 		ft_putendl_fd("---------------- CHECK RED -----------------", 2);
 
 	t_node				*node;
@@ -85,7 +85,7 @@ int					check_red(int *nb_hrd, t_e_list **l_expr, t_node **tree)
 int					check_arg(int *nb_hrd, t_e_list **l_expr, t_node **tree,
 					t_node **right_node)
 {
-	if (DEBUG_LP == 0)
+	if (DEBUG_LP == 1)
 		ft_putendl_fd("---------------- CHECK ARG -----------------", 2);
 
 	t_node				*node;
@@ -112,7 +112,7 @@ int					check_arg(int *nb_hrd, t_e_list **l_expr, t_node **tree,
 int					check_next(int *nb_hrd, t_e_list **l_expr, t_node **tree,
 					t_node **right_node)
 {
-	if (DEBUG_LP == 0)
+	if (DEBUG_LP == 1)
 		ft_putendl_fd("---------------- CHECK NEXT -----------------", 2);
 
 	t_node				*save;
