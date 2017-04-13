@@ -38,7 +38,7 @@ int					clear_node(t_node **node)
 
 int					del_tree(t_node **tree)
 {
-	if (DEBUG_LP == 0)
+	if (DEBUG_LP == 1)
 		ft_putendl_fd("---------------- DEL TREE -----------------", 2);
 
 	if (tree && *tree)
