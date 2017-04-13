@@ -160,7 +160,7 @@ char					*srch_value(const char *str, int c);
 int						duo_pushback(t_duo **lst, char *name, char *value,
 							t_env type);
 int						duo_del(t_duo **lst);
-int		 				free_tduo_link(t_duo **lst);
+int						free_tduo_link(t_duo **lst);
 int						last_duol_del(t_duo **lst);
 t_duo					*cpy_duo(t_duo *duo);
 int						free_lst(t_list **lst);

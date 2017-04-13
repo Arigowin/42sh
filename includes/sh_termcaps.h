@@ -1,5 +1,5 @@
-#ifndef TERMCAP_H
-# define TERMCAP_H
+#ifndef TERMCAPS_H
+# define TERMCAPS_H
 
 # include "shell.h"
 
@@ -102,7 +102,8 @@ char					*compl_word(int file, char **word);
 /*
 ** sh_tc_completion_func2
 */
-int						complet_var(t_basic_list **lst, char **path, char **word);
+int						complet_var(t_basic_list **lst, char **path,
+							char **word);
 int						init_getdircontent(t_basic_list **lst, char **path,
 							char **word, int file);
 int						display_or_not(int nb);

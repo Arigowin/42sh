@@ -1,23 +1,15 @@
 #ifndef SHELL_H
 # define SHELL_H
 
-			#include <stdio.h>
-			#define DEBUG_COMPL 0
-			# define ANTIBUG_LOCAL 0
-			# define DEBUG_BI 0
-			# define DEBUG_LP 0
-			# define DEBUG 0
-			# define ANTIBUG 0
-
 # include "libft.h"
 # include "sh_define.h"
 # include "sh_key.h"
 # include "sh_struct.h"
+# include "sh_termcaps.h"
 # include "sh_builtins.h"
 # include "sh_read.h"
 # include "sh_lexer_parser.h"
 # include "sh_redirect.h"
-# include "sh_termcaps.h"
 # include "sh_utilities.h"
 
 /*

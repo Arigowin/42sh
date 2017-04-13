@@ -11,6 +11,8 @@
 # define CTRL_D 4
 # define DEL 2117294875
 
+# include "shell.h"
+
 # if defined(__unix__)
 
 /*

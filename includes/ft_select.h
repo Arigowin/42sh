@@ -13,10 +13,11 @@
 #ifndef FT_SELECT_H
 # define FT_SELECT_H
 
+# include "libft.h"
+# include "shell.h"
 # include <stdio.h>
 # include <sys/ioctl.h>
 # include <termios.h>
-# include "libft.h"
 
 # define TRUE 1
 # define FALSE 0

@@ -43,7 +43,6 @@ static int			handle_cd_arg(char **arg, char *last_opt, int i)
 	char				*old_pwd;
 
 	path = NULL;
-	printf("xxxarg [%s], i [%d]\n", arg[i - 1], i);
 	if (arg[i] == NULL)
 		cd_home(*last_opt);
 	else if (ft_strcmp(arg[i], "-") == 0)
@@ -75,7 +74,6 @@ int					bi_cd(char **arg, char opt[3][2])
 	if (check_opt(arg, &i, opt) == ERROR)
 		return (FALSE);
 	last_opt = (opt[1][1] == 1 ? 'P' : 'L');
-	printf("arg [%s], i [%d]\n", arg[i], i);
 	handle_cd_arg(arg, &last_opt, i);
 	return (TRUE);
 }
