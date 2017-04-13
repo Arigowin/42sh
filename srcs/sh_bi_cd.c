@@ -76,7 +76,7 @@ int					bi_cd(char **arg, char opt[3][2])
 
 	i = 1;
 	ret = TRUE;
-	if (check_opt(arg, &i, opt) == FALSE)
+	if (check_opt(arg, &i, opt) == ERROR)
 		return (FALSE);
 	last_opt = (opt[1][1] == 1 ? 'P' : 'L');
 	printf("arg [%s], i [%d]\n", arg[i], i);
