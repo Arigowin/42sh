@@ -26,7 +26,7 @@ static int			add_var(int rm, char **env_name, char **data_tmp, char *read_buff)
 	char				*tmp;
 
 	if (rm == TRUE)
-		return (FALSE);
+		return (str_dbltbl_ret(FALSE, env_name, NULL, NULL));
 	if ((tmp = ft_strdup(*data_tmp)) == NULL)
 		return (sh_error(FALSE, 6, NULL, NULL));
 	ft_strdel(data_tmp);
@@ -42,8 +42,7 @@ static int			add_var(int rm, char **env_name, char **data_tmp, char *read_buff)
 		add_in_tbl(data_tmp, (*env_name)[i]);
 		i++;
 	}
-	ft_strdel(env_name);
-	return (FALSE);
+	return (str_dbltbl_ret(FALSE, env_name, NULL, NULL));
 }
 
 int					token_dollar(char **read_buff, char **data_tmp, int rm)

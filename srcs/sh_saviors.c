@@ -49,6 +49,7 @@ t_history			**savior_history(t_history **history, int code)
 int				savior_pid(int fpid, int code)
 {
 	static int		save = -1;
+
 	if (save == -1 || code == TRUE)
 		save = fpid;
 	return (save);

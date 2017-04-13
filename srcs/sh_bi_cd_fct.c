@@ -8,11 +8,15 @@ static int			absolute_link_path_builder(char **path, char **env_pwd)
 	char				*tmp_path;
 
 	new_path = NULL;
-	tmp_path = ft_strjoin(*env_pwd, "/");
-	ft_strdel(env_pwd);
-	if ((*env_pwd = ft_strdup(tmp_path)) == NULL)
-		return (sh_error(FALSE, 6, NULL, NULL));
-	ft_strdel(&tmp_path);
+
+	if (ft_strcmp(*env_pwd, "/") != 0)
+	{
+		tmp_path = ft_strjoin(*env_pwd, "/");
+		ft_strdel(env_pwd);
+		if ((*env_pwd = ft_strdup(tmp_path)) == NULL)
+			return (sh_error(FALSE, 6, NULL, NULL));
+		ft_strdel(&tmp_path);
+	}
 	new_path = ft_strjoin(*env_pwd, *path);
 	ft_strdel(env_pwd);
 	ft_strdel(path);
@@ -45,7 +49,7 @@ static int			getcwd_link_path(char **path, char last_opt)
 		len -= ((ft_strlen(env_pwd) - len - 1) == 0 ? 1 : 0);
 		*path = ft_strsub(env_pwd, 0, (ft_strlen(env_pwd) - len - 1));
 	}
-	else if (env_pwd[i] != '/')
+	else
 		absolute_link_path_builder(path, &env_pwd);
 	ft_strdel(&env_pwd);
 	return (TRUE);
