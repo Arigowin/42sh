@@ -83,14 +83,14 @@ int					tree_traversal(t_node *tree, t_lst_fd **lstfd,
 
 	ret = 0;
 	savior_tty(ttyname(1), TRUE);
-	if (tree
-	&& (tree->type == SEMI || tree->type == LOGIC_OR|| tree->type == LOGIC_AND))
+	if (tree &&
+	(tree->type == SEMI || tree->type == LOGIC_OR || tree->type == LOGIC_AND))
 		if (tree_trav_semi(tree, lstfd, pipefd_tab) == ERROR)
 			return (ERROR);
-	if (tree && tree->type != SEMI && lstfd && *lstfd == NULL)
+	if (tree && tree->type != SEMI && tree->type != LOGIC_OR
+	&& tree->type != LOGIC_AND && lstfd && *lstfd == NULL)
 		red_fd(-2, tree, lstfd, NONE);
-	if (tree->type == PIPE &&
-	(ret == tree_trav_pipe(tree, lstfd, pipefd_tab)) != TRUE)
+	if (tree->type == PIPE && (ret == tree_trav_pipe(tree, lstfd, pipefd_tab)))
 		return (ret);
 	if (tree->type == CMD)
 	{
@@ -100,7 +100,6 @@ int					tree_traversal(t_node *tree, t_lst_fd **lstfd,
 		if (pipefd_tab[0][0] < 0 && pipefd_tab[1][0] < 0)
 		{
 			reset_std_fd();
-//			close_lstfd(lstfd);
 			del_lstfd(lstfd);
 		}
 	}
