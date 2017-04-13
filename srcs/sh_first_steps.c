@@ -11,7 +11,7 @@ static char			*get_path(void)
 	if ((path = get_env("PWD", ENV, TRUE)) == NULL)
 		return (NULL);
 	tmp = ft_strsub(path, 0, ft_strlen(home));
-	if (home && ft_strcmp(home, tmp) == 0)
+	if (home && ft_strlen(home) > 0 && ft_strcmp(home, tmp) == 0)
 	{
 		ft_strdel(&tmp);
 		tmp = ft_strsub(path, ft_strlen(home), ft_strlen(path));

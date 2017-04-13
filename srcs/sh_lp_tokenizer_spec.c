@@ -25,8 +25,9 @@ static int			add_var(int rm, char **env_name, char **data_tmp, char *read_buff)
 	int					i;
 	char				*tmp;
 
+	printf("OK5\n");
 	if (rm == TRUE)
-		return (FALSE);
+		return (str_dbltbl_ret(FALSE, env_name, NULL, NULL));
 	if ((tmp = ft_strdup(*data_tmp)) == NULL)
 		return (sh_error(FALSE, 6, NULL, NULL));
 	ft_strdel(data_tmp);
@@ -42,8 +43,7 @@ static int			add_var(int rm, char **env_name, char **data_tmp, char *read_buff)
 		add_in_tbl(data_tmp, (*env_name)[i]);
 		i++;
 	}
-	ft_strdel(env_name);
-	return (FALSE);
+	return (str_dbltbl_ret(FALSE, env_name, NULL, NULL));
 }
 
 int					token_dollar(char **read_buff, char **data_tmp, int rm)
@@ -53,17 +53,21 @@ int					token_dollar(char **read_buff, char **data_tmp, int rm)
 	char				*tmp;
 
 	tmp = NULL;
+	printf("OK1\n");
 	if ((env_name = ft_strnew(ft_strlen((*read_buff)++))) == NULL)
 		return (sh_error(FALSE, 6, NULL, NULL));
+	printf("OK2\n");
 	while ((ft_strchr(SEP, **read_buff) == NULL && ft_strchr("/", **read_buff)
 				== NULL) && **read_buff != QUOTE && **read_buff != DQUOTE)
 		add_in_tbl(&env_name, (*((*read_buff)++)));
+	printf("OK3\n");
 	(*read_buff)--;
 	if (ft_strcmp(env_name, "$") == 0)
 		env_val = ft_itoa(getpid());
 	else if ((env_val = get_env(env_name, ENV, TRUE)) == NULL)
 		return (add_var(rm, &env_name, data_tmp, *read_buff));
 	ft_strdel(&env_name);
+	printf("OK4\n");
 	if (*data_tmp && (tmp = ft_strdup(*data_tmp)) == NULL)
 		return (error_clear_str(FALSE, 6, NULL, &env_val));
 	ft_strdel(data_tmp);
