@@ -4,19 +4,17 @@
 
 const char			*tbl_error1(int index)
 {
-	static const char	*err_tbl1[] = {/*0*/"42sh: cannot access termacp database",
-	/*1*/"42sh: ioctl: cannot get window size", /*2*/"42sh: cannot open ",
-	/*3*/"42sh: cannot open fd", /*4*/"42sh: cannot performe pipe function",
-	/*5*/"42sh: cannot performe fork function", /*6*/"42sh: memory allocation failed",
-	/*7*/"42sh: cannot duplicate fd", /*8*/"42sh: bad file descriptor",/*9*/ "",
-	/*10*/"42sh: setenv: too many arguments", /*11*/"42sh: cd: no OLDPWD variable set",
-   	/*12*/"42sh: no PATH variable set", /*13*/"42sh: cd: no HOME variable set", /*14*/"",
-   	/*15*/"42sh: setenv", /*16*/"42sh: cd", /*17*/"42sh", /*18*/"42sh: parse error near", /*19*/"42sh: exit",
-	/*20*/"42sh: warning: here-document was delimited by",
-	/*21*/"42sh: cannot performe stat function",
-	/*22*/"42sh: env: cannot specify '-0' with command",
-	/*23*/"42sh: export: no such variable",
-	/*24*/"42sh: line contains undefined character"};
+	static const char	*err_tbl1[] = {"42sh: cannot access termacp database",
+	"42sh: ioctl: cannot get window size", "42sh: cannot open ", "42sh: cannot \
+open fd", "42sh: cannot performe pipe function", "42sh: cannot performe fork \
+function", "42sh: memory allocation failed", "42sh: cannot duplicate fd",
+	"42sh: bad file descriptor", "", "42sh: setenv: too many arguments",
+	"42sh: cd: no OLDPWD variable set", "42sh: no PATH variable set", "42sh: \
+cd: no HOME variable set", "", "42sh: setenv", "42sh: cd", "42sh", "42sh: \
+parse error near", "42sh: exit", "42sh: warning: here-document was delimited \
+by", "42sh: cannot performe stat function", "42sh: env: cannot specify '-0' \
+with command", "42sh: export: no such variable", "42sh: line contains \
+undefined character"};
 	int					ret_index;
 
 	ret_index = index;

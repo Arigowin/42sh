@@ -4,7 +4,7 @@
 
 static int			add_env(char *name, char *value, t_env type)
 {
-	t_duo 				*env;
+	t_duo				*env;
 
 	env = savior_env(NULL, FALSE);
 	if (name == NULL)
